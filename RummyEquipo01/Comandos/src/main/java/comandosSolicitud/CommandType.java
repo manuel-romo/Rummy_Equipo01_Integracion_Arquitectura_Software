@@ -43,7 +43,20 @@ public enum CommandType {
     COMANDO_AGREGAR_DIRECCION_JUGADOR("ComandoAgregarDireccionJugador"),
     
     COMANDO_PARTIDA_GANADA("ComandoPartidaGanada"),
-    COMANDO_JUGADOR_PARTIDA_GANADA("ComandoJugadorPartidaGanada");
+    COMANDO_JUGADOR_PARTIDA_GANADA("ComandoJugadorPartidaGanada"),
+    
+    // COMANDOS INICIO JUEGO
+    COMANDO_INICIAR_JUEGO("ComandoIniciarJuego"),
+    COMANDO_CONFIRMACION_INICIAR_JUEGO("ComandoConfirmacionIniciarJuego"),
+    COMANDO_CONFIRMACION_ENVIO_INICIAR_JUEGO("ComandoConfirmacionEnvioIniciarJuego"),
+    
+    COMANDO_NUEVA_SOLICITUD_INICIAR_JUEGO("ComandoNuevaSolicitudIniciarJuego"),
+    COMANDO_RESPUESTA_INICIAR_JUEGO("ComandoRespuestaIniciarJuego"),
+    COMANDO_ACTUALIZAR_JUGADORES_INICIO_JUEGO("ComandoActualizarJugadoresInicioJuego"),
+    COMANDO_DECISION_INICIAR_JUEGO("ComandoDecisionIniciarJuego"),
+    
+    COMANDO_CARGAR_JUGADORES("ComandoCargarJugadores");
+    
 
     private final String nombre;
 

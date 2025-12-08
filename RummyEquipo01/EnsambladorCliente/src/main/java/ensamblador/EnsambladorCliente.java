@@ -6,10 +6,8 @@ import cliente.GestorConexiones;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import deserializador.Deserializador;
 import directorioServidor.DirectorioServidor;
-import ejercerTurno.Controlador;
-import ejercerTurno.IReceptorEventos;
-import ejercerTurno.Modelo;
-import ejercerTurno.VistaMesaJuego;
+import ejercerturno.controlador.ControladorEjercerTurno;
+import ejercerturno.modelo.ModeloEjercerTurno;
 import interfaces.ISuscriptor;
 import java.awt.Color;
 import java.util.HashMap;
@@ -17,20 +15,28 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import objetosPresentacion.GestorEventos;
-import objetosPresentacion.IComponente;
-import objetosPresentacion.IGestorEventos;
-import objetosPresentacion.PanelCasilla;
-import objetosPresentacion.PanelJugadorExterno;
-import objetosPresentacion.PanelJugadorPrincipal;
-import objetosPresentacion.PanelMesaJuego;
-import objetosPresentacion.PanelMonton;
-import objetosPresentacion.PanelMovimiento;
-import objetosPresentacion.PanelTablero;
-import objetosPresentacion.PosicionPanel;
+import ejercerturno.vista.GestorEventos;
+import ejercerturno.vista.IComponente;
+import ejercerturno.vista.IGestorEventos;
+import ejercerturno.vista.PanelCasilla;
+import ejercerturno.vista.PanelJugadorExterno;
+import ejercerturno.vista.PanelJugadorPrincipal;
+import ejercerturno.vista.PanelMesaJuego;
+import ejercerturno.vista.PanelMonton;
+import ejercerturno.vista.PanelMovimiento;
+import ejercerturno.vista.PanelTablero;
+import ejercerturno.vista.PosicionPanel;
+import ejercerturno.vista.VistaMesaJuego;
+import fachada.FachadaMvc;
+import iniciarpartida.controlador.ControladorInicioPartida;
+import iniciarpartida.modelo.ModeloInicioPartida;
+import iniciarpartida.vista.GestorEventosInicioPartida;
+import iniciarpartida.vista.PanelSalaEspera;
+import iniciarpartida.vista.VistaInicioPartida;
 import serializador.Serializador;
 import servidor.ColaMensajesRecibidos;
 import servidor.Servidor;
+import definiciones.IReceptorEventosEjercerTurno;
 
 /**
  *
@@ -80,6 +86,24 @@ public class EnsambladorCliente {
             
         }
         
+        // Inicialización de datos MVC inicio partida.
+        
+        ModeloInicioPartida modeloInicioPartida = new ModeloInicioPartida(nombreJugador);
+        
+        ControladorInicioPartida controladorInicioPartida = new ControladorInicioPartida(modeloInicioPartida);
+        
+        GestorEventosInicioPartida gestorEventosIniciarPartida = new GestorEventosInicioPartida();
+        
+        PanelSalaEspera panelSalaEspera = new PanelSalaEspera(gestorEventosIniciarPartida);
+        
+        VistaInicioPartida vistaInicioPartida = new VistaInicioPartida(controladorInicioPartida, panelSalaEspera);
+        
+        gestorEventosIniciarPartida.setReceptorEventos(vistaInicioPartida);
+        
+        modeloInicioPartida.suscribirse(vistaInicioPartida);
+        
+        
+        // Inicialización de datos MVC ejercer turno.
         // Creación de clases de componentes
         
         PanelCasilla[] panelesCasillaTablero = new PanelCasilla[TOTAL_CASILLAS_TABLERO];
@@ -128,22 +152,24 @@ public class EnsambladorCliente {
             mapaIdsCasillasPanelesTablero.put(i + 1, null);
         }
         
-        Modelo modelo = new Modelo(nombreJugador);
-        Controlador controlador = new Controlador(modelo);
+        ModeloEjercerTurno modeloEjercerTurno = new ModeloEjercerTurno(nombreJugador);
+        ControladorEjercerTurno controladorEjercerTurno = new ControladorEjercerTurno(modeloEjercerTurno);
+        
+        controladorInicioPartida.setControladorEjercerTurno(controladorEjercerTurno);
         
         IComponente panelMovimiento = new PanelMovimiento();
         
         VistaMesaJuego vistaMesaJuego = new VistaMesaJuego(
-                controlador,
+                controladorEjercerTurno,
                 panelMesaJuego, 
                 panelMovimiento,
                 mapaColoresSeleccionados,
                 mapaIdsCasillasPanelesTablero,
                 mapaIdsCasillasPanelesJugador);
         
-        modelo.suscribirse(vistaMesaJuego);
+        modeloEjercerTurno.suscribirse(vistaMesaJuego);
                 
-        IGestorEventos gestorEventos = new GestorEventos(vistaMesaJuego, (IReceptorEventos)vistaMesaJuego);
+        IGestorEventos gestorEventos = new GestorEventos(vistaMesaJuego, (IReceptorEventosEjercerTurno)vistaMesaJuego);
         
         ((PanelMesaJuego)panelMesaJuego).setGestorEventos(gestorEventos);
         ((PanelTablero) panelTablero).setGestorEventos(gestorEventos);
@@ -177,7 +203,16 @@ public class EnsambladorCliente {
         
         
         // Conexión de componentes (Envío):
-        modelo.setFiltroEnvioMensaje(serializadorCliente);
+        
+        FachadaMvc fachadaMvc = new FachadaMvc();
+        
+        modeloEjercerTurno.setFachadaMvc(fachadaMvc);
+        modeloInicioPartida.setFachadaMvc(fachadaMvc);
+        
+        fachadaMvc.setModeloEjercerTurno(modeloEjercerTurno);
+        fachadaMvc.setModeloInicioPartida(modeloInicioPartida);
+        
+        fachadaMvc.setFiltroSiguiente(serializadorCliente);
         
         serializadorCliente.setFiltroSiguiente(directorioServidor);
         
@@ -186,7 +221,9 @@ public class EnsambladorCliente {
         // Conexión de componentes (Recepción):
         colaMensajesRecibidos.setReceptor(deserializadorCliente);
         
-        deserializadorCliente.setFiltroSiguiente(modelo);
+        deserializadorCliente.setFiltroSiguiente(fachadaMvc);
+        
+        modeloInicioPartida.iniciarSalaEspera();
         
     }
 }

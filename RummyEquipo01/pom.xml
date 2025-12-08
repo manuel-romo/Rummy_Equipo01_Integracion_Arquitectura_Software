@@ -6,7 +6,6 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>ObjetosPresentacion</module>
         <module>Interfaces</module>
         <module>Conexion</module>
         <module>DirectorioJugadores</module>
@@ -18,6 +17,7 @@
         <module>DirectorioServidor</module>
         <module>EnsambladorCliente</module>
         <module>EnsambladorServidor</module>
+        <module>Mvc</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

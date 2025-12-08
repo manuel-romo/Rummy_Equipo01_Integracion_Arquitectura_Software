@@ -6,13 +6,18 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import comandosRespuesta.ComandoCambioTurno;
+import comandosRespuesta.ComandoCargarJugadores;
 import comandosRespuesta.ComandoFinPartida;
 import comandosRespuesta.ComandoIniciarTurno;
 import comandosRespuesta.ComandoJugadorAbandonoPartida;
 import comandosRespuesta.ComandoJugadorPartidaGanada;
 import comandosRespuesta.ComandoPartidaGanada;
 import comandosRespuesta.ComandoRespuestaAbandonar;
+import comandosRespuesta.ComandoDecisionIniciarJuego;
+import comandosRespuesta.ComandoNuevaSolicitudIniciarJuego;
+import comandosRespuesta.ComandoActualizarJugadoresInicioJuego;
 import comandosRespuesta.ComandoRespuestaConfirmacionSolicitarFin;
+import comandosRespuesta.ComandoRespuestaIniciarJuego;
 import comandosRespuesta.ComandoRespuestaReestablecer;
 import comandosRespuesta.ComandoRespuestaMovimiento;
 import comandosRespuesta.ComandoRespuestaSolicitarFin;
@@ -23,7 +28,10 @@ import comandosSolicitud.ComandoAgregarFichasJugador;
 import comandosSolicitud.ComandoAgregarFichasTablero;
 import comandosSolicitud.ComandoAgregarFichasTableroGrupo;
 import comandosSolicitud.ComandoConfirmacionAbandonar;
+import comandosSolicitud.ComandoConfirmacionEnvioIniciarJuego;
+import comandosSolicitud.ComandoConfirmacionIniciarJuego;
 import comandosSolicitud.ComandoConfirmacionSolicitarFin;
+import comandosSolicitud.ComandoIniciarJuego;
 import comandosSolicitud.ComandoQuitarFichasJugador;
 import comandosSolicitud.ComandoQuitarFichasTablero;
 import comandosSolicitud.ComandoReestablecerTablero;
@@ -88,6 +96,19 @@ public class Deserializador implements IReceptorExterno{
         
         registroComandos.put("ComandoPartidaGanada", ComandoPartidaGanada.class);
         registroComandos.put("ComandoJugadorPartidaGanada", ComandoJugadorPartidaGanada.class);
+        
+        
+        // SOLICITAR INICIO PARTIDA
+        registroComandos.put("ComandoIniciarJuego", ComandoIniciarJuego.class);
+        registroComandos.put("ComandoConfirmacionIniciarJuego", ComandoConfirmacionIniciarJuego.class);
+        registroComandos.put("ComandoConfirmacionEnvioIniciarJuego", ComandoConfirmacionEnvioIniciarJuego.class);
+        
+        registroComandos.put("ComandoNuevaSolicitudIniciarJuego", ComandoNuevaSolicitudIniciarJuego.class);
+        registroComandos.put("ComandoRespuestaIniciarJuego", ComandoRespuestaIniciarJuego.class);
+        registroComandos.put("ComandoActualizarJugadoresInicioJuego", ComandoActualizarJugadoresInicioJuego.class);
+        registroComandos.put("ComandoDecisionIniciarJuego", ComandoDecisionIniciarJuego.class);
+        
+        registroComandos.put("ComandoCargarJugadores", ComandoCargarJugadores.class);
         
     }
     

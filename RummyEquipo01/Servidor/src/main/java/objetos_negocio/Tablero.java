@@ -1403,7 +1403,7 @@ public class Tablero {
         return true;
     }
 
-    public void setFachadaTablero(FachadaObjetosNegocio fachadaTablero) {
+    public void setFachada(FachadaObjetosNegocio fachadaTablero) {
         this.fachadaTablero = fachadaTablero;
     }
 

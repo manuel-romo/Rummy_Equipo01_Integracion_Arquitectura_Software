@@ -5,7 +5,10 @@ import cliente.ColaMensajesEnviar;
 import cliente.GestorConexiones;
 import deserializador.Deserializador;
 import directorio.DirectorioJugadores;
+import java.util.LinkedList;
+import java.util.List;
 import objetos_negocio.FachadaObjetosNegocio;
+import objetos_negocio.Jugador;
 import objetos_negocio.Partida;
 import objetos_negocio.Tablero;
 import serializador.Serializador;
@@ -37,7 +40,15 @@ public class EnsambladorServidor {
             
             Tablero tablero = new Tablero();
             
-            Partida partida = new Partida();
+            List<Jugador> jugadores = new LinkedList<>();
+            
+            Jugador jugador1 = new Jugador("/avatar1.png", "Francisco34");
+            Jugador jugador2 = new Jugador("/avatar2.png", "Sandy43");
+            
+            jugadores.add(jugador1);
+            jugadores.add(jugador2);
+            
+            Partida partida = new Partida(jugadores);
             
             Servidor servidorServidor = new Servidor(50000);
             
@@ -55,9 +66,10 @@ public class EnsambladorServidor {
             
             fachadaObjetosNegocio.setFiltroSiguiente(serializador);
             
-            tablero.setFachadaTablero(fachadaObjetosNegocio);
+            tablero.setFachada(fachadaObjetosNegocio);
             
             partida.setTablero(tablero);
+            partida.setFachada(fachadaObjetosNegocio);
             
             fachadaObjetosNegocio.setPartida(partida);
             
@@ -74,8 +86,8 @@ public class EnsambladorServidor {
             new Thread(servidorServidor).start();
             new Thread(colaMensajesRecibidos).start();
             
-            tablero.iniciarJuego();
-               
+            partida.cargarJugadores();
+            
             
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

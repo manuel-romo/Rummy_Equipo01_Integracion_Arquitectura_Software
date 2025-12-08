@@ -21,6 +21,11 @@ public class Jugador {
         this.fichas = fichas;
     }
 
+    public Jugador(String avatar, String nombre) {
+        this.avatar = avatar;
+        this.nombre = nombre;
+    }
+
     public String getAvatar() {
         return avatar;
     }
