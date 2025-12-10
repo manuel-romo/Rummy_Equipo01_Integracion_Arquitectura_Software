@@ -1,5 +1,6 @@
 package definiciones;
 
+import iniciarpartida.dto.EstadoPartida;
 import iniciarpartida.dto.EtapaActual;
 import iniciarpartida.dto.JugadorInicioPartidaPresentacionDTO;
 import java.awt.Color;
@@ -30,4 +31,9 @@ public interface IModeloInicioPartida extends IModelo {
     String obtenerNombreJugador();
 
     //AQUI TERMINA REGISTAR JUGADOR JP
+    
+    //métodos de configurarPartida
+    
+    EstadoPartida obtenerEstadoPartida();
+    
 }

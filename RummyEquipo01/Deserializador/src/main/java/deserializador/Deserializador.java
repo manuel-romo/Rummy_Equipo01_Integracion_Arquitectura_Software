@@ -1,5 +1,5 @@
-
 package deserializador;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -14,6 +14,7 @@ import comandos.respuesta.ComandoIniciarTurno;
 import comandos.respuesta.ComandoJugadorAbandonoPartida;
 import comandos.respuesta.ComandoJugadorPartidaGanada;
 import comandos.respuesta.ComandoNuevaSolicitudIniciarJuego;
+import comandos.respuesta.ComandoPartidaConfigurada;
 import comandos.respuesta.ComandoPartidaGanada;
 import comandos.respuesta.ComandoRegistroExitoso;
 import comandos.respuesta.ComandoRegistroFallido;
@@ -29,6 +30,7 @@ import comandos.solicitud.ComandoAbandonar;
 import comandos.solicitud.ComandoAgregarFichasJugador;
 import comandos.solicitud.ComandoAgregarFichasTablero;
 import comandos.solicitud.ComandoAgregarFichasTableroGrupo;
+import comandos.solicitud.ComandoConfigurarPartida;
 import comandos.solicitud.ComandoConfirmacionAbandonar;
 import comandos.solicitud.ComandoConfirmacionEnvioIniciarJuego;
 import comandos.solicitud.ComandoConfirmacionIniciarJuego;
@@ -48,12 +50,13 @@ import interfaces.IReceptorExterno;
 import java.util.HashMap;
 import java.util.Map;
 import interfaces.IComando;
+
 /**
  *
  * @author ramon
  */
-public class Deserializador implements IReceptorExterno{
-    
+public class Deserializador implements IReceptorExterno {
+
     private IFiltro filtroSiguiente;
     private final Gson gson;
     private final Map<String, Class<? extends IComando>> registroComandos;
@@ -67,7 +70,7 @@ public class Deserializador implements IReceptorExterno{
                 .registerTypeAdapter(FichaDTO.class, new FichaAdaptador())
                 .create();
     }
-    
+
     private void registrarComandos() {
         registroComandos.put("ComandoIniciarTurno", ComandoIniciarTurno.class);
         registroComandos.put("ComandoCambioTurno", ComandoCambioTurno.class);
@@ -84,62 +87,66 @@ public class Deserializador implements IReceptorExterno{
         registroComandos.put("ComandoReestablecerTablero", ComandoReestablecerTablero.class);
         registroComandos.put("ComandoSeleccionarFichasTablero", ComandoSeleccionarFichasTablero.class);
         registroComandos.put("ComandoTerminarTurno", ComandoTerminarTurno.class);
-        
+
         registroComandos.put("ComandoSolicitarFin", ComandoSolicitarFin.class);
         registroComandos.put("ComandoRespuestaSolicitarFin", ComandoRespuestaSolicitarFin.class);
         registroComandos.put("ComandoConfirmacionSolicitarFin", ComandoConfirmacionSolicitarFin.class);
         registroComandos.put("ComandoRespuestaConfirmacionSolicitarFin", ComandoRespuestaConfirmacionSolicitarFin.class);
-        
+
         registroComandos.put("ComandoAbandonar", ComandoAbandonar.class);
         registroComandos.put("ComandoRespuestaAbandonar", ComandoRespuestaAbandonar.class);
         registroComandos.put("ComandoConfirmacionAbandonar", ComandoConfirmacionAbandonar.class);
         registroComandos.put("ComandoJugadorAbandonoPartida", ComandoJugadorAbandonoPartida.class);
-        
+
         registroComandos.put("ComandoFinPartida", ComandoFinPartida.class);
-        
+
         registroComandos.put("ComandoPartidaGanada", ComandoPartidaGanada.class);
         registroComandos.put("ComandoJugadorPartidaGanada", ComandoJugadorPartidaGanada.class);
-        
-        
+
         // SOLICITAR INICIO PARTIDA
         registroComandos.put("ComandoIniciarJuego", ComandoIniciarJuego.class);
         registroComandos.put("ComandoConfirmacionIniciarJuego", ComandoConfirmacionIniciarJuego.class);
         registroComandos.put("ComandoConfirmacionEnvioIniciarJuego", ComandoConfirmacionEnvioIniciarJuego.class);
-        
+
         registroComandos.put("ComandoNuevaSolicitudIniciarJuego", ComandoNuevaSolicitudIniciarJuego.class);
         registroComandos.put("ComandoRespuestaIniciarJuego", ComandoRespuestaIniciarJuego.class);
         registroComandos.put("ComandoActualizarJugadoresInicioJuego", ComandoActualizarJugadoresInicioJuego.class);
         registroComandos.put("ComandoDecisionIniciarJuego", ComandoDecisionIniciarJuego.class);
-        
+
         registroComandos.put("ComandoCargarJugadores", ComandoCargarJugadores.class);
         //REGISTRO JUGADOR JP
         registroComandos.put("ComandoRegistrarJugador", ComandoRegistrarJugador.class);
         registroComandos.put("ComandoRegistroFallido", ComandoRegistroFallido.class);
         registroComandos.put("ComandoRegistroExitoso", ComandoRegistroExitoso.class);
-        
-        
+
+        //CONFIGURAR PARTIDA PEDRO
+        registroComandos.put("ComandoConfigurarPartida", ComandoConfigurarPartida.class);
+        registroComandos.put("ComandoPartidaConfigurada", ComandoPartidaConfigurada.class);
+
     }
-    
+
     /**
-     * Método que recibe el JSON y deserializa el comando para que se pueda utilizar.
+     * Método que recibe el JSON y deserializa el comando para que se pueda
+     * utilizar.
+     *
      * @param Comando serializado que se deserializa.
-     * @return 
+     * @return
      */
     private IComando deserializarRespuesta(String respuesta) {
         try {
 
             JsonObject objetoJson = JsonParser.parseString(respuesta).getAsJsonObject();
-            
-            if (!objetoJson.has("type")){
+
+            if (!objetoJson.has("type")) {
                 return null;
             }
-            
+
             String type = objetoJson.get("type").getAsString();
-            
+
             Class<? extends IComando> claseComando = registroComandos.get(type);
 
             if (claseComando != null) {
-                
+
                 return gson.fromJson(objetoJson, claseComando);
             }
 
@@ -157,8 +164,7 @@ public class Deserializador implements IReceptorExterno{
     @Override
     public void notificar(String mensajeRecibido) {
         filtroSiguiente.ejecutar(deserializarRespuesta(mensajeRecibido));
-        
+
     }
-    
-    
+
 }

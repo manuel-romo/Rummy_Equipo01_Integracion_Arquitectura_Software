@@ -50,5 +50,9 @@ public class ControladorInicioPartida {
         modelo.enviarRegistro(avatar, mapaColores);
     }
     
+    //Método ConfigurarPartida
+    public void enviarRegistro(int maximoNumeroFichas, int numeroComodines){
+        modelo.enviarDatos(maximoNumeroFichas, numeroComodines);
+    }
     
 }

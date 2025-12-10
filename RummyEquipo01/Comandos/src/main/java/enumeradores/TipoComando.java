@@ -58,7 +58,11 @@ public enum TipoComando {
     COMANDO_REGISTRO_FALLIDO("ComandoRegistroFallido"),
     COMANDO_REGISTRAR_JUGADOR("ComandoRegistrarJugador"),
     
-    COMANDO_CARGAR_JUGADORES("ComandoCargarJugadores");
+    COMANDO_CARGAR_JUGADORES("ComandoCargarJugadores"),
+    
+    //COMANDOS PEDRO CONFIGURAR PARTIDA
+    COMANDO_CONFIGURAR_PARTIDA("ComandoConfigurarPartida"),
+    COMANDO_PARTIDA_CONFIGURADA("ComandoPartidaConfigurada");
     
 
     private final String nombre;

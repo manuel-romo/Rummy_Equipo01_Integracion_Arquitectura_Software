@@ -5,6 +5,7 @@ import definiciones.IPublicador;
 import definiciones.ISuscriptor;
 import dtos.JugadorInicioPartidaDTO;
 import fachada.FachadaMvc;
+import iniciarpartida.dto.EstadoPartida;
 import iniciarpartida.dto.EtapaActual;
 import iniciarpartida.dto.JugadorInicioPartidaPresentacionDTO;
 import java.awt.Color;
@@ -37,6 +38,13 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
 
     private boolean vistaVisible;
 
+    //Pedro
+    private int maximoNumeroFicha;
+
+    private int numeroComodines;
+
+    private EstadoPartida estadoPartida;
+
     public String getNombreJugador() {
         return nombreJugador;
     }
@@ -44,7 +52,6 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     public void setNombreJugador(String nombreJugador) {
         this.nombreJugador = nombreJugador;
     }
-
 
     public void setMapaColores(Map<Integer, Color> mapaColores) {
         this.mapaColores = mapaColores;
@@ -64,6 +71,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
 
         vistaVisible = true;
         etapaActual = EtapaActual.SALA_ESPERA;
+        estadoPartida = EstadoPartida.INICIADA;
         notificar();
 
     }
@@ -146,6 +154,11 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
             notificarRechazoIniciarJuego(mensaje);
         }
 
+    }
+
+    public void notificarPartidaConfigurada(boolean exito) {
+        estadoPartida = exito ? EstadoPartida.CONFIGURADA : EstadoPartida.ERROR;
+        notificar();
     }
 
     private void notificarAceptacionIniciarJuego(String mensaje) {
@@ -232,7 +245,16 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     public void enviarRegistro(String avatar, Map<Integer, Color> mapaColores) {
         this.setMapaColores(mapaColores);
         fachadaMvc.registrarJugador(nombreJugador, avatar);
+        notificar();
 
+    }
+
+    //Configurar partida
+    public void enviarDatos(int maximoNumeroFichas, int numeroComodines) {
+        maximoNumeroFichas = this.maximoNumeroFicha;
+        numeroComodines = this.numeroComodines;
+        fachadaMvc.configurarPartida(maximoNumeroFichas, numeroComodines);
+        notificar();
     }
 
     @Override
@@ -248,6 +270,11 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     @Override
     public String obtenerNombreJugador() {
         return nombreJugador;
+    }
+
+    @Override
+    public EstadoPartida obtenerEstadoPartida() {
+        return estadoPartida;
     }
 
 }
