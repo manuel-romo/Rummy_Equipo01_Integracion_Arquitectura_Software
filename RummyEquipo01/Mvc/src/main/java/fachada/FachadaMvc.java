@@ -31,6 +31,7 @@ import comandos.solicitud.ComandoIniciarJuego;
 import comandos.solicitud.ComandoQuitarFichasJugador;
 import comandos.solicitud.ComandoQuitarFichasTablero;
 import comandos.solicitud.ComandoReestablecerTablero;
+import comandos.solicitud.ComandoRegistrarJugador;
 import comandos.solicitud.ComandoSeleccionarFichasTablero;
 import comandos.solicitud.ComandoSolicitarFin;
 import comandos.solicitud.ComandoTerminarTurno;
@@ -187,6 +188,11 @@ public class FachadaMvc implements IFiltro{
         
     }
     
+    //MÉTODOS JUAN P REGISTRAR JUGADOR
+    public void registrarJugador(String nombreJugador,String avatar){
+        ComandoRegistrarJugador comandoRegistro = new ComandoRegistrarJugador(nombreJugador, avatar);
+        filtroSiguiente.ejecutar(comandoRegistro);
+    }
     
     @Override
     public void ejecutar(IComando comando) {

@@ -3,6 +3,8 @@ package iniciarpartida.controlador;
 
 import ejercerturno.controlador.ControladorEjercerTurno;
 import iniciarpartida.modelo.ModeloInicioPartida;
+import java.awt.Color;
+import java.util.Map;
 
 /**
  *
@@ -40,6 +42,12 @@ public class ControladorInicioPartida {
 
     public void setControladorEjercerTurno(ControladorEjercerTurno controladorEjercerTurno) {
         this.controladorEjercerTurno = controladorEjercerTurno;
+    }
+    
+    
+    //Método Juan P
+    public void enviarRegistro(String avatar, Map<Integer,Color> mapaColores){
+        modelo.enviarRegistro(avatar, mapaColores);
     }
     
     
