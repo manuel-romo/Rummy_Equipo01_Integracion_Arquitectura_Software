@@ -15,6 +15,7 @@ public class ComandoConfigurarPartida implements IComando {
     private String nombreJugador;
     private final int maximoNumeroFichas;
     private final int numeroComodines;
+    
 
     public ComandoConfigurarPartida(String nombreJugador, int maximoNumeroFichas, int numeroComodines) {
         this.nombreJugador = nombreJugador;
