@@ -220,7 +220,7 @@ public class PanelSalaEspera extends JPanel {
         }
         
         BotonBordesRedondeados botonIniciarJuego = new BotonBordesRedondeados(textoBoton, COLOR_VERDE_BOTON);
-        botonIniciarJuego.addActionListener(e -> gestorEventos.solicitarInicioJuego());
+        botonIniciarJuego.addActionListener(e -> gestorEventos.solicitarInicioJuego(1,1));
         
         botonIniciarJuego.setPreferredSize(new Dimension(ANCHO_BOTON_INICIAR, ALTO_BOTON_INICIAR));
         botonIniciarJuego.setMaximumSize(new Dimension(ANCHO_BOTON_INICIAR, ALTO_BOTON_INICIAR));
@@ -289,7 +289,7 @@ public class PanelSalaEspera extends JPanel {
                     JOptionPane.QUESTION_MESSAGE
                 );
 
-                gestorEventos.confirmarInicioJuego((respuesta == JOptionPane.OK_OPTION));
+                gestorEventos.confirmarInicioJuego((respuesta == JOptionPane.OK_OPTION),1,1);
                 
             } 
             

@@ -8,11 +8,13 @@ public class ComandoConfirmacionSolicitarFin implements IComando{
     private String nombreJugador;
     private final String type = "ComandoConfirmacionSolicitarFin";
     private boolean confirmacion;
+    
 
     public ComandoConfirmacionSolicitarFin(String nombreJugador, boolean confirmacion) {
         this.nombreJugador = nombreJugador;
         this.confirmacion = confirmacion;
     }
+
 
     public String getNombreJugador() {
         return nombreJugador;

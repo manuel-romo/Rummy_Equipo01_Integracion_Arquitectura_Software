@@ -87,9 +87,9 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
 
     }
 
-    public void solicitarInicioJuego() {
+    public void solicitarInicioJuego(int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
 
-        fachadaMvc.solicitarInicioJuego(nombreJugador);
+        fachadaMvc.solicitarInicioJuego(MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
 
     }
 
@@ -99,9 +99,9 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
 
     }
 
-    public void confirmarInicioJuego(boolean confirmar) {
+    public void confirmarInicioJuego(boolean confirmar, int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
 
-        fachadaMvc.confirmarInicioJuego(nombreJugador, confirmar);
+        fachadaMvc.confirmarInicioJuego(nombreJugador, confirmar,MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
 
     }
 

@@ -69,8 +69,8 @@ public class Tablero {
 
     private int numeroGrupoActual = 0;
 
-    private final int MAXIMO_NUMERO_FICHA = 13;
-    private final int NUMERO_COMODINES = 2;
+    private  int MAXIMO_NUMERO_FICHA = 13;
+    private  int NUMERO_COMODINES = 2;
 
     private final String MENSAJE_CAMBIO_TURNO = "Ha iniciado el turno del jugador ";
     private final String MENSAJE_INICIO_TURNO = "¡Ha iniciado su turno!";
@@ -98,150 +98,69 @@ public class Tablero {
         return jugadores;
     }
 
-    
-    public void iniciarJuego() {
-
-        List<Ficha> fichasMonton = new LinkedList<>(List.of(
-
-            new FichaNormal(1, ColorFicha.COLOR_A, false, 1),
-            new FichaNormal(2, ColorFicha.COLOR_A, false, 2),
-            new FichaNormal(3, ColorFicha.COLOR_A, false, 3),
-            new FichaNormal(4, ColorFicha.COLOR_A, false, 4),
-            new FichaNormal(5, ColorFicha.COLOR_A, false, 5),
-            new FichaNormal(6, ColorFicha.COLOR_A, false, 6),
-            new FichaNormal(7, ColorFicha.COLOR_A, false, 7),
-            new FichaNormal(8, ColorFicha.COLOR_A, false, 8),
-            new FichaNormal(9, ColorFicha.COLOR_A, false, 9),
-            new FichaNormal(10, ColorFicha.COLOR_A, false, 10),
-            new FichaNormal(11, ColorFicha.COLOR_A, false, 11),
-            new FichaNormal(12, ColorFicha.COLOR_A, false, 12),
-            new FichaNormal(13, ColorFicha.COLOR_A, false, 13),
-            
-            new FichaNormal(14, ColorFicha.COLOR_A, false, 1),
-            new FichaNormal(15, ColorFicha.COLOR_A, false, 2),
-            new FichaNormal(16, ColorFicha.COLOR_A, false, 3),
-            new FichaNormal(17, ColorFicha.COLOR_A, false, 4),
-            new FichaNormal(18, ColorFicha.COLOR_A, false, 5),
-            new FichaNormal(19, ColorFicha.COLOR_A, false, 6),
-            new FichaNormal(20, ColorFicha.COLOR_A, false, 7),
-            new FichaNormal(21, ColorFicha.COLOR_A, false, 8),
-            new FichaNormal(22, ColorFicha.COLOR_A, false, 9),
-            new FichaNormal(23, ColorFicha.COLOR_A, false, 10),
-            new FichaNormal(24, ColorFicha.COLOR_A, false, 11),
-            new FichaNormal(25, ColorFicha.COLOR_A, false, 12),
-            new FichaNormal(26, ColorFicha.COLOR_A, false, 13),
-
-            new FichaNormal(27, ColorFicha.COLOR_B, false, 1),
-            new FichaNormal(28, ColorFicha.COLOR_B, false, 2),
-            new FichaNormal(29, ColorFicha.COLOR_B, false, 3),
-            new FichaNormal(30, ColorFicha.COLOR_B, false, 4),
-            new FichaNormal(31, ColorFicha.COLOR_B, false, 5),
-            new FichaNormal(32, ColorFicha.COLOR_B, false, 6),
-            new FichaNormal(33, ColorFicha.COLOR_B, false, 7),
-            new FichaNormal(34, ColorFicha.COLOR_B, false, 8),
-            new FichaNormal(35, ColorFicha.COLOR_B, false, 9),
-            new FichaNormal(36, ColorFicha.COLOR_B, false, 10),
-            new FichaNormal(37, ColorFicha.COLOR_B, false, 11),
-            new FichaNormal(38, ColorFicha.COLOR_B, false, 12),
-            new FichaNormal(39, ColorFicha.COLOR_B, false, 13),
-
-            new FichaNormal(40, ColorFicha.COLOR_B, false, 1),
-            new FichaNormal(41, ColorFicha.COLOR_B, false, 2),
-            new FichaNormal(42, ColorFicha.COLOR_B, false, 3),
-            new FichaNormal(43, ColorFicha.COLOR_B, false, 4),
-            new FichaNormal(44, ColorFicha.COLOR_B, false, 5),
-            new FichaNormal(45, ColorFicha.COLOR_B, false, 6),
-            new FichaNormal(46, ColorFicha.COLOR_B, false, 7),
-            new FichaNormal(47, ColorFicha.COLOR_B, false, 8),
-            new FichaNormal(48, ColorFicha.COLOR_B, false, 9),
-            new FichaNormal(49, ColorFicha.COLOR_B, false, 10),
-            new FichaNormal(50, ColorFicha.COLOR_B, false, 11),
-            new FichaNormal(51, ColorFicha.COLOR_B, false, 12),
-            new FichaNormal(52, ColorFicha.COLOR_B, false, 13),
-
-            new FichaNormal(53, ColorFicha.COLOR_C, false, 1),
-            new FichaNormal(54, ColorFicha.COLOR_C, false, 2),
-            new FichaNormal(55, ColorFicha.COLOR_C, false, 3),
-            new FichaNormal(56, ColorFicha.COLOR_C, false, 4),
-            new FichaNormal(57, ColorFicha.COLOR_C, false, 5),
-            new FichaNormal(58, ColorFicha.COLOR_C, false, 6),
-            new FichaNormal(59, ColorFicha.COLOR_C, false, 7),
-            new FichaNormal(60, ColorFicha.COLOR_C, false, 8),
-            new FichaNormal(61, ColorFicha.COLOR_C, false, 9),
-            new FichaNormal(62, ColorFicha.COLOR_C, false, 10),
-            new FichaNormal(63, ColorFicha.COLOR_C, false, 11),
-            new FichaNormal(64, ColorFicha.COLOR_C, false, 12),
-            new FichaNormal(65, ColorFicha.COLOR_C, false, 13),
-
-            new FichaNormal(66, ColorFicha.COLOR_C, false, 1),
-            new FichaNormal(67, ColorFicha.COLOR_C, false, 2),
-            new FichaNormal(68, ColorFicha.COLOR_C, false, 3),
-            new FichaNormal(69, ColorFicha.COLOR_C, false, 4),
-            new FichaNormal(70, ColorFicha.COLOR_C, false, 5),
-            new FichaNormal(71, ColorFicha.COLOR_C, false, 6),
-            new FichaNormal(72, ColorFicha.COLOR_C, false, 7),
-            new FichaNormal(73, ColorFicha.COLOR_C, false, 8),
-            new FichaNormal(74, ColorFicha.COLOR_C, false, 9),
-            new FichaNormal(75, ColorFicha.COLOR_C, false, 10),
-            new FichaNormal(76, ColorFicha.COLOR_C, false, 11),
-            new FichaNormal(77, ColorFicha.COLOR_C, false, 12),
-            new FichaNormal(78, ColorFicha.COLOR_C, false, 13),
-
-            new FichaNormal(79, ColorFicha.COLOR_D, false, 1),
-            new FichaNormal(80, ColorFicha.COLOR_D, false, 2),
-            new FichaNormal(81, ColorFicha.COLOR_D, false, 3),
-            new FichaNormal(82, ColorFicha.COLOR_D, false, 4),
-            new FichaNormal(83, ColorFicha.COLOR_D, false, 5),
-            new FichaNormal(84, ColorFicha.COLOR_D, false, 6),
-            new FichaNormal(85, ColorFicha.COLOR_D, false, 7),
-            new FichaNormal(86, ColorFicha.COLOR_D, false, 8),
-            new FichaNormal(87, ColorFicha.COLOR_D, false, 9),
-            new FichaNormal(88, ColorFicha.COLOR_D, false, 10),
-            new FichaNormal(89, ColorFicha.COLOR_D, false, 11),
-            new FichaNormal(90, ColorFicha.COLOR_D, false, 12),
-            new FichaNormal(91, ColorFicha.COLOR_D, false, 13),
-
-            new FichaNormal(92, ColorFicha.COLOR_D, false, 1),
-            new FichaNormal(93, ColorFicha.COLOR_D, false, 2),
-            new FichaNormal(94, ColorFicha.COLOR_D, false, 3),
-            new FichaNormal(95, ColorFicha.COLOR_D, false, 4),
-            new FichaNormal(96, ColorFicha.COLOR_D, false, 5),
-            new FichaNormal(97, ColorFicha.COLOR_D, false, 6),
-            new FichaNormal(98, ColorFicha.COLOR_D, false, 7),
-            new FichaNormal(99, ColorFicha.COLOR_D, false, 8),
-            new FichaNormal(100, ColorFicha.COLOR_D, false, 9),
-            new FichaNormal(101, ColorFicha.COLOR_D, false, 10),
-            new FichaNormal(102, ColorFicha.COLOR_D, false, 11),
-            new FichaNormal(103, ColorFicha.COLOR_D, false, 12),
-            new FichaNormal(104, ColorFicha.COLOR_D, false, 13),
-
-            new FichaComodin(105, ColorFicha.COLOR_COMODIN, true, "*"),
-            new FichaComodin(106, ColorFicha.COLOR_COMODIN, true, "*")
-        ));
+    public void iniciarJuego(int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES ) {
+        MAXIMO_NUMERO_FICHA = MAXIMO_NUMERO_FICHAS;
+        this.NUMERO_COMODINES = NUMERO_COMODINES;
         
-        fichas.addAll(fichasMonton);
+        ColorFicha[] ordenColores = {
+            ColorFicha.COLOR_A, ColorFicha.COLOR_A,
+            ColorFicha.COLOR_B, ColorFicha.COLOR_B,
+            ColorFicha.COLOR_C, ColorFicha.COLOR_C,
+            ColorFicha.COLOR_D, ColorFicha.COLOR_D
+        };
+        
+        List<Ficha> fichasMonton = new LinkedList<>();
+        int id = 1;
+        for (ColorFicha color : ordenColores) {
+            id = fichasMonton.size() + 1;
+            crearMonton(id, fichasMonton, color);
+        }
+        id = fichasMonton.size()+1;
+        crearFichasComodines(id, fichasMonton);
+        
+        this.fichas.addAll(fichasMonton);
+        
         
         List<Ficha> fichasJugador1 = repartirMano(fichasMonton, 14);
         List<Ficha> fichasJugador2 = repartirMano(fichasMonton, 14);
+        
+        
 
         monton = new Monton(fichasMonton);
 
         Jugador jugador1 = new Jugador("avatar1.png", "Francisco34", true, fichasJugador1);
 
         Jugador jugador2 = new Jugador("avatar2.png", "Sandy43", true, fichasJugador2);
+        
+        
 
-        jugadorTurno = jugador1;
 
         jugadores = new LinkedList<>(Arrays.asList(jugador1, jugador2));
+        Collections.shuffle(jugadores);
+        
+        jugadorTurno = jugadores.getFirst();
+        
 
         gruposInicialesTurno = new LinkedList<>();
         
         List<Ficha> copiafichasJugador = new LinkedList<>(jugadorTurno.getFichas());
         fichasInicialesJugadorTurno = copiafichasJugador;
-
-        // Enviando mensajes a jugadores.
         notificarTodosCambioTurno();
 
+    }
+    public void crearMonton(int idInicial, List<Ficha> lista, ColorFicha color) {
+        for(int i = 1; i <= MAXIMO_NUMERO_FICHA; i++) {
+             lista.add(new FichaNormal(idInicial, color, false, i));
+             idInicial++;
+        }
+    }   
+    
+    public List<Ficha> crearFichasComodines(int id, List<Ficha> fichasMonton){
+        for(int i = 0; i<NUMERO_COMODINES ; i++){
+            fichasMonton.add(new FichaComodin(id, ColorFicha.COLOR_COMODIN,true, "*"));
+            id++;
+        }
+        return fichasMonton;
     }
     
     public static List<Ficha> repartirMano(List<Ficha> monton, int cantidad) {
@@ -262,6 +181,7 @@ public class Tablero {
 
         return fichasJugador;
     }
+    
 
     public void ejecutar(IComando comando) throws RummyException {
 

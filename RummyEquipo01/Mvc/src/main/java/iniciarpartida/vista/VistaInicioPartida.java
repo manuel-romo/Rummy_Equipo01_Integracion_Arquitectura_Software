@@ -102,8 +102,8 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
     }
 
     @Override
-    public void solicitarInicioJuego() {
-        controlador.solicitarInicioJuego();
+    public void solicitarInicioJuego(int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
+        controlador.solicitarInicioJuego(MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
     }
 
     @Override
@@ -112,8 +112,8 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
     }
 
     @Override
-    public void confirmarInicioJuego(boolean confirmacion) {
-       controlador.confirmarInicioJuego(confirmacion);
+    public void confirmarInicioJuego(boolean confirmacion,int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
+       controlador.confirmarInicioJuego(confirmacion,MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
     } 
 
      @Override

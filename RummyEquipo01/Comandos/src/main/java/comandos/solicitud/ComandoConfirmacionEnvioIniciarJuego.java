@@ -13,6 +13,7 @@ public class ComandoConfirmacionEnvioIniciarJuego implements IComando{
     private String nombreJugador;
     private final String type = "ComandoConfirmacionEnvioIniciarJuego";
     private boolean confirmacion;
+    
 
     public ComandoConfirmacionEnvioIniciarJuego(String nombreJugador, boolean confirmacion) {
         this.nombreJugador = nombreJugador;
