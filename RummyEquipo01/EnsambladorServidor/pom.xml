@@ -18,11 +18,23 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>Serializador</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.errorprone</groupId>
+                    <artifactId>error_prone_annotations</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>Deserializador</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.equipo01</groupId>
+                    <artifactId>DTORummy</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.mycompany</groupId>
@@ -37,6 +49,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>ObjetosNegocio</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>Dtos</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

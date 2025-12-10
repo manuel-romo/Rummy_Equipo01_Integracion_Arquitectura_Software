@@ -10,6 +10,12 @@
             <groupId>com.equipo01</groupId>
             <artifactId>Comandos</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.equipo01</groupId>
+                    <artifactId>Interfaces</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.equipo01</groupId>

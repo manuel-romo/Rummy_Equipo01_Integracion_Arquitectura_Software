@@ -39,5 +39,6 @@ public class FachadaObjetosNegocio implements IFiltro{
         filtroSiguiente.ejecutar(comando);
         
     }
-    
+
+
 }

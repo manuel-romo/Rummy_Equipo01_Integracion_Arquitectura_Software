@@ -94,6 +94,11 @@ public class Tablero {
     private final String MENSAJE_PARTIDA_GANADA = "¡Has ganado la partida!";
     private final String MENSAJE_JUGADOR_PARTIDA_GANADA = " ha ganado la partida.";
 
+    public List<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    
     public void iniciarJuego() {
 
         List<Ficha> fichasMonton = new LinkedList<>(List.of(

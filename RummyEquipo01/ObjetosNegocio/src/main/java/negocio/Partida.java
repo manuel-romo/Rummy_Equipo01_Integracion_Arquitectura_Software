@@ -1,10 +1,11 @@
-
 package negocio;
 
 import comandos.respuesta.ComandoCargarJugadores;
 import comandos.respuesta.ComandoDecisionIniciarJuego;
 import comandos.respuesta.ComandoNuevaSolicitudIniciarJuego;
 import comandos.respuesta.ComandoActualizarJugadoresInicioJuego;
+import comandos.respuesta.ComandoRegistroExitoso;
+import comandos.respuesta.ComandoRegistroFallido;
 import comandos.respuesta.ComandoRespuestaIniciarJuego;
 import comandos.solicitud.ComandoAbandonar;
 import comandos.solicitud.ComandoAgregarFichasJugador;
@@ -18,6 +19,7 @@ import comandos.solicitud.ComandoIniciarJuego;
 import comandos.solicitud.ComandoQuitarFichasJugador;
 import comandos.solicitud.ComandoQuitarFichasTablero;
 import comandos.solicitud.ComandoReestablecerTablero;
+import comandos.solicitud.ComandoRegistrarJugador;
 import comandos.solicitud.ComandoSeleccionarFichasTablero;
 import comandos.solicitud.ComandoSolicitarFin;
 import comandos.solicitud.ComandoTerminarTurno;
@@ -33,14 +35,14 @@ import interfaces.IComando;
  *
  */
 public class Partida {
-    
+
     private List<Jugador> jugadores;
     private List<Jugador> jugadoresInicioJuego = new LinkedList<>();
-    
+
     private FachadaObjetosNegocio fachada;
-    
+
     private Tablero tablero;
-    
+
     private final String MENSAJE_CONFIRMACION_INICIO_JUEGO = "¿Desea solicitar el inicio de la partida?";
     private final String MENSAJE_NUEVA_SOLICITUD_INICIO_JUEGO = " quiere iniciar la partida. ¿Desea inicar?";
     private final String MENSAJE_INICIO_JUEGO = "¡La partida comenzará!";
@@ -49,21 +51,21 @@ public class Partida {
     public Partida(List<Jugador> jugadores) {
         this.jugadores = jugadores;
     }
-    
-    public void cargarJugadores(){
-        
+
+    public void cargarJugadores() {
+
         cargarJugadoresEspera();
-        
+
     }
 
     public void setFachada(FachadaObjetosNegocio fachada) {
         this.fachada = fachada;
     }
-    
+
     public void setTablero(Tablero tablero) {
         this.tablero = tablero;
     }
-    
+
     public void ejecutar(IComando comando) throws RummyException {
 
         TipoComando tipoComando = TipoComando.fromNombre(comando.getTipo());
@@ -77,28 +79,27 @@ public class Partida {
                 solicitarInicioJuego(comandoIniciarJuego.getNombreJugador());
 
                 break;
-                
+
             case TipoComando.COMANDO_CONFIRMACION_ENVIO_INICIAR_JUEGO:
 
                 ComandoConfirmacionEnvioIniciarJuego comandoConfirmacionEnvioIniciarJuego = (ComandoConfirmacionEnvioIniciarJuego) comando;
 
                 enviarSolicitudInicioJuego(
-                        comandoConfirmacionEnvioIniciarJuego.getNombreJugador(), 
+                        comandoConfirmacionEnvioIniciarJuego.getNombreJugador(),
                         comandoConfirmacionEnvioIniciarJuego.isConfirmacion());
 
                 break;
-                
+
             case TipoComando.COMANDO_CONFIRMACION_INICIAR_JUEGO:
 
                 ComandoConfirmacionIniciarJuego comandoConfirmacionIniciarJuego = (ComandoConfirmacionIniciarJuego) comando;
 
                 registrarConfirmacionInicioJuego(
-                        comandoConfirmacionIniciarJuego.getNombreJugador(), 
+                        comandoConfirmacionIniciarJuego.getNombreJugador(),
                         comandoConfirmacionIniciarJuego.isConfirmacion());
 
                 break;
-                
-                
+
             case TipoComando.SELECCIONAR_FICHAS_TABLERO:
 
                 ComandoSeleccionarFichasTablero comandoSeleccionarFichasTablero = (ComandoSeleccionarFichasTablero) comando;
@@ -164,21 +165,21 @@ public class Partida {
                 break;
 
             case TipoComando.TOMAR_FICHA:
-                
+
                 ComandoTomarFicha comandoTomarFicha = (ComandoTomarFicha) comando;
 
                 tablero.tomarFicha(comandoTomarFicha.getNombreJugador());
-                
+
                 break;
-                
+
             case TipoComando.RESTABLECER_TABLERO:
-                
+
                 ComandoReestablecerTablero comandoReestablecerTablero = (ComandoReestablecerTablero) comando;
 
                 tablero.reestablecerTablero(comandoReestablecerTablero.getNombreJugador());
-                
+
                 break;
-                
+
             case TipoComando.TERMINAR_TURNO:
 
                 ComandoTerminarTurno comandoTerminarTurno = (ComandoTerminarTurno) comando;
@@ -194,7 +195,7 @@ public class Partida {
                 tablero.solicitarAbandono(comandoAbandonar.getNombreJugador());
 
                 break;
-                
+
             case TipoComando.COMANDO_CONFIRMACION_ABANDONAR:
 
                 ComandoConfirmacionAbandonar comandoConfirmacionAbandonar = (ComandoConfirmacionAbandonar) comando;
@@ -204,7 +205,7 @@ public class Partida {
                         comandoConfirmacionAbandonar.isConfirmacion());
 
                 break;
-                
+
             case TipoComando.COMANDO_SOLICITAR_FIN:
 
                 ComandoSolicitarFin comandoSolicitarFin = (ComandoSolicitarFin) comando;
@@ -212,88 +213,100 @@ public class Partida {
                 tablero.solicitarFin(comandoSolicitarFin.getNombreJugador());
 
                 break;
-                
+
             case TipoComando.COMANDO_CONFIRMACION_SOLICITAR_FIN:
 
                 ComandoConfirmacionSolicitarFin comandoConfirmacionSolicitarFin = (ComandoConfirmacionSolicitarFin) comando;
 
                 tablero.confirmarSolicitarFin(
-                        comandoConfirmacionSolicitarFin.getNombreJugador(), 
+                        comandoConfirmacionSolicitarFin.getNombreJugador(),
                         comandoConfirmacionSolicitarFin.isConfirmacion());
 
                 break;
-                
+
+            case TipoComando.COMANDO_REGISTRAR_JUGADOR:
+
+                ComandoRegistrarJugador comandoRegistrarJugador = (ComandoRegistrarJugador) comando;
+
+                if (validarRegistroJugadores(comandoRegistrarJugador.getAvatar())) {
+                    actualizarJugador(comandoRegistrarJugador.getNombreJugador(), comandoRegistrarJugador.getAvatar());
+                    IComando comandoRespuesta = new ComandoRegistroExitoso(comandoRegistrarJugador.getNombreJugador());
+                    fachada.enviarComando(comandoRespuesta);
+                } else {
+                    IComando comandoRespuesta = new ComandoRegistroFallido(comandoRegistrarJugador.getNombreJugador(), "El avatar seleccionado ya está en uso");
+                    fachada.enviarComando(comandoRespuesta);
+                }
+                  
+                break;
             default:
                 throw new AssertionError();
         }
 
     }
-    
-    private void solicitarInicioJuego(String nombreJugador){
-            
-        if(jugadorExiste(nombreJugador)){
-            
-            ComandoRespuestaIniciarJuego comandoRespuestaIniciarJuego = 
-                new ComandoRespuestaIniciarJuego(
-                        nombreJugador, 
-                        MENSAJE_CONFIRMACION_INICIO_JUEGO);
+
+    private void solicitarInicioJuego(String nombreJugador) {
+
+        if (jugadorExiste(nombreJugador)) {
+
+            ComandoRespuestaIniciarJuego comandoRespuestaIniciarJuego
+                    = new ComandoRespuestaIniciarJuego(
+                            nombreJugador,
+                            MENSAJE_CONFIRMACION_INICIO_JUEGO);
 
             fachada.enviarComando(comandoRespuestaIniciarJuego);
 
             return;
 
-            
         }
-            
+
     }
-    
-    private void cargarJugadoresEspera(){
-        
+
+    private void cargarJugadoresEspera() {
+
         List<JugadorInicioPartidaDTO> jugadoresInicioPartida = new LinkedList<>();
-        
-        for(Jugador jugador: jugadores){
-            
+
+        for (Jugador jugador : jugadores) {
+
             jugadoresInicioPartida.add(
                     new JugadorInicioPartidaDTO(
-                            jugador.getNombre(), 
+                            jugador.getNombre(),
                             jugador.getAvatar()));
-            
-        }
-         
-        for(Jugador jugador: jugadores){
-            
-            ComandoCargarJugadores comandoCargarJugadores 
-                    = new ComandoCargarJugadores(
-                            jugador.getNombre(), 
-                            jugadoresInicioPartida);
-            
-            fachada.enviarComando(comandoCargarJugadores);
-            
-            
-        }
-        
-    }
-    
-    private void enviarSolicitudInicioJuego(String nombreJugador, boolean confirmacion){
-        
-        if(jugadorExiste(nombreJugador)){
-            
-            if(confirmacion){
-                
-                jugadoresInicioJuego.add(obtenerJugador(nombreJugador));
-                
-                ComandoActualizarJugadoresInicioJuego comandoNuevoJugadorSolicitaInicioJuego 
-                        = new ComandoActualizarJugadoresInicioJuego(nombreJugador, jugadoresInicioJuego.size());
-                
-                fachada.enviarComando(comandoNuevoJugadorSolicitaInicioJuego);
-                
-                for(Jugador jugador: jugadores){
-                    
-                    if(!jugador.getNombre().equals(nombreJugador)){
 
-                        ComandoNuevaSolicitudIniciarJuego comandoNuevaSolicitudIniciarJuego = 
-                                new ComandoNuevaSolicitudIniciarJuego(
-                                        jugador.getNombre(), 
+        }
+
+        for (Jugador jugador : jugadores) {
+
+            ComandoCargarJugadores comandoCargarJugadores
+                    = new ComandoCargarJugadores(
+                            jugador.getNombre(),
+                            jugadoresInicioPartida);
+
+            fachada.enviarComando(comandoCargarJugadores);
+
+        }
+
+    }
+
+    private void enviarSolicitudInicioJuego(String nombreJugador, boolean confirmacion) {
+
+        if (jugadorExiste(nombreJugador)) {
+
+            if (confirmacion) {
+
+                jugadoresInicioJuego.add(obtenerJugador(nombreJugador));
+
+                ComandoActualizarJugadoresInicioJuego comandoNuevoJugadorSolicitaInicioJuego
+                        = new ComandoActualizarJugadoresInicioJuego(nombreJugador, jugadoresInicioJuego.size());
+
+                fachada.enviarComando(comandoNuevoJugadorSolicitaInicioJuego);
+
+                for (Jugador jugador : jugadores) {
+
+                    if (!jugador.getNombre().equals(nombreJugador)) {
+
+                        ComandoNuevaSolicitudIniciarJuego comandoNuevaSolicitudIniciarJuego
+                                = new ComandoNuevaSolicitudIniciarJuego(
+                                        jugador.getNombre(),
                                         nombreJugador + MENSAJE_NUEVA_SOLICITUD_INICIO_JUEGO);
 
                         fachada.enviarComando(comandoNuevaSolicitudIniciarJuego);
@@ -302,113 +315,139 @@ public class Partida {
 
                     }
                 }
-                
+
             }
-            
+
         }
-        
-        
+
     }
-    
-    private void registrarConfirmacionInicioJuego(String nombreJugador, boolean confirmacion){
-        
-        if(jugadorExiste(nombreJugador)){
-            
-            if(confirmacion){
-                
+
+    private void registrarConfirmacionInicioJuego(String nombreJugador, boolean confirmacion) {
+
+        if (jugadorExiste(nombreJugador)) {
+
+            if (confirmacion) {
+
                 Jugador jugadorConfirmacion = obtenerJugador(nombreJugador);
-                
+
                 jugadoresInicioJuego.add(jugadorConfirmacion);
-                
-                if(jugadoresInicioJuego.size() == jugadores.size()){
-                    
-                    for(Jugador jugador: jugadores){
-                    
-                        ComandoDecisionIniciarJuego comandoDecisionIniciarJuego 
+
+                if (jugadoresInicioJuego.size() == jugadores.size()) {
+
+                    for (Jugador jugador : jugadores) {
+
+                        ComandoDecisionIniciarJuego comandoDecisionIniciarJuego
                                 = new ComandoDecisionIniciarJuego(
-                                        jugador.getNombre(), 
+                                        jugador.getNombre(),
                                         MENSAJE_INICIO_JUEGO,
                                         true);
-                        
+
                         fachada.enviarComando(comandoDecisionIniciarJuego);
 
                     }
-                    
+
                     //TODO
                     tablero.iniciarJuego();
-                    
-                } else{
-                    
-                    for(Jugador jugador: jugadores){
-                    
-                        ComandoActualizarJugadoresInicioJuego comandoNuevoJugadorSolicitaInicioJuego 
+
+                } else {
+
+                    for (Jugador jugador : jugadores) {
+
+                        ComandoActualizarJugadoresInicioJuego comandoNuevoJugadorSolicitaInicioJuego
                                 = new ComandoActualizarJugadoresInicioJuego(
-                                        jugador.getNombre(), 
+                                        jugador.getNombre(),
                                         jugadoresInicioJuego.size());
-                        
+
                         fachada.enviarComando(comandoNuevoJugadorSolicitaInicioJuego);
 
                     }
                 }
-                
-                
-            } else{
-                
+
+            } else {
+
                 jugadoresInicioJuego = new LinkedList<>();
-                 
-                for(Jugador jugador: jugadores){
-                    
-                    ComandoDecisionIniciarJuego comandoDecisionIniciarJuego 
+
+                for (Jugador jugador : jugadores) {
+
+                    ComandoDecisionIniciarJuego comandoDecisionIniciarJuego
                             = new ComandoDecisionIniciarJuego(
-                                    jugador.getNombre(), 
+                                    jugador.getNombre(),
                                     MENSAJE_RECHAZO_INICIO_JUEGO,
                                     false);
 
                     fachada.enviarComando(comandoDecisionIniciarJuego);
-                    
-                    ComandoActualizarJugadoresInicioJuego comandoActualizarJugadoresInicioJuego 
+
+                    ComandoActualizarJugadoresInicioJuego comandoActualizarJugadoresInicioJuego
                             = new ComandoActualizarJugadoresInicioJuego(
-                                    jugador.getNombre(), 
+                                    jugador.getNombre(),
                                     jugadoresInicioJuego.size());
-                    
+
                     fachada.enviarComando(comandoActualizarJugadoresInicioJuego);
 
                 }
-                
+
             }
-            
-            
+
         }
-        
-        
+
     }
-    
-    private boolean jugadorExiste(String nombreJugador){
-        
+
+    //Métodos REGISTRAR JUGADOR JP
+    private void actualizarJugador(String nombre, String avatar) {
+        for (Jugador jugador : tablero.getJugadores()) {
+            if (jugador.getNombre().equals(nombre)) {
+                jugador.setAvatar(avatar);
+            }
+        }
+    }
+
+    private boolean validarRegistroJugadores(String avatar) {
+
+        // Validar que Tablero exista
+        if (tablero == null) {
+            return false;
+        }
+
+        // Recorrer jugadores ya creados en el tablero
+        for (Jugador jugador : tablero.getJugadores()) {
+
+            if (jugador.getAvatar() == null) {
+                continue;
+            }
+            // Validar avatar repetido
+            if (jugador.getAvatar().equalsIgnoreCase(avatar)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean jugadorExiste(String nombreJugador) {
+
         boolean jugadorExiste = false;
-        
-        for(Jugador jugador: jugadores){
-            
-            if(jugador.getNombre().equals(nombreJugador)){
+
+        for (Jugador jugador : jugadores) {
+
+            if (jugador.getNombre().equals(nombreJugador)) {
                 jugadorExiste = true;
             }
         }
-        
+
         return jugadorExiste;
     }
-    
-    private Jugador obtenerJugador(String nombreJugador){
-        
-        for(Jugador jugador: jugadores){
-            
-            if(jugador.getNombre().equals(nombreJugador)){
+
+    private Jugador obtenerJugador(String nombreJugador) {
+
+        for (Jugador jugador : jugadores) {
+
+            if (jugador.getNombre().equals(nombreJugador)) {
                 return jugador;
             }
         }
-        
+
         return null;
-        
+
     }
-    
-    
+
 }
