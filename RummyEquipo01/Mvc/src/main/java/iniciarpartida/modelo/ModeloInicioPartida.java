@@ -245,9 +245,23 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     public void enviarRegistro(String avatar, Map<Integer, Color> mapaColores) {
         this.setMapaColores(mapaColores);
         fachadaMvc.registrarJugador(nombreJugador, avatar);
-        notificar();
 
     }
+    
+    /***
+     * Método que sucede cuando el registro de jugador tuvo éxito. Se cambia el estado de jugador inscrito a true.
+     */
+    public void notificarRegistroJugador(){
+        this.jugadorRegistrado = true;
+        notificar();
+    }
+    
+    public void notificarRegistroJugadorFallido(String mensaje){
+        this.mensaje = mensaje;
+        notificar();
+    }
+    
+    
 
     //Configurar partida
     public void enviarDatos(int maximoNumeroFichas, int numeroComodines) {

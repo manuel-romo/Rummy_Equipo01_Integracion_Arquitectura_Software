@@ -12,6 +12,8 @@ import comandos.respuesta.ComandoDecisionIniciarJuego;
 import comandos.respuesta.ComandoNuevaSolicitudIniciarJuego;
 import comandos.respuesta.ComandoActualizarJugadoresInicioJuego;
 import comandos.respuesta.ComandoPartidaConfigurada;
+import comandos.respuesta.ComandoRegistroExitoso;
+import comandos.respuesta.ComandoRegistroFallido;
 import comandos.respuesta.ComandoRespuestaConfirmacionSolicitarFin;
 import comandos.respuesta.ComandoRespuestaIniciarJuego;
 import comandos.respuesta.ComandoRespuestaMovimiento;
@@ -373,6 +375,21 @@ public class FachadaMvc implements IFiltro {
                 }
 
                 modeloInicioPartida.notificarPartidaConfigurada(exito);
+                break;
+                
+            case TipoComando.COMANDO_REGISTRO_EXITOSO:
+                ComandoRegistroExitoso comandoRegistroExitoso = (ComandoRegistroExitoso) comando;
+
+                modeloInicioPartida.notificarRegistroJugador();
+                
+                break;
+                
+            case TipoComando.COMANDO_REGISTRO_FALLIDO:
+                ComandoRegistroFallido comandoRegistroFallido = (ComandoRegistroFallido) comando;
+
+                modeloInicioPartida.notificarRegistroJugadorFallido(comandoRegistroFallido.getMensaje());
+                
+                break;    
 
             default:
                 throw new AssertionError();
