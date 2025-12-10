@@ -66,10 +66,10 @@ public class FachadaMvc implements IFiltro {
 
     }
 
-    public void confirmarEnvioSolicitudInicioJuego(String nombreJugador, boolean confirmacion) {
+    public void confirmarEnvioSolicitudInicioJuego(String nombreJugador, boolean confirmacion,int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
 
         ComandoConfirmacionEnvioIniciarJuego comandoConfirmacionEnvioIniciarJuego
-                = new ComandoConfirmacionEnvioIniciarJuego(nombreJugador, confirmacion);
+                = new ComandoConfirmacionEnvioIniciarJuego(nombreJugador, confirmacion,MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
 
         filtroSiguiente.ejecutar(comandoConfirmacionEnvioIniciarJuego);
     }

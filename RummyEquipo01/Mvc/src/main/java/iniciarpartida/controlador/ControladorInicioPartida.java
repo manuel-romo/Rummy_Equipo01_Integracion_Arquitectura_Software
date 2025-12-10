@@ -27,8 +27,8 @@ public class ControladorInicioPartida {
         modelo.solicitarInicioJuego(MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
     }
 
-    public void confirmarEnvioSolicitudInicioJuego(boolean confirmacion) {
-        modelo.confirmarEnvioSolicitudInicioJuego(confirmacion);
+    public void confirmarEnvioSolicitudInicioJuego(boolean confirmacion,int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
+        modelo.confirmarEnvioSolicitudInicioJuego(confirmacion,MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
     }
 
     public void confirmarInicioJuego(boolean confirmacion,int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {

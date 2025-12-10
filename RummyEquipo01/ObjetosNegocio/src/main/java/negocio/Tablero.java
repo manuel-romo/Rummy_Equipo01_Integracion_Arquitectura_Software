@@ -69,8 +69,8 @@ public class Tablero {
 
     private int numeroGrupoActual = 0;
 
-    private  int MAXIMO_NUMERO_FICHA = 13;
-    private  int NUMERO_COMODINES = 2;
+    private  int MAXIMO_NUMERO_FICHA;
+    private  int NUMERO_COMODINES;
 
     private final String MENSAJE_CAMBIO_TURNO = "Ha iniciado el turno del jugador ";
     private final String MENSAJE_INICIO_TURNO = "¡Ha iniciado su turno!";

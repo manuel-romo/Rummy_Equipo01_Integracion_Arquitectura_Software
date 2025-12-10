@@ -303,7 +303,7 @@ public class PanelSalaEspera extends JPanel {
                         JOptionPane.QUESTION_MESSAGE
                 );
 
-                gestorEventos.confirmarEnvioSolicitudInicioJuego((respuesta == JOptionPane.OK_OPTION));
+                gestorEventos.confirmarEnvioSolicitudInicioJuego((respuesta == JOptionPane.OK_OPTION),1,1);
                 
             } else if(mensaje.startsWith(CODIGO_MENSAJE_ACEPTACION_INICIO)){
                 

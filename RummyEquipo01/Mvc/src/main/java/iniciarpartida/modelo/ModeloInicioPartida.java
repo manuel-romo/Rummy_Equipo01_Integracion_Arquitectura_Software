@@ -93,9 +93,9 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
 
     }
 
-    public void confirmarEnvioSolicitudInicioJuego(boolean confirmar) {
+    public void confirmarEnvioSolicitudInicioJuego(boolean confirmar,int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
 
-        fachadaMvc.confirmarEnvioSolicitudInicioJuego(nombreJugador, confirmar);
+        fachadaMvc.confirmarEnvioSolicitudInicioJuego(nombreJugador, confirmar,MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
 
     }
 

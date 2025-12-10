@@ -84,10 +84,11 @@ public class Partida {
 
                 ComandoConfirmacionEnvioIniciarJuego comandoConfirmacionEnvioIniciarJuego = (ComandoConfirmacionEnvioIniciarJuego) comando;
 
-//                enviarSolicitudInicioJuego(
-//                        comandoConfirmacionEnvioIniciarJuego.getNombreJugador(),
-//                        comandoConfirmacionEnvioIniciarJuego.isConfirmacion(),
-//                        comandoConfirmacionEnvioIniciarJuego.);
+                enviarSolicitudInicioJuego(
+                        comandoConfirmacionEnvioIniciarJuego.getNombreJugador(),
+                        comandoConfirmacionEnvioIniciarJuego.isConfirmacion(),
+                        comandoConfirmacionEnvioIniciarJuego.getMAXIMO_NUMERO_FICHAS(),
+                        comandoConfirmacionEnvioIniciarJuego.getNUMERO_COMODINES());
 
                 break;
 
@@ -95,9 +96,11 @@ public class Partida {
 
                 ComandoConfirmacionIniciarJuego comandoConfirmacionIniciarJuego = (ComandoConfirmacionIniciarJuego) comando;
 
-//                registrarConfirmacionInicioJuego(
-//                        comandoConfirmacionIniciarJuego.getNombreJugador(),
-//                        comandoConfirmacionIniciarJuego.isConfirmacion());
+                registrarConfirmacionInicioJuego(
+                        comandoConfirmacionIniciarJuego.getNombreJugador(),
+                        comandoConfirmacionIniciarJuego.isConfirmacion(), 
+                        comandoConfirmacionIniciarJuego.getMAXIMO_NUMERO_FICHAS(), 
+                        comandoConfirmacionIniciarJuego.getNUMERO_COMODINES());
 
                 break;
 
@@ -288,7 +291,7 @@ public class Partida {
 
     }
 
-    private void enviarSolicitudInicioJuego(String nombreJugador, boolean confirmacion) {
+    private void enviarSolicitudInicioJuego(String nombreJugador, boolean confirmacion, int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
 
         if (jugadorExiste(nombreJugador)) {
 

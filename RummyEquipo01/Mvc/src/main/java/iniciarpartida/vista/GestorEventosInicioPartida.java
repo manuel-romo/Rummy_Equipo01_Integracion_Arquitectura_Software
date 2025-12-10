@@ -15,8 +15,8 @@ public class GestorEventosInicioPartida implements IGestorEventosInicioPartida{
     }
 
     @Override
-    public void confirmarEnvioSolicitudInicioJuego(boolean confirmacion) {
-        receptorEventos.confirmarEnvioSolicitudInicioJuego(confirmacion);
+    public void confirmarEnvioSolicitudInicioJuego(boolean confirmacion,int MAXIMO_NUMERO_FICHAS,int NUMERO_COMODINES) {
+        receptorEventos.confirmarEnvioSolicitudInicioJuego(confirmacion,MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
     }
     @Override
     public void confirmarInicioJuego(boolean confirmacion,int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
