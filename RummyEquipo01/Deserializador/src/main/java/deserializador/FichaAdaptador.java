@@ -6,9 +6,9 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import dto.FichaComodinDTO;
-import dto.FichaDTO;
-import dto.FichaNormalDTO;
+import dtos.FichaComodinDTO;
+import dtos.FichaDTO;
+import dtos.FichaNormalDTO;
 import java.lang.reflect.Type;
 
 

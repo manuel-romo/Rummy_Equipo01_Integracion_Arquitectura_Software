@@ -39,7 +39,7 @@ import comandos.solicitud.ComandoSeleccionarFichasTablero;
 import comandos.solicitud.ComandoSolicitarFin;
 import comandos.solicitud.ComandoTerminarTurno;
 import comandos.solicitud.ComandoTomarFicha;
-import dto.FichaDTO;
+import dtos.FichaDTO;
 import interfaces.IFiltro;
 import interfaces.IReceptorExterno;
 import java.util.HashMap;

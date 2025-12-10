@@ -11,11 +11,6 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>Interfaces</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>InterfacesConexion</artifactId>
             <version>${project.version}</version>
         </dependency>
