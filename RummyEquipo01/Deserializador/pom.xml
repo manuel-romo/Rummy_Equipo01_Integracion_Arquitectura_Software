@@ -18,11 +18,12 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>Comandos</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>InterfacesPipesFilters</artifactId>
-            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.equipo01</groupId>
+                    <artifactId>Interfaces</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -32,6 +33,16 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>InterfacesConexion</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>InterfacesPipesFilters</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>Dtos</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

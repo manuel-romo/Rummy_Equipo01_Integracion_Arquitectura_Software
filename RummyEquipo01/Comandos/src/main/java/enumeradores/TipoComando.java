@@ -53,6 +53,10 @@ public enum TipoComando {
     COMANDO_RESPUESTA_INICIAR_JUEGO("ComandoRespuestaIniciarJuego"),
     COMANDO_ACTUALIZAR_JUGADORES_INICIO_JUEGO("ComandoActualizarJugadoresInicioJuego"),
     COMANDO_DECISION_INICIAR_JUEGO("ComandoDecisionIniciarJuego"),
+    //COMANDOS JP REGISTRAR JUGADOR
+    COMANDO_REGISTRO_EXITOSO("ComandoRegistroExitoso"),
+    COMANDO_REGISTRO_FALLIDO("ComandoRegistroFallido"),
+    COMANDO_REGISTRAR_JUGADOR("ComandoRegistrarJugador"),
     
     COMANDO_CARGAR_JUGADORES("ComandoCargarJugadores");
     

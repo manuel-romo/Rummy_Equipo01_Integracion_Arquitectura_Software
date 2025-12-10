@@ -15,6 +15,8 @@ import comandos.respuesta.ComandoJugadorAbandonoPartida;
 import comandos.respuesta.ComandoJugadorPartidaGanada;
 import comandos.respuesta.ComandoNuevaSolicitudIniciarJuego;
 import comandos.respuesta.ComandoPartidaGanada;
+import comandos.respuesta.ComandoRegistroExitoso;
+import comandos.respuesta.ComandoRegistroFallido;
 import comandos.respuesta.ComandoRespuestaAbandonar;
 import comandos.respuesta.ComandoRespuestaConfirmacionSolicitarFin;
 import comandos.respuesta.ComandoRespuestaIniciarJuego;
@@ -35,6 +37,7 @@ import comandos.solicitud.ComandoIniciarJuego;
 import comandos.solicitud.ComandoQuitarFichasJugador;
 import comandos.solicitud.ComandoQuitarFichasTablero;
 import comandos.solicitud.ComandoReestablecerTablero;
+import comandos.solicitud.ComandoRegistrarJugador;
 import comandos.solicitud.ComandoSeleccionarFichasTablero;
 import comandos.solicitud.ComandoSolicitarFin;
 import comandos.solicitud.ComandoTerminarTurno;
@@ -109,6 +112,11 @@ public class Deserializador implements IReceptorExterno{
         registroComandos.put("ComandoDecisionIniciarJuego", ComandoDecisionIniciarJuego.class);
         
         registroComandos.put("ComandoCargarJugadores", ComandoCargarJugadores.class);
+        //REGISTRO JUGADOR JP
+        registroComandos.put("ComandoRegistrarJugador", ComandoRegistrarJugador.class);
+        registroComandos.put("ComandoRegistroFallido", ComandoRegistroFallido.class);
+        registroComandos.put("ComandoRegistroExitoso", ComandoRegistroExitoso.class);
+        
         
     }
     
