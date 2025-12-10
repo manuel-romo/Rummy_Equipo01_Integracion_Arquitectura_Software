@@ -104,6 +104,7 @@ public class Deserializador implements IReceptorExterno {
         registroComandos.put("ComandoJugadorPartidaGanada", ComandoJugadorPartidaGanada.class);
 
         // SOLICITAR INICIO PARTIDA
+        registroComandos.put("ComandoIniciarPartida",ComandoIniciarJuego.class);
         registroComandos.put("ComandoIniciarJuego", ComandoIniciarJuego.class);
         registroComandos.put("ComandoConfirmacionIniciarJuego", ComandoConfirmacionIniciarJuego.class);
         registroComandos.put("ComandoConfirmacionEnvioIniciarJuego", ComandoConfirmacionEnvioIniciarJuego.class);
@@ -134,25 +135,37 @@ public class Deserializador implements IReceptorExterno {
      */
     private IComando deserializarRespuesta(String respuesta) {
         try {
+            if (respuesta == null || respuesta.trim().isEmpty()) {
+                System.err.println("Error: Recibido string vacío o nulo.");
+                return null;
+            }
 
             JsonObject objetoJson = JsonParser.parseString(respuesta).getAsJsonObject();
 
             if (!objetoJson.has("type")) {
-                return null;
+                System.err.println("Error: El JSON recibido no tiene campo 'type': " + respuesta);
+                return null; // <--- Causa 1
             }
 
             String type = objetoJson.get("type").getAsString();
 
+            // Imprime qué tipo llegó para depurar
+            System.out.println("Buscando comando tipo: '" + type + "'"); 
+
             Class<? extends IComando> claseComando = registroComandos.get(type);
 
             if (claseComando != null) {
-
                 return gson.fromJson(objetoJson, claseComando);
+            } else {
+                System.err.println("Error: El tipo '" + type + "' no existe en registroComandos.");
+                System.err.println("Tipos registrados disponibles: " + registroComandos.keySet());
+                return null; // <--- Causa 2 (La más probable)
             }
 
         } catch (JsonSyntaxException e) {
-            System.out.println(e.getMessage());
             System.err.println("Error al deserializar JSON: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error inesperado en deserializar: " + e.getMessage());
         }
         return null;
     }

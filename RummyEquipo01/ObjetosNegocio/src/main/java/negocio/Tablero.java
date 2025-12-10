@@ -168,7 +168,9 @@ public class Tablero {
         List<Ficha> fichasJugador = new ArrayList<>();
 
         if (monton.size() < cantidad) {
-            return null;
+            throw new RuntimeException("Error: No hay suficientes fichas en el montón. " +
+                                       "Disponibles: " + monton.size() + 
+                                       ", Solicitadas: " + cantidad);
         }
 
         Collections.shuffle(monton);

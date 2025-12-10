@@ -289,7 +289,7 @@ public class PanelSalaEspera extends JPanel {
                     JOptionPane.QUESTION_MESSAGE
                 );
 
-                gestorEventos.confirmarInicioJuego((respuesta == JOptionPane.OK_OPTION),1,1);
+                gestorEventos.confirmarInicioJuego((respuesta == JOptionPane.OK_OPTION),13,1);
                 
             } 
             
@@ -303,7 +303,7 @@ public class PanelSalaEspera extends JPanel {
                         JOptionPane.QUESTION_MESSAGE
                 );
 
-                gestorEventos.confirmarEnvioSolicitudInicioJuego((respuesta == JOptionPane.OK_OPTION),1,1);
+                gestorEventos.confirmarEnvioSolicitudInicioJuego((respuesta == JOptionPane.OK_OPTION),13,1);
                 
             } else if(mensaje.startsWith(CODIGO_MENSAJE_ACEPTACION_INICIO)){
                 

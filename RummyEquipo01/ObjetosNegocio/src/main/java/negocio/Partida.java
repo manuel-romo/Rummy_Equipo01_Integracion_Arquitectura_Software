@@ -72,12 +72,13 @@ public class Partida {
 
         switch (tipoComando) {
 
-            case TipoComando.COMANDO_INICIAR_JUEGO:
+            case TipoComando.COMANDO_INICIAR_PARTIDA:
 
                 ComandoIniciarJuego comandoIniciarJuego = (ComandoIniciarJuego) comando;
 
                 solicitarInicioJuego(comandoIniciarJuego.getNombreJugador());
-
+                
+                tablero.iniciarJuego(comandoIniciarJuego.getMAXIMO_NUMERO_FICHAS(), comandoIniciarJuego.getNUMERO_COMODINES());
                 break;
 
             case TipoComando.COMANDO_CONFIRMACION_ENVIO_INICIAR_JUEGO:

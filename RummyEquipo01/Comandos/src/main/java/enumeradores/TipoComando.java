@@ -45,6 +45,7 @@ public enum TipoComando {
     COMANDO_JUGADOR_PARTIDA_GANADA("ComandoJugadorPartidaGanada"),
     
     // COMANDOS INICIO JUEGO
+    COMANDO_INICIAR_PARTIDA("ComandoIniciarPartida"),
     COMANDO_INICIAR_JUEGO("ComandoIniciarJuego"),
     COMANDO_CONFIRMACION_INICIAR_JUEGO("ComandoConfirmacionIniciarJuego"),
     COMANDO_CONFIRMACION_ENVIO_INICIAR_JUEGO("ComandoConfirmacionEnvioIniciarJuego"),
