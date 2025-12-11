@@ -15,15 +15,17 @@ public class ComandoConfigurarPartida implements IComando {
     private String nombreJugador;
     private final int maximoNumeroFichas;
     private final int numeroComodines;
-    
+    private String ip;
+    private String puerto;
 
-    public ComandoConfigurarPartida(String nombreJugador, int maximoNumeroFichas, int numeroComodines) {
+    public ComandoConfigurarPartida(String nombreJugador, int maximoNumeroFichas, int numeroComodines, String ip, String puerto) {
         this.nombreJugador = nombreJugador;
         this.maximoNumeroFichas = maximoNumeroFichas;
         this.numeroComodines = numeroComodines;
+        this.ip = ip;
+        this.puerto = puerto;
     }
-    
-    
+ 
     @Override
     public String getTipo() {
         return tipo;
@@ -40,6 +42,14 @@ public class ComandoConfigurarPartida implements IComando {
 
     public int getNumeroComodines() {
         return numeroComodines;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public String getPuerto() {
+        return puerto;
     }
     
     

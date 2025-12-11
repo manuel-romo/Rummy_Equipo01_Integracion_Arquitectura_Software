@@ -21,6 +21,7 @@ public class ComandoPartidaConfigurada implements IComando {
         this.exito = exito;
         this.mensaje = mensaje;
     }
+    
 
     public Boolean getExito() {
         return exito;

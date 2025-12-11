@@ -193,8 +193,8 @@ public class FachadaMvc implements IFiltro {
     }
 
     //METODOS PEDRO CONFIGURAR PARTIDA
-    public void configurarPartida(int maximoNumeroFichas, int numeroComodines) {
-        ComandoConfigurarPartida comandoConfigurarPartida = new ComandoConfigurarPartida("JugadorHost", maximoNumeroFichas, numeroComodines);
+    public void configurarPartida(String nombreJugador, int maximoNumeroFichas, int numeroComodines, String ip, String puerto) {
+        ComandoConfigurarPartida comandoConfigurarPartida = new ComandoConfigurarPartida(nombreJugador, maximoNumeroFichas, numeroComodines, ip, puerto);
         filtroSiguiente.ejecutar(comandoConfigurarPartida);
     }
 

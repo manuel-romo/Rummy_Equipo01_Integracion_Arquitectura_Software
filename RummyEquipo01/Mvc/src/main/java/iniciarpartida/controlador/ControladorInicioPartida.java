@@ -51,8 +51,8 @@ public class ControladorInicioPartida {
     }
     
     //Método ConfigurarPartida
-    public void enviarRegistro(int maximoNumeroFichas, int numeroComodines){
-        modelo.enviarDatos(maximoNumeroFichas, numeroComodines);
+    public void enviarDatos(String nombreJugador, int maximoNumeroFichas, int numeroComodines){
+        modelo.enviarDatos(nombreJugador, maximoNumeroFichas, numeroComodines);
     }
     
 }

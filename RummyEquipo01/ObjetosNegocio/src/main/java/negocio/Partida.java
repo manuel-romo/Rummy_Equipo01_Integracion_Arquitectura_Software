@@ -1,9 +1,11 @@
 package negocio;
 
+import comandos.directorio.ComandoAgregarDireccionJugador;
 import comandos.respuesta.ComandoCargarJugadores;
 import comandos.respuesta.ComandoDecisionIniciarJuego;
 import comandos.respuesta.ComandoNuevaSolicitudIniciarJuego;
 import comandos.respuesta.ComandoActualizarJugadoresInicioJuego;
+import comandos.respuesta.ComandoPartidaConfigurada;
 import comandos.respuesta.ComandoRegistroExitoso;
 import comandos.respuesta.ComandoRegistroFallido;
 import comandos.respuesta.ComandoRespuestaIniciarJuego;
@@ -11,6 +13,7 @@ import comandos.solicitud.ComandoAbandonar;
 import comandos.solicitud.ComandoAgregarFichasJugador;
 import comandos.solicitud.ComandoAgregarFichasTablero;
 import comandos.solicitud.ComandoAgregarFichasTableroGrupo;
+import comandos.solicitud.ComandoConfigurarPartida;
 import comandos.solicitud.ComandoConfirmacionAbandonar;
 import comandos.solicitud.ComandoConfirmacionEnvioIniciarJuego;
 import comandos.solicitud.ComandoConfirmacionIniciarJuego;
@@ -47,6 +50,7 @@ public class Partida {
     private final String MENSAJE_NUEVA_SOLICITUD_INICIO_JUEGO = " quiere iniciar la partida. ¿Desea inicar?";
     private final String MENSAJE_INICIO_JUEGO = "¡La partida comenzará!";
     private final String MENSAJE_RECHAZO_INICIO_JUEGO = "No se ha aceptado el inicio de la partida";
+    private final String MENSAJE_PARTIDA_CONFIGURADA = "¡Partida configurada exitosamente!";
 
     public Partida(List<Jugador> jugadores) {
         this.jugadores = jugadores;
@@ -77,8 +81,8 @@ public class Partida {
                 ComandoIniciarJuego comandoIniciarJuego = (ComandoIniciarJuego) comando;
 
                 solicitarInicioJuego(comandoIniciarJuego.getNombreJugador());
-                
-                tablero.iniciarJuego(comandoIniciarJuego.getMAXIMO_NUMERO_FICHAS(), comandoIniciarJuego.getNUMERO_COMODINES());
+
+                tablero.iniciarJuego();
                 break;
 
             case TipoComando.COMANDO_CONFIRMACION_ENVIO_INICIAR_JUEGO:
@@ -99,8 +103,8 @@ public class Partida {
 
                 registrarConfirmacionInicioJuego(
                         comandoConfirmacionIniciarJuego.getNombreJugador(),
-                        comandoConfirmacionIniciarJuego.isConfirmacion(), 
-                        comandoConfirmacionIniciarJuego.getMAXIMO_NUMERO_FICHAS(), 
+                        comandoConfirmacionIniciarJuego.isConfirmacion(),
+                        comandoConfirmacionIniciarJuego.getMAXIMO_NUMERO_FICHAS(),
                         comandoConfirmacionIniciarJuego.getNUMERO_COMODINES());
 
                 break;
@@ -241,7 +245,20 @@ public class Partida {
                     IComando comandoRespuesta = new ComandoRegistroFallido(comandoRegistrarJugador.getNombreJugador(), "El avatar seleccionado ya está en uso");
                     fachada.enviarComando(comandoRespuesta);
                 }
-                  
+
+                break;
+            case TipoComando.COMANDO_CONFIGURAR_PARTIDA:
+                ComandoConfigurarPartida comandoConfigurarPartida = (ComandoConfigurarPartida) comando;
+                tablero.setMAXIMO_NUMERO_FICHA(comandoConfigurarPartida.getMaximoNumeroFichas());
+                tablero.setNUMERO_COMODINES(comandoConfigurarPartida.getNumeroComodines());
+
+                IComando comandoRespuesta = new ComandoPartidaConfigurada(comandoConfigurarPartida.getNombreJugador(),
+                        Boolean.TRUE, MENSAJE_PARTIDA_CONFIGURADA);
+                String [] direccion = {comandoConfigurarPartida.getIp(), comandoConfigurarPartida.getPuerto()};
+                IComando comandoAgregarJugador = new ComandoAgregarDireccionJugador(direccion, comandoConfigurarPartida.getNombreJugador());
+                fachada.enviarComando(comandoRespuesta);
+                fachada.enviarComando(comandoAgregarJugador);
+                tablero.iniciarJuego();
                 break;
             default:
                 throw new AssertionError();
@@ -352,7 +369,7 @@ public class Partida {
                     }
 
                     //TODO
-                    tablero.iniciarJuego(MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
+                    tablero.iniciarJuego();
 
                 } else {
 

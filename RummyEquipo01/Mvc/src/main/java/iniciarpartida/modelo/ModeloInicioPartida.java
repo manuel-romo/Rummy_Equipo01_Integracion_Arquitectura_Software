@@ -9,6 +9,10 @@ import iniciarpartida.dto.EstadoPartida;
 import iniciarpartida.dto.EtapaActual;
 import iniciarpartida.dto.JugadorInicioPartidaPresentacionDTO;
 import java.awt.Color;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -89,19 +93,19 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
 
     public void solicitarInicioJuego(int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
 
-        fachadaMvc.solicitarInicioJuego(MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
+        fachadaMvc.solicitarInicioJuego(MAXIMO_NUMERO_FICHAS, NUMERO_COMODINES);
 
     }
 
-    public void confirmarEnvioSolicitudInicioJuego(boolean confirmar,int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
+    public void confirmarEnvioSolicitudInicioJuego(boolean confirmar, int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
 
-        fachadaMvc.confirmarEnvioSolicitudInicioJuego(nombreJugador, confirmar,MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
+        fachadaMvc.confirmarEnvioSolicitudInicioJuego(nombreJugador, confirmar, MAXIMO_NUMERO_FICHAS, NUMERO_COMODINES);
 
     }
 
     public void confirmarInicioJuego(boolean confirmar, int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
 
-        fachadaMvc.confirmarInicioJuego(nombreJugador, confirmar,MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
+        fachadaMvc.confirmarInicioJuego(nombreJugador, confirmar, MAXIMO_NUMERO_FICHAS, NUMERO_COMODINES);
 
     }
 
@@ -247,28 +251,62 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
         fachadaMvc.registrarJugador(nombreJugador, avatar);
 
     }
-    
-    /***
-     * Método que sucede cuando el registro de jugador tuvo éxito. Se cambia el estado de jugador inscrito a true.
+
+    /**
+     * *
+     * Método que sucede cuando el registro de jugador tuvo éxito. Se cambia el
+     * estado de jugador inscrito a true.
      */
-    public void notificarRegistroJugador(){
+    public void notificarRegistroJugador() {
         this.jugadorRegistrado = true;
         notificar();
     }
-    
-    public void notificarRegistroJugadorFallido(String mensaje){
+
+    public void notificarRegistroJugadorFallido(String mensaje) {
         this.mensaje = mensaje;
         notificar();
     }
-    
-    
 
     //Configurar partida
-    public void enviarDatos(int maximoNumeroFichas, int numeroComodines) {
+    public void enviarDatos(String nombreJugador, int maximoNumeroFichas, int numeroComodines) {
         maximoNumeroFichas = this.maximoNumeroFicha;
         numeroComodines = this.numeroComodines;
-        fachadaMvc.configurarPartida(maximoNumeroFichas, numeroComodines);
+        fachadaMvc.configurarPartida(nombreJugador, maximoNumeroFichas, numeroComodines, obtenerIPsReales(), "51000");
         notificar();
+    }
+
+    //Obtener IP
+    public String obtenerIPsReales() {
+        StringBuilder ipsReales = new StringBuilder();
+
+        try {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+
+            while (interfaces.hasMoreElements()) {
+                NetworkInterface ni = interfaces.nextElement();
+
+                if (!ni.isUp() || ni.isLoopback() || ni.isVirtual()) {
+                    continue;
+                }
+
+                Enumeration<InetAddress> direcciones = ni.getInetAddresses();
+                while (direcciones.hasMoreElements()) {
+                    InetAddress addr = direcciones.nextElement();
+
+                    if (addr instanceof Inet4Address && !addr.isLoopbackAddress()) {
+                        ipsReales.append("IP real encontrada: ").append(addr.getHostAddress()).append("\n");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (ipsReales.length() == 0) {
+            return "No se encontró ninguna IP real.";
+        }
+
+        return ipsReales.toString();
     }
 
     @Override
