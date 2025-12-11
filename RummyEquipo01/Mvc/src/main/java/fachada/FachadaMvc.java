@@ -58,25 +58,25 @@ public class FachadaMvc implements IFiltro {
     private IFiltro filtroSiguiente;
 
     // Métodos de MVC Inicio partida.
-    public void solicitarInicioJuego(int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
+    public void solicitarInicioJuego() {
 
-        ComandoIniciarJuego comandoIniciarJuego = new ComandoIniciarJuego(MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
+        ComandoIniciarJuego comandoIniciarJuego = new ComandoIniciarJuego();
 
         filtroSiguiente.ejecutar(comandoIniciarJuego);
 
     }
 
-    public void confirmarEnvioSolicitudInicioJuego(String nombreJugador, boolean confirmacion,int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
+    public void confirmarEnvioSolicitudInicioJuego(String nombreJugador, boolean confirmacion) {
 
         ComandoConfirmacionEnvioIniciarJuego comandoConfirmacionEnvioIniciarJuego
-                = new ComandoConfirmacionEnvioIniciarJuego(nombreJugador, confirmacion,MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
+                = new ComandoConfirmacionEnvioIniciarJuego(nombreJugador,confirmacion);
 
         filtroSiguiente.ejecutar(comandoConfirmacionEnvioIniciarJuego);
     }
 
-    public void confirmarInicioJuego(String nombreJugador, boolean confirmacion,int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
+    public void confirmarInicioJuego(String nombreJugador, boolean confirmacion) {
 
-        ComandoConfirmacionIniciarJuego comandoConfirmacionIniciarJuego = new ComandoConfirmacionIniciarJuego(nombreJugador, confirmacion,MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
+        ComandoConfirmacionIniciarJuego comandoConfirmacionIniciarJuego = new ComandoConfirmacionIniciarJuego(nombreJugador, confirmacion);
 
         filtroSiguiente.ejecutar(comandoConfirmacionIniciarJuego);
 

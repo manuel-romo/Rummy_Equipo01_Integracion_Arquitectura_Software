@@ -91,21 +91,21 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
 
     }
 
-    public void solicitarInicioJuego(int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
+    public void solicitarInicioJuego() {
 
-        fachadaMvc.solicitarInicioJuego(MAXIMO_NUMERO_FICHAS, NUMERO_COMODINES);
-
-    }
-
-    public void confirmarEnvioSolicitudInicioJuego(boolean confirmar, int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
-
-        fachadaMvc.confirmarEnvioSolicitudInicioJuego(nombreJugador, confirmar, MAXIMO_NUMERO_FICHAS, NUMERO_COMODINES);
+        fachadaMvc.solicitarInicioJuego();
 
     }
 
-    public void confirmarInicioJuego(boolean confirmar, int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
+    public void confirmarEnvioSolicitudInicioJuego(boolean confirmar) {
 
-        fachadaMvc.confirmarInicioJuego(nombreJugador, confirmar, MAXIMO_NUMERO_FICHAS, NUMERO_COMODINES);
+        fachadaMvc.confirmarEnvioSolicitudInicioJuego(nombreJugador, confirmar);
+
+    }
+
+    public void confirmarInicioJuego(boolean confirmar) {
+
+        fachadaMvc.confirmarInicioJuego(nombreJugador, confirmar);
 
     }
 

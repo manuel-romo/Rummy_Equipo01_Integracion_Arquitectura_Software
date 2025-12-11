@@ -23,16 +23,16 @@ public class ControladorInicioPartida {
         modelo.iniciarSalaEspera();
     }
     
-    public void solicitarInicioJuego(int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
-        modelo.solicitarInicioJuego(MAXIMO_NUMERO_FICHAS, NUMERO_COMODINES);
+    public void solicitarInicioJuego() {
+        modelo.solicitarInicioJuego();
     }
 
-    public void confirmarEnvioSolicitudInicioJuego(boolean confirmacion,int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
-        modelo.confirmarEnvioSolicitudInicioJuego(confirmacion,MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
+    public void confirmarEnvioSolicitudInicioJuego(boolean confirmacion) {
+        modelo.confirmarEnvioSolicitudInicioJuego(confirmacion);
     }
 
-    public void confirmarInicioJuego(boolean confirmacion,int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
-        modelo.confirmarInicioJuego(confirmacion,MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
+    public void confirmarInicioJuego(boolean confirmacion) {
+        modelo.confirmarInicioJuego(confirmacion);
     }
     
     public void aceptarAceptacionInicioJuego(){

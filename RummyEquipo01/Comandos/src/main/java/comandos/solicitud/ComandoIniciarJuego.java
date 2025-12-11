@@ -12,23 +12,12 @@ import interfaces.IComando;
 public class ComandoIniciarJuego implements IComando{
     private String type = "ComandoIniciarPartida"; 
     private String nombreJugador;
-    private final int MAXIMO_NUMERO_FICHAS;
-    private final int NUMERO_COMODINES;
 
-    public ComandoIniciarJuego(int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
+    public ComandoIniciarJuego() {
         this.nombreJugador = nombreJugador;
-        this.MAXIMO_NUMERO_FICHAS = MAXIMO_NUMERO_FICHAS;
-        this.NUMERO_COMODINES = NUMERO_COMODINES;
     }
 
-    public int getMAXIMO_NUMERO_FICHAS() {
-        return MAXIMO_NUMERO_FICHAS;
-    }
 
-    public int getNUMERO_COMODINES() {
-        return NUMERO_COMODINES;
-    }
-    
     @Override
     public String getNombreJugador() {
         return nombreJugador;

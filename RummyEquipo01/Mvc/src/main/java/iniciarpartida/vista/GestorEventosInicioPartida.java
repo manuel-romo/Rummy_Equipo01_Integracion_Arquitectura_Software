@@ -10,17 +10,17 @@ public class GestorEventosInicioPartida implements IGestorEventosInicioPartida{
     private IReceptorEventosIniciarPartida receptorEventos;
     
     @Override
-    public void solicitarInicioJuego(int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
-        receptorEventos.solicitarInicioJuego(MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
+    public void solicitarInicioJuego() {
+        receptorEventos.solicitarInicioJuego();
     }
 
     @Override
-    public void confirmarEnvioSolicitudInicioJuego(boolean confirmacion,int MAXIMO_NUMERO_FICHAS,int NUMERO_COMODINES) {
-        receptorEventos.confirmarEnvioSolicitudInicioJuego(confirmacion,MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
+    public void confirmarEnvioSolicitudInicioJuego(boolean confirmacion) {
+        receptorEventos.confirmarEnvioSolicitudInicioJuego(confirmacion);
     }
     @Override
-    public void confirmarInicioJuego(boolean confirmacion,int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES) {
-        receptorEventos.confirmarInicioJuego(confirmacion,MAXIMO_NUMERO_FICHAS,NUMERO_COMODINES);
+    public void confirmarInicioJuego(boolean confirmacion) {
+        receptorEventos.confirmarInicioJuego(confirmacion);
     }
     
     @Override

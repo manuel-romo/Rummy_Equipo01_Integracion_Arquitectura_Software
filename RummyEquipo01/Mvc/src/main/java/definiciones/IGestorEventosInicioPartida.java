@@ -8,11 +8,11 @@ package definiciones;
  */
 public interface IGestorEventosInicioPartida {
     
-    public abstract void solicitarInicioJuego(int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES);
+    public abstract void solicitarInicioJuego();
     
-    public abstract void confirmarEnvioSolicitudInicioJuego(boolean confirmacion,int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES);
+    public abstract void confirmarEnvioSolicitudInicioJuego(boolean confirmacion);
     
-    public abstract void confirmarInicioJuego(boolean confirmacion,int MAXIMO_NUMERO_FICHAS, int NUMERO_COMODINES);
+    public abstract void confirmarInicioJuego(boolean confirmacion);
     
     public abstract void aceptarAceptacionInicioJuego();
     
