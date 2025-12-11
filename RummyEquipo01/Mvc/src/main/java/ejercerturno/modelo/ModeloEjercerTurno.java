@@ -87,10 +87,6 @@ public class ModeloEjercerTurno implements IPublicador, IModeloEjercerTurno{
      */
     private String nombreJugador;
     
-    public ModeloEjercerTurno(String nombreJugador){
-        this.nombreJugador = nombreJugador;
-    }
-    
     /**
      * Obtiene la lista de vistas suscritas al modelo.
      *

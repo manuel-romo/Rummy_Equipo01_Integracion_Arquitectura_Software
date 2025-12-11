@@ -16,7 +16,6 @@ public class ComandoRegistrarJugador implements IComando {
     private String nombreJugador;
     private String avatar;
     private String IP;
-    private String PORT;
 
     public ComandoRegistrarJugador(String nombreJugador, String avatar) {
         this.nombreJugador = nombreJugador;

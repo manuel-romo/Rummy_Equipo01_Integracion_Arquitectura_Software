@@ -58,6 +58,18 @@ public class FachadaMvc implements IFiltro {
     private IFiltro filtroSiguiente;
 
     // Métodos de MVC Inicio partida.
+
+    public void enviarRegistroJugador(String avatar, String nombreJugador) {
+        ComandoRegistrarJugador comandoRegistro = new ComandoRegistrarJugador(nombreJugador, avatar);
+        filtroSiguiente.ejecutar(comandoRegistro);
+    }
+
+    public void enviarDatosPartidaConfigurada(String nombreJugador, int maximoNumeroFichas, int numeroComodines, String ip, String puerto) {
+        ComandoConfigurarPartida comandoConfigurarPartida = new ComandoConfigurarPartida(nombreJugador, maximoNumeroFichas, numeroComodines, ip, puerto);
+        filtroSiguiente.ejecutar(comandoConfigurarPartida);
+    }
+    
+    
     public void solicitarInicioJuego() {
 
         ComandoIniciarJuego comandoIniciarJuego = new ComandoIniciarJuego();
@@ -184,18 +196,6 @@ public class FachadaMvc implements IFiltro {
 
         filtroSiguiente.ejecutar(comandoConfirmacionSolicitarFin);
 
-    }
-
-    //MÉTODOS JUAN P REGISTRAR JUGADOR
-    public void registrarJugador(String nombreJugador, String avatar) {
-        ComandoRegistrarJugador comandoRegistro = new ComandoRegistrarJugador(nombreJugador, avatar);
-        filtroSiguiente.ejecutar(comandoRegistro);
-    }
-
-    //METODOS PEDRO CONFIGURAR PARTIDA
-    public void configurarPartida(String nombreJugador, int maximoNumeroFichas, int numeroComodines, String ip, String puerto) {
-        ComandoConfigurarPartida comandoConfigurarPartida = new ComandoConfigurarPartida(nombreJugador, maximoNumeroFichas, numeroComodines, ip, puerto);
-        filtroSiguiente.ejecutar(comandoConfigurarPartida);
     }
 
     @Override
@@ -368,11 +368,8 @@ public class FachadaMvc implements IFiltro {
 
             case TipoComando.COMANDO_PARTIDA_CONFIGURADA:
                 ComandoPartidaConfigurada comandoPartidaConfigurada = (ComandoPartidaConfigurada) comando;
-                boolean exito = false;
-
-                if (comandoPartidaConfigurada.getExito()) {
-                    exito = true;
-                }
+                
+                boolean exito = comandoPartidaConfigurada.getExito();
 
                 modeloInicioPartida.notificarPartidaConfigurada(exito);
                 break;

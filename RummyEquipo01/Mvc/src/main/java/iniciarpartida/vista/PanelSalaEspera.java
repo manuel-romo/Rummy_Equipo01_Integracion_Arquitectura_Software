@@ -112,10 +112,7 @@ public class PanelSalaEspera extends JPanel {
     
     private IGestorEventosInicioPartida gestorEventos;
 
-    public PanelSalaEspera(IGestorEventosInicioPartida gestorEventos) {
-        
-        this.gestorEventos = gestorEventos;
-        
+    public PanelSalaEspera() { 
         configurarPanelPrincipal();
         actualizarPanelJugadores();
     }
@@ -378,4 +375,9 @@ public class PanelSalaEspera extends JPanel {
             super.paintComponent(g);
         }
     }
+
+    public void setGestorEventos(IGestorEventosInicioPartida gestorEventos) {
+        this.gestorEventos = gestorEventos;
+    }
+
 }

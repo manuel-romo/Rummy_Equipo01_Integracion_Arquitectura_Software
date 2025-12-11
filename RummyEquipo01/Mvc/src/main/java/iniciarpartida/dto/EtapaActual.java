@@ -8,8 +8,11 @@ package iniciarpartida.dto;
  */
 public enum EtapaActual {
     
+    INICIO,
+    REGISTRO_NOMBRE_JUGADOR,
+    CONFIGURACION_PARTIDA,
+    REGISTRO_JUGADOR,
     SALA_ESPERA;
-    
     
     
 }

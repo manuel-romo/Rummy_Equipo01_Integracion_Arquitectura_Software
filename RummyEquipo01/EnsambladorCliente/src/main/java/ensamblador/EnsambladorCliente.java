@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import ejercerturno.vista.GestorEventos;
 import ejercerturno.vista.IComponente;
 import ejercerturno.vista.IGestorEventos;
@@ -37,6 +36,10 @@ import serializador.Serializador;
 import servidor.ColaMensajesRecibidos;
 import servidor.Servidor;
 import definiciones.IReceptorEventosEjercerTurno;
+import iniciarpartida.vista.PanelConfiguracionPartida;
+import iniciarpartida.vista.PanelPrincipal;
+import iniciarpartida.vista.PanelRegistroJugador;
+import iniciarpartida.vista.PanelRegistroNombreJugador;
 
 /**
  *
@@ -45,6 +48,11 @@ import definiciones.IReceptorEventosEjercerTurno;
  */
 public class EnsambladorCliente {
 
+    private static final String PUERTO_SERVIDOR = "50000";
+    private static final String DIRECCION_IP_SERVIDOR = "127.0.0.1";
+    
+    private static final String PUERTO = "53000";
+    
     private static final int TOTAL_CASILLAS_TABLERO =500;
     private static final int TOTAL_CASILLAS_MANO = 14;
     
@@ -55,46 +63,62 @@ public class EnsambladorCliente {
 
         } catch (Exception e) {}
         
-        Scanner escaner = new Scanner(System.in);
-        System.out.print("Ingrese el nombre del Jugador: ");
-        String nombreJugador = escaner.nextLine();
-        
-        System.out.print("Ingrese la dirección IP del servidor: ");
-        String ipServidor = escaner.nextLine();
-        
-        String puertoCliente = null;
-        
-        String nombreJugador2 = "a";
-        String direccionImagenAvatarJugador2 = null;
-        
-        if(nombreJugador.equals("Francisco34")){
-            
-            puertoCliente = "51000";
-            
-            nombreJugador2 = "Sandy43";
-            direccionImagenAvatarJugador2 = "avatar2.png";
-        }
-        
-        if(nombreJugador.equals("Sandy43")){
-            
-            puertoCliente = "52000";
-            
-            nombreJugador2 = "Francisco34";
-            direccionImagenAvatarJugador2 = "avatar1.png";
-            
-        }
+//        Scanner escaner = new Scanner(System.in);
+//        System.out.print("Ingrese el nombre del Jugador: ");
+//        String nombreJugador = escaner.nextLine();
+//        
+//        System.out.print("Ingrese la dirección IP del servidor: ");
+//        String ipServidor = escaner.nextLine();
+//        
+//        String puertoCliente = null;
+//        
+//        String nombreJugador2 = "a";
+//        String direccionImagenAvatarJugador2 = null;
+//        
+//        if(nombreJugador.equals("Francisco34")){
+//            
+//            puertoCliente = "51000";
+//            
+//            nombreJugador2 = "Sandy43";
+//            direccionImagenAvatarJugador2 = "avatar2.png";
+//        }
+//        
+//        if(nombreJugador.equals("Sandy43")){
+//            
+//            puertoCliente = "52000";
+//            
+//            nombreJugador2 = "Francisco34";
+//            direccionImagenAvatarJugador2 = "avatar1.png";
+//            
+//        }
         
         // Inicialización de datos MVC inicio partida.
         
-        ModeloInicioPartida modeloInicioPartida = new ModeloInicioPartida(nombreJugador);
+        ModeloInicioPartida modeloInicioPartida = new ModeloInicioPartida();
         
         ControladorInicioPartida controladorInicioPartida = new ControladorInicioPartida(modeloInicioPartida);
         
         GestorEventosInicioPartida gestorEventosIniciarPartida = new GestorEventosInicioPartida();
         
-        PanelSalaEspera panelSalaEspera = new PanelSalaEspera(gestorEventosIniciarPartida);
+        PanelPrincipal panelPrincipal = new PanelPrincipal();
+        PanelRegistroNombreJugador panelRegistroNombreJugador = new PanelRegistroNombreJugador();
+        PanelConfiguracionPartida panelConfiguracionPartida = new PanelConfiguracionPartida();
+        PanelRegistroJugador panelRegistroJugador = new PanelRegistroJugador();
+        PanelSalaEspera panelSalaEspera = new PanelSalaEspera();
         
-        VistaInicioPartida vistaInicioPartida = new VistaInicioPartida(controladorInicioPartida, panelSalaEspera);
+        panelPrincipal.setGestorEventos(gestorEventosIniciarPartida);
+        panelRegistroNombreJugador.setGestorEventos(gestorEventosIniciarPartida);
+        panelConfiguracionPartida.setGestorEventos(gestorEventosIniciarPartida);
+        panelRegistroJugador.setGestorEventos(gestorEventosIniciarPartida);
+        panelSalaEspera.setGestorEventos(gestorEventosIniciarPartida);
+        
+        VistaInicioPartida vistaInicioPartida = new VistaInicioPartida(
+                controladorInicioPartida,
+                panelPrincipal,
+                panelRegistroNombreJugador,
+                panelConfiguracionPartida,
+                panelRegistroJugador,
+                panelSalaEspera);
         
         gestorEventosIniciarPartida.setReceptorEventos(vistaInicioPartida);
         
@@ -120,7 +144,7 @@ public class EnsambladorCliente {
         }
         
         IComponente panelJugadorPrincipal = new PanelJugadorPrincipal(panelesCasillaJugador);
-        IComponente panelJugadorExterno1 = new PanelJugadorExterno(PosicionPanel.CENTRO_ARRIBA, nombreJugador2, direccionImagenAvatarJugador2);
+        IComponente panelJugadorExterno1 = new PanelJugadorExterno(PosicionPanel.CENTRO_ARRIBA, "prueba1", "avatar1.png");
 //        IComponente panelJugadorExterno2 = new PanelJugadorExterno(PosicionPanel.DERECHA_CENTRO);
 //        IComponente panelJugadorExterno3 = new PanelJugadorExterno(PosicionPanel.IZQUIERDA_CENTRO);
         
@@ -150,7 +174,7 @@ public class EnsambladorCliente {
             mapaIdsCasillasPanelesTablero.put(i + 1, null);
         }
         
-        ModeloEjercerTurno modeloEjercerTurno = new ModeloEjercerTurno(nombreJugador);
+        ModeloEjercerTurno modeloEjercerTurno = new ModeloEjercerTurno();
         ControladorEjercerTurno controladorEjercerTurno = new ControladorEjercerTurno(modeloEjercerTurno);
         
         controladorInicioPartida.setControladorEjercerTurno(controladorEjercerTurno);
@@ -178,7 +202,7 @@ public class EnsambladorCliente {
         
         Serializador serializadorCliente = new Serializador();
 
-        DirectorioServidor directorioServidor = new DirectorioServidor(new String[]{ipServidor, "50000"});
+        DirectorioServidor directorioServidor = new DirectorioServidor(new String[]{DIRECCION_IP_SERVIDOR, PUERTO_SERVIDOR});
  
         ISuscriptor gestorConexiones = new GestorConexiones(); 
         
@@ -190,7 +214,7 @@ public class EnsambladorCliente {
         
         ColaMensajesRecibidos colaMensajesRecibidos = new ColaMensajesRecibidos();
         
-        Servidor servidor = new Servidor(Integer.valueOf(puertoCliente));
+        Servidor servidor = new Servidor(Integer.valueOf(PUERTO));
         
         servidor.setReceptor(colaMensajesRecibidos);
         
@@ -221,7 +245,7 @@ public class EnsambladorCliente {
         
         deserializadorCliente.setFiltroSiguiente(fachadaMvc);
         
-        modeloInicioPartida.iniciarSalaEspera();
+        modeloInicioPartida.iniciarInicio();
         
     }
 }

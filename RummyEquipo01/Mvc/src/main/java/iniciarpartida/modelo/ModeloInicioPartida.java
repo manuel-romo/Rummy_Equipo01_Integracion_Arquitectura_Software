@@ -9,13 +9,10 @@ import iniciarpartida.dto.EstadoPartida;
 import iniciarpartida.dto.EtapaActual;
 import iniciarpartida.dto.JugadorInicioPartidaPresentacionDTO;
 import java.awt.Color;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import utils.DireccionUtils;
 
 /**
  *
@@ -23,11 +20,12 @@ import java.util.Map;
  */
 public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
 
+    private String MENSAJE_ERROR_CONFIGURAR_PARTIDA = "Ha ocurrido un error al configurar la partida.";
     private FachadaMvc fachadaMvc;
 
     private String nombreJugador;
 
-    private Map<Integer, Color> mapaColores; //JP
+    private Map<Integer, Color> mapaColores;
     private boolean jugadorRegistrado = false;
 
     private List<ISuscriptor> suscriptores = new LinkedList<>();
@@ -41,7 +39,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     private EtapaActual etapaActual;
 
     private boolean vistaVisible;
-
+    
     //Pedro
     private int maximoNumeroFicha;
 
@@ -67,10 +65,42 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     private final String CODIGO_MENSAJE_ACEPTACION_INICIO = "AI: ";
     private final String CODIGO_MENSAJE_RECHAZO_INICIO = "RI: ";
 
-    public ModeloInicioPartida(String nombreJugador) {
-        this.nombreJugador = nombreJugador;
+    public void iniciarInicio(){
+        
+        vistaVisible = true;
+        etapaActual = EtapaActual.INICIO;
+        notificar();
+        
     }
-
+    
+    public void iniciarRegistroNombreJugador(){
+        
+        vistaVisible = true;
+        etapaActual = EtapaActual.REGISTRO_NOMBRE_JUGADOR;
+        notificar();
+        
+    }
+    
+    public void iniciarConfiguracionPartida(String nombreJugador){
+        
+        this.nombreJugador = nombreJugador;
+        vistaVisible = true;
+        etapaActual = EtapaActual.CONFIGURACION_PARTIDA;
+        
+        notificar();
+        
+    }
+    
+    public void iniciarRegistroJugador(){
+        
+        vistaVisible = true;
+        etapaActual = EtapaActual.REGISTRO_JUGADOR;
+        
+        notificar();
+        
+    }
+            
+     
     public void iniciarSalaEspera() {
 
         vistaVisible = true;
@@ -91,6 +121,29 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
 
     }
 
+
+    // Registro de nombre de jugador
+    public void registrarNombreJugador(String nombre){
+        
+    }
+    
+    // Registro de configuración de partida
+    public void enviarDatosPartidaConfigurada(int maximoNumeroFichas, int numeroComodines){
+        fachadaMvc.enviarDatosPartidaConfigurada(
+                nombreJugador, 
+                maximoNumeroFichas, 
+                numeroComodines, 
+                DireccionUtils.obtenerIPsReales(), 
+                DireccionUtils.PUERTO);
+    }
+    
+    // Envío de registro de jugador
+    public void enviarRegistroJugador(String avatar, Map<Integer, Color> mapaColores) {
+        this.setMapaColores(mapaColores);
+        fachadaMvc.enviarRegistroJugador(nombreJugador, avatar);
+    }
+
+    // Solicitud de inicio de juego
     public void solicitarInicioJuego() {
 
         fachadaMvc.solicitarInicioJuego();
@@ -156,12 +209,20 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
             notificarAceptacionIniciarJuego(mensaje);
         } else {
             notificarRechazoIniciarJuego(mensaje);
+            nombreJugador = null;
         }
 
     }
 
     public void notificarPartidaConfigurada(boolean exito) {
-        estadoPartida = exito ? EstadoPartida.CONFIGURADA : EstadoPartida.ERROR;
+        if(exito){
+            estadoPartida = EstadoPartida.CONFIGURADA;
+            
+        } else{
+            estadoPartida = EstadoPartida.ERROR;
+            mensaje = MENSAJE_ERROR_CONFIGURAR_PARTIDA;
+        }
+
         notificar();
     }
 
@@ -246,12 +307,6 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
         this.fachadaMvc = fachadaMvc;
     }
 
-    public void enviarRegistro(String avatar, Map<Integer, Color> mapaColores) {
-        this.setMapaColores(mapaColores);
-        fachadaMvc.registrarJugador(nombreJugador, avatar);
-
-    }
-
     /**
      * *
      * Método que sucede cuando el registro de jugador tuvo éxito. Se cambia el
@@ -265,48 +320,6 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     public void notificarRegistroJugadorFallido(String mensaje) {
         this.mensaje = mensaje;
         notificar();
-    }
-
-    //Configurar partida
-    public void enviarDatos(String nombreJugador, int maximoNumeroFichas, int numeroComodines) {
-        maximoNumeroFichas = this.maximoNumeroFicha;
-        numeroComodines = this.numeroComodines;
-        fachadaMvc.configurarPartida(nombreJugador, maximoNumeroFichas, numeroComodines, obtenerIPsReales(), "51000");
-        notificar();
-    }
-
-    //Obtener IP
-    public String obtenerIPsReales() {
-        StringBuilder ipsReales = new StringBuilder();
-
-        try {
-            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-
-            while (interfaces.hasMoreElements()) {
-                NetworkInterface ni = interfaces.nextElement();
-
-                if (!ni.isUp() || ni.isLoopback() || ni.isVirtual()) {
-                    continue;
-                }
-
-                Enumeration<InetAddress> direcciones = ni.getInetAddresses();
-                while (direcciones.hasMoreElements()) {
-                    InetAddress addr = direcciones.nextElement();
-
-                    if (addr instanceof Inet4Address && !addr.isLoopbackAddress()) {
-                        ipsReales.append("IP real encontrada: ").append(addr.getHostAddress()).append("\n");
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (ipsReales.length() == 0) {
-            return "No se encontró ninguna IP real.";
-        }
-
-        return ipsReales.toString();
     }
 
     @Override

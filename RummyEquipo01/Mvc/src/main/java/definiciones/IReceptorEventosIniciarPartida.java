@@ -1,6 +1,9 @@
 
 package definiciones;
 
+import java.awt.Color;
+import java.util.Map;
+
 /**
  *
  * @author Romo López Manuel
@@ -8,6 +11,22 @@ package definiciones;
  */
 public interface IReceptorEventosIniciarPartida {
     
+    public abstract void iniciarRegistroNombreJugador();
+    
+    // Registrar nombre de jugador
+    public void registrarNombreJugador(String nombre);
+    
+    // Configurar partida
+    public abstract void enviarDatosConfigurarPartida(int maximoFichas, int numeroComodines);
+    
+    public abstract void cancelarConfiguracionPartida();
+    
+    // Registro de jugador
+    public abstract void iniciarRegistroJugador();
+    
+    public abstract void enviarRegistroJugador(String avatarSeleccionado, Map<Integer, Color> mapaColores);
+    
+    // Solicitar inicio de juego
     public abstract void solicitarInicioJuego();
     
     public abstract void confirmarEnvioSolicitudInicioJuego(boolean confirmacion);
@@ -15,5 +34,7 @@ public interface IReceptorEventosIniciarPartida {
     public abstract void confirmarInicioJuego(boolean confirmacion);
     
     public abstract void aceptarAceptacionInicioJuego();
+    
+    
     
 }

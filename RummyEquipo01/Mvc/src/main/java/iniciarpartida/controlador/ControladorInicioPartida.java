@@ -19,6 +19,34 @@ public class ControladorInicioPartida {
         this.modelo = modelo;
     }  
     
+    public void iniciarRegistroNombreJugador() {
+        modelo.iniciarRegistroNombreJugador();
+    }
+    
+    // Registrar nombre de jugador
+    public void registrarNombreJugador(String nombre){
+        modelo.iniciarConfiguracionPartida(nombre);
+    }
+    
+    // Configurar partida
+    public void enviarDatosPartidaConfigurada(int maximoNumeroFichas, int numeroComodines){
+        modelo.enviarDatosPartidaConfigurada(maximoNumeroFichas, numeroComodines);
+    }
+    
+    public void cancelarConfiguracionPartida() {
+        modelo.iniciarInicio();
+    }
+    
+    // Registrar jugador
+    public void iniciarRegistroJugador(){
+        modelo.iniciarRegistroJugador();
+    }
+    
+    public void enviarRegistroJugador(String avatar, Map<Integer,Color> mapaColores){
+        modelo.enviarRegistroJugador(avatar, mapaColores);
+    }
+    
+    // Solicitar inicio de juego
     public void iniciarSalaEspera(){
         modelo.iniciarSalaEspera();
     }
@@ -42,17 +70,6 @@ public class ControladorInicioPartida {
 
     public void setControladorEjercerTurno(ControladorEjercerTurno controladorEjercerTurno) {
         this.controladorEjercerTurno = controladorEjercerTurno;
-    }
-    
-    
-    //Método Juan P
-    public void enviarRegistro(String avatar, Map<Integer,Color> mapaColores){
-        modelo.enviarRegistro(avatar, mapaColores);
-    }
-    
-    //Método ConfigurarPartida
-    public void enviarDatos(String nombreJugador, int maximoNumeroFichas, int numeroComodines){
-        modelo.enviarDatos(nombreJugador, maximoNumeroFichas, numeroComodines);
     }
     
 }
