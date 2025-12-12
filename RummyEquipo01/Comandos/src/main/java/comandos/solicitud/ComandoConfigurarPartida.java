@@ -11,7 +11,7 @@ import interfaces.IComando;
  * @author pedro
  */
 public class ComandoConfigurarPartida implements IComando {
-    private final String tipo = "ComandoConfigurarPartida";
+    private final String type = "ComandoConfigurarPartida";
     private String nombreJugador;
     private final int maximoNumeroFichas;
     private final int numeroComodines;
@@ -28,7 +28,7 @@ public class ComandoConfigurarPartida implements IComando {
  
     @Override
     public String getTipo() {
-        return tipo;
+        return type;
     }
 
     @Override

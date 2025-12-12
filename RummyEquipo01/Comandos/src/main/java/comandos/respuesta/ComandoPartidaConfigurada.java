@@ -8,7 +8,7 @@ import interfaces.IComando;
  * @author pedro
  */
 public class ComandoPartidaConfigurada implements IComando {
-    private String tipo = "ComandoPartidaConfigurada";
+    private String type = "ComandoPartidaConfigurada";
     private String nombreJugador;
     private Boolean exito;
     private String mensaje;
@@ -26,7 +26,7 @@ public class ComandoPartidaConfigurada implements IComando {
     
     @Override
     public String getTipo() {
-        return tipo;
+        return type;
     }
 
     @Override
