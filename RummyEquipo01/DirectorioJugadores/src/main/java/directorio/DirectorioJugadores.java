@@ -7,23 +7,26 @@ import interfaces.IDispatcher;
 import interfaces.IFiltro;
 import java.util.Map;
 import interfaces.IComando;
+import java.util.HashMap;
 
 /**
  *
- * Filtro encargado de enviar el mensaje de un comando envolvente a la
- * dirección del jugador correspondiente. 
- * 
- * 
- * 
+ * Filtro encargado de enviar el mensaje de un comando envolvente a la dirección
+ * del jugador correspondiente.
+ *
+ *
+ *
  * @author ramon
  */
 public class DirectorioJugadores implements IFiltro {
 
-    private Map<String, String[]> jugadoresDirecciones =
-    Map.of(
-        "Francisco34", new String[]{"127.0.0.1", "51000"},
-        "Sandy43", new String[]{"127.0.0.1", "52000"}
-    );
+    private Map<String, String[]> jugadoresDirecciones = new HashMap<>();
+
+    public DirectorioJugadores() {
+        jugadoresDirecciones.put("Francisco34", new String[]{"127.0.0.1", "51000"});
+        jugadoresDirecciones.put("Sandy43", new String[]{"127.0.0.1", "52000"});
+    }
+
     private IDispatcher dispatcher;
 
     public void agregarJugador(String nombreJugador, String[] direccion) {
@@ -33,18 +36,18 @@ public class DirectorioJugadores implements IFiltro {
     public void setDispatcher(IDispatcher dispatcher) {
         this.dispatcher = dispatcher;
     }
-    
-    private void agregarDireccionNombreJugador(String nombreJugador, String[] direccionJugador){
-        
+
+    private void agregarDireccionNombreJugador(String nombreJugador, String[] direccionJugador) {
+
         jugadoresDirecciones.put(nombreJugador, direccionJugador);
-        
+
     }
 
     @Override
     public void ejecutar(IComando comando) {
-        
+
         TipoComando tipoComando = TipoComando.fromNombre(comando.getTipo());
-        
+
         switch (tipoComando) {
 
             case TipoComando.COMANDO_AGREGAR_DIRECCION_JUGADOR:
@@ -53,6 +56,7 @@ public class DirectorioJugadores implements IFiltro {
 
                 agregarDireccionNombreJugador(comandoAgregarDireccionJugador.getNombreJugador(), comandoAgregarDireccionJugador.getDireccion());
 
+                System.out.println("Se agrego la dirección ip: " + comandoAgregarDireccionJugador.getDireccion());
                 break;
 
             case TipoComando.COMANDO_ENVOLVENTE:

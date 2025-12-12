@@ -252,8 +252,10 @@ public class Partida {
                         Boolean.TRUE, MENSAJE_PARTIDA_CONFIGURADA);
                 String [] direccion = {comandoConfigurarPartida.getIp(), comandoConfigurarPartida.getPuerto()};
                 IComando comandoAgregarJugador = new ComandoAgregarDireccionJugador(direccion, comandoConfigurarPartida.getNombreJugador());
-                fachada.enviarComando(comandoRespuesta);
                 fachada.enviarComando(comandoAgregarJugador);
+                System.out.println("Se envió el agg jugador con la dirección " + direccion);
+                fachada.enviarComando(comandoRespuesta);
+                System.out.println("Se envió el comando respuesta");
                 tablero.iniciarJuego();
                 break;
             default:
