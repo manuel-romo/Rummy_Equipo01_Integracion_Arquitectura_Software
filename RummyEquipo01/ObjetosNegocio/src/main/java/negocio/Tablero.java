@@ -38,7 +38,6 @@ import enumeradores.TipoComando;
 import excepciones.RummyException;
 import fabrica.FabricaGrupos;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -69,8 +68,8 @@ public class Tablero {
 
     private int numeroGrupoActual = 0;
 
-    private int MAXIMO_NUMERO_FICHA = 13;
-    private int NUMERO_COMODINES = 2;
+    private int maximoNumeroFichas = 13;
+    private int numeroComodines = 2;
 
     private final String MENSAJE_CAMBIO_TURNO = "Ha iniciado el turno del jugador ";
     private final String MENSAJE_INICIO_TURNO = "¡Ha iniciado su turno!";
@@ -94,10 +93,13 @@ public class Tablero {
     private final String MENSAJE_PARTIDA_GANADA = "¡Has ganado la partida!";
     private final String MENSAJE_JUGADOR_PARTIDA_GANADA = " ha ganado la partida.";
 
-    public List<Jugador> getJugadores() {
-        return jugadores;
+    public Tablero(List<Jugador> jugadores, int maximoNimeroFichas, int numeroComodines){
+        
+        this.jugadores = jugadores;
+        this.maximoNumeroFichas = maximoNimeroFichas;
+        this.numeroComodines = numeroComodines;
     }
-
+    
     public void iniciarJuego() {
         ColorFicha[] ordenColores = {
             ColorFicha.COLOR_A, ColorFicha.COLOR_A,
@@ -108,7 +110,7 @@ public class Tablero {
 
         List<Ficha> fichasMonton = new LinkedList<>();
         int id = 1;
-        for (ColorFicha color : ordenColores) {
+        for (ColorFicha color: ordenColores) {
             id = fichasMonton.size() + 1;
             crearMonton(id, fichasMonton, color);
         }
@@ -117,16 +119,15 @@ public class Tablero {
 
         this.fichas.addAll(fichasMonton);
 
-        List<Ficha> fichasJugador1 = repartirMano(fichasMonton, 14);
-        List<Ficha> fichasJugador2 = repartirMano(fichasMonton, 14);
+        for (Jugador jugador : jugadores) {
+        
+            List<Ficha> mano = repartirMano(fichasMonton, 14);
+
+            jugador.setFichas(mano); 
+        }
 
         monton = new Monton(fichasMonton);
 
-        Jugador jugador1 = new Jugador("avatar1.png", "Francisco34", true, fichasJugador1);
-
-        Jugador jugador2 = new Jugador("avatar2.png", "Sandy43", true, fichasJugador2);
-
-        jugadores = new LinkedList<>(Arrays.asList(jugador1, jugador2));
         Collections.shuffle(jugadores);
 
         jugadorTurno = jugadores.getFirst();
@@ -140,21 +141,21 @@ public class Tablero {
     }
 
     public void crearMonton(int idInicial, List<Ficha> lista, ColorFicha color) {
-        for (int i = 1; i <= MAXIMO_NUMERO_FICHA; i++) {
+        for (int i = 1; i <= maximoNumeroFichas; i++) {
             lista.add(new FichaNormal(idInicial, color, false, i));
             idInicial++;
         }
     }
 
     public List<Ficha> crearFichasComodines(int id, List<Ficha> fichasMonton) {
-        for (int i = 0; i < NUMERO_COMODINES; i++) {
+        for (int i = 0; i < numeroComodines; i++) {
             fichasMonton.add(new FichaComodin(id, ColorFicha.COLOR_COMODIN, true, "*"));
             id++;
         }
         return fichasMonton;
     }
 
-    public static List<Ficha> repartirMano(List<Ficha> monton, int cantidad) {
+    public List<Ficha> repartirMano(List<Ficha> monton, int cantidad) {
 
         List<Ficha> fichasJugador = new ArrayList<>();
 
@@ -421,11 +422,10 @@ public class Tablero {
 
             Grupo grupo;
             try {
-                grupo = FabricaGrupos.crearGrupo(
-                        ++numeroGrupoActual,
+                grupo = FabricaGrupos.crearGrupo(++numeroGrupoActual,
                         fichasAgregar,
                         esPrimerTurno,
-                        MAXIMO_NUMERO_FICHA);
+                        maximoNumeroFichas);
             } catch (RummyException ex) {
 
                 ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
@@ -513,11 +513,10 @@ public class Tablero {
                     fichasFusionadas.addAll(fichasAgregar);
                     fichasFusionadas.addAll(segundoGrupoAgregar.getFichas());
 
-                    Grupo nuevoGrupoUnificado = FabricaGrupos.crearGrupo(
-                            ++numeroGrupoActual,
+                    Grupo nuevoGrupoUnificado = FabricaGrupos.crearGrupo(++numeroGrupoActual,
                             fichasFusionadas,
                             esPrimerTurnoJugador(nombreJugador),
-                            MAXIMO_NUMERO_FICHA);
+                            maximoNumeroFichas);
 
                     if (nuevoGrupoUnificado == null) {
                         ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
@@ -560,11 +559,10 @@ public class Tablero {
                     fichasFusionadas.addAll(primerGrupoAgregar.getFichas());
                     fichasFusionadas.addAll(fichasAgregar);
 
-                    Grupo nuevoGrupoUnificado = FabricaGrupos.crearGrupo(
-                            ++numeroGrupoActual,
+                    Grupo nuevoGrupoUnificado = FabricaGrupos.crearGrupo(++numeroGrupoActual,
                             fichasFusionadas,
                             esPrimerTurnoJugador(nombreJugador),
-                            MAXIMO_NUMERO_FICHA);
+                            maximoNumeroFichas);
 
                     if (nuevoGrupoUnificado == null) {
                         ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
@@ -606,11 +604,10 @@ public class Tablero {
                     fichasFusionadas.addAll(fichasAgregar);
                     fichasFusionadas.addAll(segundoGrupoAgregar.getFichas());
 
-                    Grupo nuevoGrupoUnificado = FabricaGrupos.crearGrupo(
-                            ++numeroGrupoActual,
+                    Grupo nuevoGrupoUnificado = FabricaGrupos.crearGrupo(++numeroGrupoActual,
                             fichasFusionadas,
                             esPrimerTurnoJugador(nombreJugador),
-                            MAXIMO_NUMERO_FICHA);
+                            maximoNumeroFichas);
 
                     if (nuevoGrupoUnificado == null) {
                         ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
@@ -757,7 +754,7 @@ public class Tablero {
             for (List<Ficha> subgrupo : subgruposResultantes) {
                 if (!subgrupo.isEmpty()) {
 
-                    Grupo.validarCreacionGrupo(subgrupo, false, MAXIMO_NUMERO_FICHA);
+                    Grupo.validarCreacionGrupo(subgrupo, false, maximoNumeroFichas);
                 }
             }
         } catch (RummyException ex) {
@@ -779,11 +776,10 @@ public class Tablero {
 
                 try {
 
-                    Grupo nuevoGrupo = FabricaGrupos.crearGrupo(
-                            ++numeroGrupoActual,
+                    Grupo nuevoGrupo = FabricaGrupos.crearGrupo(++numeroGrupoActual,
                             subgrupo,
                             false,
-                            MAXIMO_NUMERO_FICHA
+                            maximoNumeroFichas
                     );
 
                     this.grupos.add(nuevoGrupo);
@@ -851,11 +847,10 @@ public class Tablero {
                 List<Ficha> copiaFichas = new LinkedList<>(grupo.getFichas());
 
                 try {
-                    Grupo grupoCopia = FabricaGrupos.crearGrupo(
-                            grupo.getNumero(),
+                    Grupo grupoCopia = FabricaGrupos.crearGrupo(grupo.getNumero(),
                             copiaFichas,
                             false,
-                            MAXIMO_NUMERO_FICHA);
+                            maximoNumeroFichas);
 
                     gruposInicialesTurno.add(grupoCopia);
 
@@ -1315,12 +1310,12 @@ public class Tablero {
         this.fachadaTablero = fachadaTablero;
     }
 
-    public void setMAXIMO_NUMERO_FICHA(int MAXIMO_NUMERO_FICHA) {
-        this.MAXIMO_NUMERO_FICHA = MAXIMO_NUMERO_FICHA;
+    public void setMaximoNumeroFichas(int maximoNumeroFichas) {
+        this.maximoNumeroFichas = maximoNumeroFichas;
     }
 
-    public void setNUMERO_COMODINES(int NUMERO_COMODINES) {
-        this.NUMERO_COMODINES = NUMERO_COMODINES;
+    public void setNumeroComodines(int numeroComodines) {
+        this.numeroComodines = numeroComodines;
     }
 
 }

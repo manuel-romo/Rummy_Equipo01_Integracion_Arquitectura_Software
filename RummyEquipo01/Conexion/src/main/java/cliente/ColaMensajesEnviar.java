@@ -39,7 +39,7 @@ public class ColaMensajesEnviar implements IDispatcher, Runnable{
         }
         
 
-        if (puerto < 1 || puerto > 65535) {
+        if (puerto < 0 || puerto > 65535) {
             System.err.println("Error de validación: El puerto " + puerto + " está fuera de rango (1-65535). Descartando mensaje.");
             return;
         }

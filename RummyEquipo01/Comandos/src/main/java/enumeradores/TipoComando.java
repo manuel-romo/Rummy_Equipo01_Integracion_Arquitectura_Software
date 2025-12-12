@@ -45,7 +45,6 @@ public enum TipoComando {
     COMANDO_JUGADOR_PARTIDA_GANADA("ComandoJugadorPartidaGanada"),
     
     // COMANDOS INICIO JUEGO
-    COMANDO_INICIAR_PARTIDA("ComandoIniciarPartida"),
     COMANDO_INICIAR_JUEGO("ComandoIniciarJuego"),
     COMANDO_CONFIRMACION_INICIAR_JUEGO("ComandoConfirmacionIniciarJuego"),
     COMANDO_CONFIRMACION_ENVIO_INICIAR_JUEGO("ComandoConfirmacionEnvioIniciarJuego"),
@@ -63,7 +62,13 @@ public enum TipoComando {
     
     //COMANDOS PEDRO CONFIGURAR PARTIDA
     COMANDO_CONFIGURAR_PARTIDA("ComandoConfigurarPartida"),
-    COMANDO_PARTIDA_CONFIGURADA("ComandoPartidaConfigurada");
+    COMANDO_PARTIDA_CONFIGURADA("ComandoPartidaConfigurada"),
+    
+    // COMANDOS UNIRSE PARTIDA
+    COMANDO_UNIRSE_PARTIDA("ComandoUnirsePartida"),
+    COMANDO_RESPUESTA_UNIRSE_PARTIDA("ComandoRespuestaUnirsePartida"),
+    COMANDO_CONFIRMACION_UNIRSE_PARTIDA("ComandoConfirmacionUnirsePartida"),
+    COMANDO_RESPUESTA_CONFIRMACION_UNIRSE_PARTIDA("ComandoRespuestaConfirmacionUnirsePartida");
     
 
     private final String nombre;

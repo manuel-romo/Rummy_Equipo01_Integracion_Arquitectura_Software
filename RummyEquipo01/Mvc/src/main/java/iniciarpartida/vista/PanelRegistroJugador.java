@@ -257,7 +257,7 @@ public class PanelRegistroJugador extends JPanel {
                 Image img = icon.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH);
                 return new ImageIcon(img);
             } else {
-                java.awt.image.BufferedImage bi = new BufferedImage(w, h, java.awt.image.BufferedImage.TYPE_INT_ARGB);
+                BufferedImage bi = new BufferedImage(w, h, java.awt.image.BufferedImage.TYPE_INT_ARGB);
                 return new ImageIcon(bi);
             }
         } catch (Exception e) {

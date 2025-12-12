@@ -19,10 +19,10 @@ import javax.swing.JPanel;
 
 public class PanelPrincipal extends JPanel {
 
-    private final Color COLOR_FONDO = new Color(30, 152, 198); // Azul fondo principal
-    private final Color COLOR_AMARILLO_PANEL = new Color(255, 232, 151); // Amarillo del panel central
-    private final Color COLOR_BOTON_CREAR = new Color(30, 152, 198); // Azul (igual al fondo)
-    private final Color COLOR_BOTON_UNIRSE = new Color(220, 80, 80); // Rojo suave
+    private final Color COLOR_FONDO = new Color(30, 152, 198);
+    private final Color COLOR_AMARILLO_PANEL = new Color(255, 232, 151);
+    private final Color COLOR_BOTON_CREAR = new Color(30, 152, 198);
+    private final Color COLOR_BOTON_UNIRSE = new Color(220, 80, 80);
     private final Color COLOR_TEXTO_BLANCO = Color.WHITE;
     
     private final Font FUENTE_BOTON = new Font("Arial", Font.BOLD, 20);
@@ -60,7 +60,7 @@ public class PanelPrincipal extends JPanel {
         
         BotonBordesRedondeados btnCrear = new BotonBordesRedondeados(TEXTO_CREAR, COLOR_BOTON_CREAR);
         btnCrear.setPreferredSize(new Dimension(ANCHO_BOTON, ALTO_BOTON));
-        btnCrear.addActionListener(e -> gestorEventos.iniciarRegistroNombreJugador());
+        btnCrear.addActionListener(e -> gestorEventos.iniciarCreacionPartida());
 
         GridBagConstraints gbcBtn = new GridBagConstraints();
         gbcBtn.gridx = 0; 
@@ -70,7 +70,7 @@ public class PanelPrincipal extends JPanel {
 
         BotonBordesRedondeados btnUnirse = new BotonBordesRedondeados(TEXTO_UNIRSE, COLOR_BOTON_UNIRSE);
         btnUnirse.setPreferredSize(new Dimension(ANCHO_BOTON, ALTO_BOTON));
-        btnUnirse.addActionListener(e -> System.out.println("Acción Unirse: Pendiente"));
+        btnUnirse.addActionListener(e -> gestorEventos.iniciarUnionPartida());
 
         gbcBtn.gridy = 1;
         gbcBtn.insets = new Insets(0, 0, 0, 0);

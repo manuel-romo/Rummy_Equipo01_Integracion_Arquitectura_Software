@@ -15,11 +15,13 @@ import comandos.respuesta.ComandoPartidaConfigurada;
 import comandos.respuesta.ComandoRegistroExitoso;
 import comandos.respuesta.ComandoRegistroFallido;
 import comandos.respuesta.ComandoRespuestaConfirmacionSolicitarFin;
+import comandos.respuesta.ComandoRespuestaConfirmacionUnirsePartida;
 import comandos.respuesta.ComandoRespuestaIniciarJuego;
 import comandos.respuesta.ComandoRespuestaMovimiento;
 import comandos.respuesta.ComandoRespuestaReestablecer;
 import comandos.respuesta.ComandoRespuestaSolicitarFin;
 import comandos.respuesta.ComandoRespuestaTomarFicha;
+import comandos.respuesta.ComandoRespuestaUnirsePartida;
 import comandos.respuesta.ComandoTableroInvalido;
 import comandos.solicitud.ComandoAbandonar;
 import comandos.solicitud.ComandoAgregarFichasJugador;
@@ -30,6 +32,7 @@ import comandos.solicitud.ComandoConfirmacionAbandonar;
 import comandos.solicitud.ComandoConfirmacionEnvioIniciarJuego;
 import comandos.solicitud.ComandoConfirmacionIniciarJuego;
 import comandos.solicitud.ComandoConfirmacionSolicitarFin;
+import comandos.solicitud.ComandoConfirmacionUnirsePartida;
 import comandos.solicitud.ComandoIniciarJuego;
 import comandos.solicitud.ComandoQuitarFichasJugador;
 import comandos.solicitud.ComandoQuitarFichasTablero;
@@ -39,6 +42,7 @@ import comandos.solicitud.ComandoSeleccionarFichasTablero;
 import comandos.solicitud.ComandoSolicitarFin;
 import comandos.solicitud.ComandoTerminarTurno;
 import comandos.solicitud.ComandoTomarFicha;
+import comandos.solicitud.ComandoUnirsePartida;
 import enumeradores.TipoComando;
 import ejercerturno.modelo.ModeloEjercerTurno;
 import iniciarpartida.modelo.ModeloInicioPartida;
@@ -63,16 +67,32 @@ public class FachadaMvc implements IFiltro {
         ComandoRegistrarJugador comandoRegistro = new ComandoRegistrarJugador(nombreJugador, avatar);
         filtroSiguiente.ejecutar(comandoRegistro);
     }
+    
+    public void solicitarUnirsePartida(String nombreJugador, String ip, String puerto){
+        
+        ComandoUnirsePartida comandoUnirsePartida = new ComandoUnirsePartida(nombreJugador, ip, puerto);
+        filtroSiguiente.ejecutar(comandoUnirsePartida);
+        
+    }
+    
+    public void confirmarUnirsePartida(String nombreJugador, boolean confirmacion, String nombreJugadorSolicitante){
+        
+        ComandoConfirmacionUnirsePartida comandoConfirmacionUnirsePartida = new ComandoConfirmacionUnirsePartida(
+                nombreJugador, 
+                confirmacion,
+                nombreJugadorSolicitante);
+        
+        filtroSiguiente.ejecutar(comandoConfirmacionUnirsePartida);
+    }
 
     public void enviarDatosPartidaConfigurada(String nombreJugador, int maximoNumeroFichas, int numeroComodines, String ip, String puerto) {
         ComandoConfigurarPartida comandoConfigurarPartida = new ComandoConfigurarPartida(nombreJugador, maximoNumeroFichas, numeroComodines, ip, puerto);
         filtroSiguiente.ejecutar(comandoConfigurarPartida);
     }
     
-    
-    public void solicitarInicioJuego() {
+    public void solicitarInicioJuego(String nombreJugador) {
 
-        ComandoIniciarJuego comandoIniciarJuego = new ComandoIniciarJuego();
+        ComandoIniciarJuego comandoIniciarJuego = new ComandoIniciarJuego(nombreJugador);
 
         filtroSiguiente.ejecutar(comandoIniciarJuego);
 
@@ -386,7 +406,27 @@ public class FachadaMvc implements IFiltro {
 
                 modeloInicioPartida.notificarRegistroJugadorFallido(comandoRegistroFallido.getMensaje());
                 
-                break;    
+                break;  
+                
+            case TipoComando.COMANDO_RESPUESTA_UNIRSE_PARTIDA:
+                ComandoRespuestaUnirsePartida comandoRespuestaUnirsePartida = (ComandoRespuestaUnirsePartida) comando;
+
+                modeloInicioPartida.notificarNuevoJugadorSolicitaUnirse(
+                        comandoRespuestaUnirsePartida.getMensaje(),
+                        comandoRespuestaUnirsePartida.getNombreJugadorSolicitante());
+                
+                break;
+                
+            case TipoComando.COMANDO_RESPUESTA_CONFIRMACION_UNIRSE_PARTIDA:
+                
+                ComandoRespuestaConfirmacionUnirsePartida comandoRespuestaConfirmacionUnirsePartida 
+                        = (ComandoRespuestaConfirmacionUnirsePartida) comando;
+
+                modeloInicioPartida.notificarRespuestaConfirmacionUnirse(
+                        comandoRespuestaConfirmacionUnirsePartida.getMensaje(),
+                        comandoRespuestaConfirmacionUnirsePartida.isConfirmacion());
+                
+                break;  
 
             default:
                 throw new AssertionError();

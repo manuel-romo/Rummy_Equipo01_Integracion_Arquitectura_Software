@@ -10,10 +10,10 @@ import interfaces.IComando;
  * 
  */
 public class ComandoIniciarJuego implements IComando{
-    private String type = "ComandoIniciarPartida"; 
+    private String type = "ComandoIniciarJuego"; 
     private String nombreJugador;
 
-    public ComandoIniciarJuego() {
+    public ComandoIniciarJuego(String nombreJugador) {
         this.nombreJugador = nombreJugador;
     }
 

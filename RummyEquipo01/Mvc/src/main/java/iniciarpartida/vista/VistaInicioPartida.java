@@ -41,6 +41,7 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
     private PanelRegistroNombreJugador panelRegistroNombreJugador;
     private PanelConfiguracionPartida panelConfiguracionPartida;
     private PanelRegistroJugador panelRegistroJugador;
+    private PanelIngresoIP panelIngresoIP;
     private PanelSalaEspera panelSalaEspera;
     
     public VistaInicioPartida(
@@ -49,6 +50,7 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
             PanelRegistroNombreJugador panelRegistroNombreJugador,
             PanelConfiguracionPartida panelConfiguracionPartida,
             PanelRegistroJugador panelRegistroJugador,
+            PanelIngresoIP panelIngresoIP,
             PanelSalaEspera panelSalaEspera){
         
         this.controlador = controlador;
@@ -56,6 +58,7 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
         this.panelRegistroNombreJugador = panelRegistroNombreJugador;
         this.panelConfiguracionPartida = panelConfiguracionPartida;
         this.panelRegistroJugador = panelRegistroJugador;
+        this.panelIngresoIP = panelIngresoIP;
         this.panelSalaEspera = panelSalaEspera;
         
         
@@ -119,7 +122,8 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
             boolean vistaVisible = modeloInicioPartida.isVistaVisible();
 
             hacerVisible(vistaVisible);
-
+            
+            System.out.println("ETAPA: " + etapaActual);
             if (etapaActual != null) {
 
                 this.getContentPane().removeAll();
@@ -147,8 +151,15 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
                         panelRegistroJugador.setVisible(true);
  
                         break;
+                        
+                    case EtapaActual.REGISTRO_IP:
+                        
+                        this.getContentPane().add(panelIngresoIP, BorderLayout.CENTER);
+                        panelIngresoIP.mostrar(mensaje);
+                        break;
 
                     case EtapaActual.SALA_ESPERA:
+                        
                         this.getContentPane().add(panelSalaEspera, BorderLayout.CENTER);
                         List<JugadorInicioPartidaInformacionPanel> jugadoresInformacion = obtenerJugadoresInformacion(jugadores);
                         panelSalaEspera.actualizar(jugadoresInformacion, mensaje, cantidadJugadoresIniciarJuego);
@@ -168,8 +179,13 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
     }
     
     @Override
-    public void iniciarRegistroNombreJugador() {
-        controlador.iniciarRegistroNombreJugador();
+    public void iniciarCreacionPartida() {
+        controlador.iniciarCreacionPartida();
+    }
+    
+    @Override
+    public void iniciarUnionPartida() {
+        controlador.iniciarUnionPartida();
     }
     
     @Override
@@ -183,8 +199,18 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
     }
     
     @Override
-    public void cancelarConfiguracionPartida() {
-        controlador.cancelarConfiguracionPartida();
+    public void volverInicio() {
+        controlador.volverInicio();
+    }
+    
+    @Override
+    public void solicitarUnirsePartida() {
+        controlador.solicitarUnirsePartida();
+    }
+    
+    @Override
+    public void confirmarUnirsePartida(boolean confirmacion) {
+        controlador.confirmarUnirsePartida(confirmacion);
     }
 
     @Override

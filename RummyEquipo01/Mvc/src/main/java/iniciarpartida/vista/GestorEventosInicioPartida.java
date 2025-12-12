@@ -11,10 +11,14 @@ public class GestorEventosInicioPartida implements IGestorEventosInicioPartida{
 
     private IReceptorEventosIniciarPartida receptorEventos;
     
-    // Registro de nombre de jugador desde inicio
     @Override
-    public void iniciarRegistroNombreJugador() {
-        receptorEventos.iniciarRegistroNombreJugador();
+    public void iniciarCreacionPartida(){
+        receptorEventos.iniciarCreacionPartida();
+    }
+    
+    @Override
+    public void iniciarUnionPartida(){
+        receptorEventos.iniciarUnionPartida();
     }
     
     // Registro de nombre de jugador
@@ -30,8 +34,8 @@ public class GestorEventosInicioPartida implements IGestorEventosInicioPartida{
     }
     
     @Override
-    public void cancelarConfiguracionPartida() {
-        receptorEventos.cancelarConfiguracionPartida();
+    public void volverInicio() {
+        receptorEventos.volverInicio();
     }
 
     // Registro de jugador
@@ -44,12 +48,24 @@ public class GestorEventosInicioPartida implements IGestorEventosInicioPartida{
     public void enviarRegistroJugador(String avatarSeleccionado, Map<Integer, Color> mapaColores) {
         receptorEventos.enviarRegistroJugador(avatarSeleccionado, mapaColores);
     }
+
+    // Solicitar unirse a la partida
+    @Override
+    public void solicitarUnirsePartdida() {
+        receptorEventos.solicitarUnirsePartida();
+    }
+    
+    @Override
+    public void confirmarUnirsePartida(boolean cofirmacion) {
+        receptorEventos.confirmarUnirsePartida(cofirmacion);
+    }
     
     // Solicitud de inicio de juego
     @Override
     public void solicitarInicioJuego() {
         receptorEventos.solicitarInicioJuego();
     }
+    
 
     @Override
     public void confirmarEnvioSolicitudInicioJuego(boolean confirmacion) {
@@ -65,8 +81,11 @@ public class GestorEventosInicioPartida implements IGestorEventosInicioPartida{
         receptorEventos.aceptarAceptacionInicioJuego();
     }
     
+    
     public void setReceptorEventos(IReceptorEventosIniciarPartida receptorEventos) {
         this.receptorEventos = receptorEventos;
-    } 
+    }
+
+    
     
 }

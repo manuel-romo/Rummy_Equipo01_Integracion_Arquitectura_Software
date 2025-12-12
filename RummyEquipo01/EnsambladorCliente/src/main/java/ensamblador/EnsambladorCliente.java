@@ -37,9 +37,11 @@ import servidor.ColaMensajesRecibidos;
 import servidor.Servidor;
 import definiciones.IReceptorEventosEjercerTurno;
 import iniciarpartida.vista.PanelConfiguracionPartida;
+import iniciarpartida.vista.PanelIngresoIP;
 import iniciarpartida.vista.PanelPrincipal;
 import iniciarpartida.vista.PanelRegistroJugador;
 import iniciarpartida.vista.PanelRegistroNombreJugador;
+import utils.DireccionUtils;
 
 /**
  *
@@ -51,7 +53,7 @@ public class EnsambladorCliente {
     private static final String PUERTO_SERVIDOR = "50000";
     private static final String DIRECCION_IP_SERVIDOR = "127.0.0.1";
     
-    private static final String PUERTO = "53000";
+    private static final String PUERTO = "0";
     
     private static final int TOTAL_CASILLAS_TABLERO =500;
     private static final int TOTAL_CASILLAS_MANO = 14;
@@ -104,12 +106,14 @@ public class EnsambladorCliente {
         PanelRegistroNombreJugador panelRegistroNombreJugador = new PanelRegistroNombreJugador();
         PanelConfiguracionPartida panelConfiguracionPartida = new PanelConfiguracionPartida();
         PanelRegistroJugador panelRegistroJugador = new PanelRegistroJugador();
+        PanelIngresoIP panelIngresoIP = new PanelIngresoIP();
         PanelSalaEspera panelSalaEspera = new PanelSalaEspera();
         
         panelPrincipal.setGestorEventos(gestorEventosIniciarPartida);
         panelRegistroNombreJugador.setGestorEventos(gestorEventosIniciarPartida);
         panelConfiguracionPartida.setGestorEventos(gestorEventosIniciarPartida);
         panelRegistroJugador.setGestorEventos(gestorEventosIniciarPartida);
+        panelIngresoIP.setGestorEventos(gestorEventosIniciarPartida);
         panelSalaEspera.setGestorEventos(gestorEventosIniciarPartida);
         
         VistaInicioPartida vistaInicioPartida = new VistaInicioPartida(
@@ -118,6 +122,7 @@ public class EnsambladorCliente {
                 panelRegistroNombreJugador,
                 panelConfiguracionPartida,
                 panelRegistroJugador,
+                panelIngresoIP,
                 panelSalaEspera);
         
         gestorEventosIniciarPartida.setReceptorEventos(vistaInicioPartida);
@@ -215,6 +220,8 @@ public class EnsambladorCliente {
         ColaMensajesRecibidos colaMensajesRecibidos = new ColaMensajesRecibidos();
         
         Servidor servidor = new Servidor(Integer.valueOf(PUERTO));
+        
+        DireccionUtils.setPuerto(String.valueOf(servidor.obtenerPuerto()));
         
         servidor.setReceptor(colaMensajesRecibidos);
         

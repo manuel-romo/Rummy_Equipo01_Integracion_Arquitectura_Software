@@ -13,7 +13,7 @@ import java.util.Enumeration;
  */
 public class DireccionUtils {
     
-    public static final String PUERTO = "53000";
+    public static String puerto;
     
     public static String obtenerIPsReales() {
 //        StringBuilder ipsReales = new StringBuilder();
@@ -49,5 +49,15 @@ public class DireccionUtils {
 
         return "127.0.0.1";
     }
+
+    public static String getPuerto() {
+        return puerto;
+    }
+
+    public static void setPuerto(String puerto) {
+        DireccionUtils.puerto = puerto;
+    }
+    
+    
     
 }

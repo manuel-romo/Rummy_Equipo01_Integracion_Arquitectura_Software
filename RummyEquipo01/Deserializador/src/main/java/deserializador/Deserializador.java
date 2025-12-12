@@ -20,11 +20,13 @@ import comandos.respuesta.ComandoRegistroExitoso;
 import comandos.respuesta.ComandoRegistroFallido;
 import comandos.respuesta.ComandoRespuestaAbandonar;
 import comandos.respuesta.ComandoRespuestaConfirmacionSolicitarFin;
+import comandos.respuesta.ComandoRespuestaConfirmacionUnirsePartida;
 import comandos.respuesta.ComandoRespuestaIniciarJuego;
 import comandos.respuesta.ComandoRespuestaMovimiento;
 import comandos.respuesta.ComandoRespuestaReestablecer;
 import comandos.respuesta.ComandoRespuestaSolicitarFin;
 import comandos.respuesta.ComandoRespuestaTomarFicha;
+import comandos.respuesta.ComandoRespuestaUnirsePartida;
 import comandos.respuesta.ComandoTableroInvalido;
 import comandos.solicitud.ComandoAbandonar;
 import comandos.solicitud.ComandoAgregarFichasJugador;
@@ -35,6 +37,7 @@ import comandos.solicitud.ComandoConfirmacionAbandonar;
 import comandos.solicitud.ComandoConfirmacionEnvioIniciarJuego;
 import comandos.solicitud.ComandoConfirmacionIniciarJuego;
 import comandos.solicitud.ComandoConfirmacionSolicitarFin;
+import comandos.solicitud.ComandoConfirmacionUnirsePartida;
 import comandos.solicitud.ComandoIniciarJuego;
 import comandos.solicitud.ComandoQuitarFichasJugador;
 import comandos.solicitud.ComandoQuitarFichasTablero;
@@ -44,6 +47,7 @@ import comandos.solicitud.ComandoSeleccionarFichasTablero;
 import comandos.solicitud.ComandoSolicitarFin;
 import comandos.solicitud.ComandoTerminarTurno;
 import comandos.solicitud.ComandoTomarFicha;
+import comandos.solicitud.ComandoUnirsePartida;
 import dtos.FichaDTO;
 import interfaces.IFiltro;
 import interfaces.IReceptorExterno;
@@ -104,7 +108,6 @@ public class Deserializador implements IReceptorExterno {
         registroComandos.put("ComandoJugadorPartidaGanada", ComandoJugadorPartidaGanada.class);
 
         // SOLICITAR INICIO PARTIDA
-        registroComandos.put("ComandoIniciarPartida",ComandoIniciarJuego.class);
         registroComandos.put("ComandoIniciarJuego", ComandoIniciarJuego.class);
         registroComandos.put("ComandoConfirmacionIniciarJuego", ComandoConfirmacionIniciarJuego.class);
         registroComandos.put("ComandoConfirmacionEnvioIniciarJuego", ComandoConfirmacionEnvioIniciarJuego.class);
@@ -123,6 +126,12 @@ public class Deserializador implements IReceptorExterno {
         //CONFIGURAR PARTIDA PEDRO
         registroComandos.put("ComandoConfigurarPartida", ComandoConfigurarPartida.class);
         registroComandos.put("ComandoPartidaConfigurada", ComandoPartidaConfigurada.class);
+        
+        // SOLICITAR UNIRSE PARTIDA
+        registroComandos.put("ComandoUnirsePartida", ComandoUnirsePartida.class);
+        registroComandos.put("ComandoRespuestaUnirsePartida", ComandoRespuestaUnirsePartida.class);
+        registroComandos.put("ComandoConfirmacionUnirsePartida", ComandoConfirmacionUnirsePartida.class);
+        registroComandos.put("ComandoRespuestaConfirmacionUnirsePartida", ComandoRespuestaConfirmacionUnirsePartida.class);
 
     }
 

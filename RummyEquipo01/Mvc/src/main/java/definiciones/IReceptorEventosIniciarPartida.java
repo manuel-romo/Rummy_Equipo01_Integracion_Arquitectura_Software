@@ -11,15 +11,23 @@ import java.util.Map;
  */
 public interface IReceptorEventosIniciarPartida {
     
-    public abstract void iniciarRegistroNombreJugador();
+    public abstract void iniciarCreacionPartida();
+    
+    public abstract void iniciarUnionPartida();
     
     // Registrar nombre de jugador
-    public void registrarNombreJugador(String nombre);
+    public abstract void registrarNombreJugador(String nombre);
     
     // Configurar partida
     public abstract void enviarDatosConfigurarPartida(int maximoFichas, int numeroComodines);
     
-    public abstract void cancelarConfiguracionPartida();
+    public abstract void volverInicio();
+    
+    // Solicitar unirse partida
+    
+    public abstract void solicitarUnirsePartida();
+    
+    public abstract void confirmarUnirsePartida(boolean confirmacion);
     
     // Registro de jugador
     public abstract void iniciarRegistroJugador();
@@ -35,6 +43,7 @@ public interface IReceptorEventosIniciarPartida {
     
     public abstract void aceptarAceptacionInicioJuego();
     
+    // Solicitar unirse a partida
     
     
 }

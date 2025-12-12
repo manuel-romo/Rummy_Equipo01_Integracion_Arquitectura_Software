@@ -40,12 +40,12 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
 
     private boolean vistaVisible;
     
-    //Pedro
-    private int maximoNumeroFicha;
-
-    private int numeroComodines;
-
     private EstadoPartida estadoPartida;
+    
+    private String nombreJugadorSolicitanteUnion = null;
+    
+    
+    private boolean creandoPartida = false;
 
     public String getNombreJugador() {
         return nombreJugador;
@@ -64,16 +64,21 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     private final String CODIGO_MENSAJE_CONFIRMAR_ENVIO_SOLICITUD_INICIO = "CE: ";
     private final String CODIGO_MENSAJE_ACEPTACION_INICIO = "AI: ";
     private final String CODIGO_MENSAJE_RECHAZO_INICIO = "RI: ";
+    
+    private final String CODIGO_MENSAJE_SOLICITUD_UNION = "SU: ";
+    private final String CODIGO_MENSAJE_RECHAZO_UNION = "RU: ";
+    private final String CODIGO_MENSAJE_ACEPTACION_UNION = "AU: ";
 
     public void iniciarInicio(){
         
+        nombreJugador = null;
         vistaVisible = true;
         etapaActual = EtapaActual.INICIO;
         notificar();
         
     }
     
-    public void iniciarRegistroNombreJugador(){
+    private void iniciarRegistroNombreJugador(){
         
         vistaVisible = true;
         etapaActual = EtapaActual.REGISTRO_NOMBRE_JUGADOR;
@@ -81,9 +86,36 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
         
     }
     
-    public void iniciarConfiguracionPartida(String nombreJugador){
+    public void iniciarCreacionPartida(){
         
-        this.nombreJugador = nombreJugador;
+        creandoPartida = true;
+        iniciarRegistroNombreJugador();
+        
+    }
+
+    // Solicitar unirse a partida
+    
+    public void iniciarUnionPartida(){
+        
+        creandoPartida = false;
+        iniciarRegistroNombreJugador();
+    }
+    
+    
+    public void registrarNombreJugador(String nombre){
+        
+        this.nombreJugador = nombre;
+        
+        if(creandoPartida){
+            iniciarConfiguracionPartida();
+        } else{
+            introducirDireccionIP();
+        }
+    }
+   
+    
+    private void iniciarConfiguracionPartida(){
+        
         vistaVisible = true;
         etapaActual = EtapaActual.CONFIGURACION_PARTIDA;
         
@@ -91,8 +123,17 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
         
     }
     
-    public void iniciarRegistroJugador(){
+    private void introducirDireccionIP(){
+
+        vistaVisible = true;
+        etapaActual = EtapaActual.REGISTRO_IP;
         
+        notificar();
+        
+    }
+    
+    public void iniciarRegistroJugador(){
+
         vistaVisible = true;
         etapaActual = EtapaActual.REGISTRO_JUGADOR;
         
@@ -110,10 +151,16 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
         notificar();
 
     }
-
-
-    // Registro de nombre de jugador
-    public void registrarNombreJugador(String nombre){
+    
+    public void solicitarUnirsePartida(){
+        
+        fachadaMvc.solicitarUnirsePartida(nombreJugador, DireccionUtils.obtenerIPsReales(), DireccionUtils.getPuerto());
+        
+    }
+    
+    public void confirmarUnirsePartida(boolean confirmacion){
+        
+        fachadaMvc.confirmarUnirsePartida(nombreJugador, confirmacion, nombreJugadorSolicitanteUnion);
         
     }
     
@@ -124,7 +171,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
                 maximoNumeroFichas, 
                 numeroComodines, 
                 DireccionUtils.obtenerIPsReales(), 
-                DireccionUtils.PUERTO);
+                DireccionUtils.getPuerto());
     }
     
     // Envío de registro de jugador
@@ -136,7 +183,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     // Solicitud de inicio de juego
     public void solicitarInicioJuego() {
 
-        fachadaMvc.solicitarInicioJuego();
+        fachadaMvc.solicitarInicioJuego(nombreJugador);
 
     }
 
@@ -151,6 +198,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
         fachadaMvc.confirmarInicioJuego(nombreJugador, confirmar);
 
     }
+    
 
     // Recepción
     public void cargarJugadores(List<JugadorInicioPartidaDTO> jugadores) {
@@ -312,6 +360,27 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
         this.mensaje = mensaje;
         notificar();
     }
+    
+    public void notificarNuevoJugadorSolicitaUnirse(String mensaje, String nombreJugadorSolicitante){
+        
+        this.mensaje = CODIGO_MENSAJE_SOLICITUD_UNION + mensaje;
+        this.nombreJugadorSolicitanteUnion = nombreJugadorSolicitante;
+        
+        notificar();
+        
+    }
+    
+    public void notificarRespuestaConfirmacionUnirse(String mensaje, boolean confirmacion){
+        
+        if(confirmacion){
+            this.mensaje = CODIGO_MENSAJE_ACEPTACION_UNION + mensaje;
+        } else{
+            this.mensaje = CODIGO_MENSAJE_RECHAZO_UNION + mensaje;
+        }
+        
+        notificar();
+        
+    } 
 
     @Override
     public boolean isJugadorRegistrado() {

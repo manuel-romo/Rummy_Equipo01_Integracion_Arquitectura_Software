@@ -171,7 +171,7 @@ public class PanelConfiguracionPartida extends JPanel {
     }
 
     private void accionCancelar() {
-        gestorEventos.cancelarConfiguracionPartida();
+        gestorEventos.volverInicio();
     }
 
     public void mostrarMensaje(String mensaje) {
@@ -186,7 +186,7 @@ public class PanelConfiguracionPartida extends JPanel {
         if (estadoPartida != EstadoPartida.CONFIGURADA) {
             JOptionPane.showMessageDialog(this, mensaje);
             
-            gestorEventos.cancelarConfiguracionPartida();
+            gestorEventos.volverInicio();
             
         } else{
             gestorEventos.iniciarRegistroJugador();

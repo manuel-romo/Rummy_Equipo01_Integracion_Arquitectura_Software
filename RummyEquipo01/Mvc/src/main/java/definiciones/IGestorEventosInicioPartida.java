@@ -12,7 +12,9 @@ import java.util.Map;
 public interface IGestorEventosInicioPartida {
     
     // Inicio
-    public abstract void iniciarRegistroNombreJugador();
+    public abstract void iniciarCreacionPartida();
+    
+    public abstract void iniciarUnionPartida();
     
     // Registro de nombre de jugador
     public abstract void registrarNombreJugador(String nombre);
@@ -20,7 +22,13 @@ public interface IGestorEventosInicioPartida {
     // Configurar partida
     public abstract void enviarDatosConfigurarPartida(int maximoFichas, int numeroComodines);
     
-    public abstract void cancelarConfiguracionPartida();
+    public abstract void volverInicio();
+    
+    // Solicitar unirse partida
+    
+    public abstract void solicitarUnirsePartdida();
+    
+    public abstract void confirmarUnirsePartida(boolean confirmacion);
     
     // Registrar jugador
     public abstract void iniciarRegistroJugador();
@@ -36,6 +44,8 @@ public interface IGestorEventosInicioPartida {
     public abstract void confirmarInicioJuego(boolean confirmacion);
     
     public abstract void aceptarAceptacionInicioJuego();
+    
+    
     
     
     

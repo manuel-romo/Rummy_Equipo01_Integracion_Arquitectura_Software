@@ -24,16 +24,16 @@ public interface IModeloInicioPartida extends IModelo {
     public abstract boolean isVistaVisible();
 
     // métodos de registrar jugador jp 
-    boolean isJugadorRegistrado();
+    public abstract boolean isJugadorRegistrado();
 
-    Map<Integer, Color> getMapaColores();
+    public abstract Map<Integer, Color> getMapaColores();
 
-    String obtenerNombreJugador();
+    public abstract String obtenerNombreJugador();
 
     //AQUI TERMINA REGISTAR JUGADOR JP
     
     //métodos de configurarPartida
     
-    EstadoPartida obtenerEstadoPartida();
+    public abstract EstadoPartida obtenerEstadoPartida();
     
 }

@@ -6,26 +6,31 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-
 public class Servidor implements Runnable{
 
-    private int puerto;
     private IReceptor receptor;
     private boolean estaCorriendo = true;
     private ServerSocket serverSocket;
 
     public Servidor(int puerto) {
-        this.puerto = puerto;
+
+        ServerSocket ss;
+        try {
+            ss = new ServerSocket(puerto);
+            this.serverSocket = ss;
+            System.out.println("Hilo iniciado, escuchando en el puerto " + serverSocket.getLocalPort() + "...");
+        
+        } catch (IOException ex) {
+            System.err.println("Error de IOException: " + ex.getMessage());
+        }
+        
     }
 
     @Override
     public void run() {
 
-        try (ServerSocket ss = new ServerSocket(puerto)) {
-            
-            this.serverSocket = ss;
-            System.out.println("Hilo iniciado, escuchando en el puerto " + puerto + "...");
-            
+        try {
+
             while (estaCorriendo) {
                 
                 Socket socketCliente = serverSocket.accept(); 
@@ -64,6 +69,11 @@ public class Servidor implements Runnable{
     public void setReceptor(IReceptor receptor) {
         this.receptor = receptor;
     }
+    
+    public int obtenerPuerto(){
+        return serverSocket.getLocalPort();
+    }
+    
 
     
     

@@ -19,13 +19,17 @@ public class ControladorInicioPartida {
         this.modelo = modelo;
     }  
     
-    public void iniciarRegistroNombreJugador() {
-        modelo.iniciarRegistroNombreJugador();
+    public void iniciarCreacionPartida() {
+        modelo.iniciarCreacionPartida();
+    }
+    
+    public void iniciarUnionPartida() {
+        modelo.iniciarUnionPartida();
     }
     
     // Registrar nombre de jugador
     public void registrarNombreJugador(String nombre){
-        modelo.iniciarConfiguracionPartida(nombre);
+        modelo.registrarNombreJugador(nombre);
     }
     
     // Configurar partida
@@ -33,7 +37,7 @@ public class ControladorInicioPartida {
         modelo.enviarDatosPartidaConfigurada(maximoNumeroFichas, numeroComodines);
     }
     
-    public void cancelarConfiguracionPartida() {
+    public void volverInicio() {
         modelo.iniciarInicio();
     }
     
@@ -44,6 +48,17 @@ public class ControladorInicioPartida {
     
     public void enviarRegistroJugador(String avatar, Map<Integer,Color> mapaColores){
         modelo.enviarRegistroJugador(avatar, mapaColores);
+    }
+    
+    public void solicitarUnirsePartida(){
+        
+        modelo.solicitarUnirsePartida();
+        
+    }
+    
+    public void confirmarUnirsePartida(boolean confirmacion){
+        
+        modelo.confirmarUnirsePartida(confirmacion);
     }
     
     // Solicitar inicio de juego

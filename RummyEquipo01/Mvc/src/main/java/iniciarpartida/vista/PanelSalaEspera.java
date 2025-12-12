@@ -55,11 +55,15 @@ public class PanelSalaEspera extends JPanel {
     private final String CODIGO_MENSAJE_ACEPTACION_INICIO = "AI: ";
     private final String CODIGO_MENSAJE_RECHAZO_INICIO = "RI: ";
     
+    private final String CODIGO_MENSAJE_SOLICITUD_UNION = "SU: ";
+    
     // Títulos de mensajes.
     private final String TITULO_NUEVA_SOLICITUD_INICIO = "Solicitud de inicio de juego";
     private final String TITULO_CONFIRMACION_ENVIO_SOLICITUD_INICIO = "Confirmar envío";
     private final String TITULO_ACEPTACION_INICIO = "Inicio de partida";
     private final String TITULO_RECHAZO_INICIO = "Rechazo de inicio";
+    
+    private final String TITULO_SOLICITUD_UNION = "Nuevo jugador";
 
     // Dimensiones para el panel de lista de jugadores.
     private final int ANCHO_PANEL_LISTA = 500;
@@ -252,8 +256,9 @@ public class PanelSalaEspera extends JPanel {
 
         // Obtención de avatar.
         JLabel labelAvatar = new JLabel();
-        URL imagenUrl = getClass().getResource(rutaAvatar);
-        if (imagenUrl != null) {
+ 
+        if (rutaAvatar != null) {
+            URL imagenUrl = getClass().getResource(rutaAvatar);
             ImageIcon icon = new ImageIcon(imagenUrl);
             Image img = icon.getImage().getScaledInstance(ANCHO_AVATAR, ALTO_AVATAR, Image.SCALE_SMOOTH);
             labelAvatar.setIcon(new ImageIcon(img));
@@ -319,6 +324,17 @@ public class PanelSalaEspera extends JPanel {
                 TITULO_RECHAZO_INICIO, 
                 JOptionPane.INFORMATION_MESSAGE);
 
+            } else if(mensaje.startsWith(CODIGO_MENSAJE_SOLICITUD_UNION)){
+                
+                int respuesta = JOptionPane.showConfirmDialog(
+                        this, 
+                        mensaje.substring(3), 
+                        TITULO_SOLICITUD_UNION, 
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE
+                );
+                gestorEventos.confirmarUnirsePartida((respuesta == JOptionPane.OK_OPTION));
+                
             }
         }
         
