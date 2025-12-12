@@ -87,6 +87,8 @@ public class ModeloEjercerTurno implements IPublicador, IModeloEjercerTurno{
      */
     private String nombreJugador;
     
+    private boolean ejercerTurnoIniciado = false;
+    
     /**
      * Obtiene la lista de vistas suscritas al modelo.
      *
@@ -95,6 +97,7 @@ public class ModeloEjercerTurno implements IPublicador, IModeloEjercerTurno{
     public List<ISuscriptor> getSuscriptores() {
         return suscriptores;
     }
+    
 
     /**
      * Asigna la lista de vistas suscritas al modelo.
@@ -276,6 +279,7 @@ public class ModeloEjercerTurno implements IPublicador, IModeloEjercerTurno{
     public void iniciar(){
         
         vistaVisible = true;
+        ejercerTurnoIniciado = true;
         
         notificar();
     }

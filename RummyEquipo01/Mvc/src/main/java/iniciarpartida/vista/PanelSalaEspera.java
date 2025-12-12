@@ -52,7 +52,6 @@ public class PanelSalaEspera extends JPanel {
     // Códigos de mensajes.
     private final String CODIGO_MENSAJE_NUEVA_SOLICITUD_INICIO = "SI: ";
     private final String CODIGO_MENSAJE_CONFIRMAR_ENVIO_SOLICITUD_INICIO = "CE: ";
-    private final String CODIGO_MENSAJE_ACEPTACION_INICIO = "AI: ";
     private final String CODIGO_MENSAJE_RECHAZO_INICIO = "RI: ";
     
     private final String CODIGO_MENSAJE_SOLICITUD_UNION = "SU: ";
@@ -60,7 +59,6 @@ public class PanelSalaEspera extends JPanel {
     // Títulos de mensajes.
     private final String TITULO_NUEVA_SOLICITUD_INICIO = "Solicitud de inicio de juego";
     private final String TITULO_CONFIRMACION_ENVIO_SOLICITUD_INICIO = "Confirmar envío";
-    private final String TITULO_ACEPTACION_INICIO = "Inicio de partida";
     private final String TITULO_RECHAZO_INICIO = "Rechazo de inicio";
     
     private final String TITULO_SOLICITUD_UNION = "Nuevo jugador";
@@ -305,16 +303,6 @@ public class PanelSalaEspera extends JPanel {
                         JOptionPane.QUESTION_MESSAGE
                 );
                 gestorEventos.confirmarEnvioSolicitudInicioJuego((respuesta == JOptionPane.OK_OPTION));
-                
-            } else if(mensaje.startsWith(CODIGO_MENSAJE_ACEPTACION_INICIO)){
-                
-                JOptionPane.showMessageDialog(
-                this, 
-                mensaje.substring(3), 
-                TITULO_ACEPTACION_INICIO, 
-                JOptionPane.INFORMATION_MESSAGE);
-
-                gestorEventos.aceptarAceptacionInicioJuego();
                 
             } else if(mensaje.startsWith(CODIGO_MENSAJE_RECHAZO_INICIO)){
                 

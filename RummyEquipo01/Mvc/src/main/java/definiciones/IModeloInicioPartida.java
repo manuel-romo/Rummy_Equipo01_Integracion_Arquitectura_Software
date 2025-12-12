@@ -36,4 +36,6 @@ public interface IModeloInicioPartida extends IModelo {
     
     public abstract EstadoPartida obtenerEstadoPartida();
     
+    public abstract boolean isJuegoIniciado();
+    
 }

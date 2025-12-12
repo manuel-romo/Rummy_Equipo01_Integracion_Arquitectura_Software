@@ -241,6 +241,7 @@ public class FachadaMvc implements IFiltro {
                 modeloEjercerTurno.cambiarTurno(
                         comandoCambioTurno.getTablero(),
                         comandoCambioTurno.getMensaje());
+                
 
                 break;
 

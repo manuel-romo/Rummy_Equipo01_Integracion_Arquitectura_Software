@@ -52,8 +52,6 @@ public class PanelIngresoIP extends JPanel {
     private void mostrarMensaje(String mensaje){
         
         if(mensaje != null){
-            System.out.println("MENSAJE");
-            System.out.println(mensaje);
             if(mensaje.startsWith(CODIGO_MENSAJE_ACEPTACION_UNION)){
                 
                 JOptionPane.showMessageDialog(
@@ -62,7 +60,6 @@ public class PanelIngresoIP extends JPanel {
                 TITULO_ACEPTACION_UNION, 
                 JOptionPane.INFORMATION_MESSAGE);
                 
-                System.out.println("ESTA PASANDO POR AQUI?");
                 gestorEventos.iniciarRegistroJugador();
                 
             } else if(mensaje.startsWith(CODIGO_MENSAJE_RECHAZO_UNION)){

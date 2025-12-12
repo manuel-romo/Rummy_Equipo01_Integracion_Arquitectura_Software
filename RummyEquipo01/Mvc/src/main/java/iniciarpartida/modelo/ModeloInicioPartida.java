@@ -46,6 +46,8 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     
     
     private boolean creandoPartida = false;
+    
+    private boolean juegoIniciado = false;
 
     public String getNombreJugador() {
         return nombreJugador;
@@ -62,7 +64,6 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     // Códigos de mensajes.
     private final String CODIGO_MENSAJE_NUEVA_SOLICITUD_INICIO = "SI: ";
     private final String CODIGO_MENSAJE_CONFIRMAR_ENVIO_SOLICITUD_INICIO = "CE: ";
-    private final String CODIGO_MENSAJE_ACEPTACION_INICIO = "AI: ";
     private final String CODIGO_MENSAJE_RECHAZO_INICIO = "RI: ";
     
     private final String CODIGO_MENSAJE_SOLICITUD_UNION = "SU: ";
@@ -147,7 +148,9 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
         this.mensaje = null;
         etapaActual = null;
         vistaVisible = false;
+        juegoIniciado = false;
 
+        System.out.println("NOTIFICANDO FINALIZAR");
         notificar();
 
     }
@@ -243,14 +246,18 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
 
         etapaActual = EtapaActual.SALA_ESPERA;
 
-        if (decision) {
-            notificarAceptacionIniciarJuego(mensaje);
-        } else {
-            notificarRechazoIniciarJuego(mensaje);
+        if (!decision) {
+            this.mensaje = CODIGO_MENSAJE_RECHAZO_INICIO + mensaje;
             nombreJugador = null;
+        } else{
+            juegoIniciado = true;
+            this.mensaje = null;
         }
+        
+        notificar();
 
     }
+    
 
     public void notificarPartidaConfigurada(boolean exito) {
         
@@ -263,19 +270,6 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
         }
 
         notificar();
-    }
-
-    private void notificarAceptacionIniciarJuego(String mensaje) {
-
-        this.mensaje = CODIGO_MENSAJE_ACEPTACION_INICIO + mensaje;
-        notificar();
-    }
-
-    private void notificarRechazoIniciarJuego(String mensaje) {
-
-        this.mensaje = CODIGO_MENSAJE_RECHAZO_INICIO + mensaje;
-        notificar();
-
     }
 
     @Override
@@ -400,6 +394,11 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     @Override
     public EstadoPartida obtenerEstadoPartida() {
         return estadoPartida;
+    }
+
+    @Override
+    public boolean isJuegoIniciado() {
+        return juegoIniciado;
     }
 
 }

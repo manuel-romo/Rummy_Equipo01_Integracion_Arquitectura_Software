@@ -93,14 +93,16 @@ public class Tablero {
     private final String MENSAJE_PARTIDA_GANADA = "¡Has ganado la partida!";
     private final String MENSAJE_JUGADOR_PARTIDA_GANADA = " ha ganado la partida.";
 
-    public Tablero(List<Jugador> jugadores, int maximoNimeroFichas, int numeroComodines){
+    public Tablero(List<Jugador> jugadores, int maximoNimeroFichas, int numeroComodines, FachadaObjetosNegocio fachadaTablero){
         
         this.jugadores = jugadores;
         this.maximoNumeroFichas = maximoNimeroFichas;
         this.numeroComodines = numeroComodines;
+        this.fachadaTablero = fachadaTablero;
     }
     
     public void iniciarJuego() {
+        
         ColorFicha[] ordenColores = {
             ColorFicha.COLOR_A, ColorFicha.COLOR_A,
             ColorFicha.COLOR_B, ColorFicha.COLOR_B,
@@ -130,12 +132,13 @@ public class Tablero {
 
         Collections.shuffle(jugadores);
 
-        jugadorTurno = jugadores.getFirst();
+        jugadorTurno = jugadores.get(0);
 
         gruposInicialesTurno = new LinkedList<>();
 
         List<Ficha> copiafichasJugador = new LinkedList<>(jugadorTurno.getFichas());
         fichasInicialesJugadorTurno = copiafichasJugador;
+
         notificarTodosCambioTurno();
 
     }
@@ -893,6 +896,7 @@ public class Tablero {
     public void notificarTodosCambioTurno() {
 
         for (Jugador jugador : jugadores) {
+            
             if (!jugador.getNombre().equals(jugadorTurno.getNombre())) {
 
                 ComandoCambioTurno comandoCambioTurno = new ComandoCambioTurno(

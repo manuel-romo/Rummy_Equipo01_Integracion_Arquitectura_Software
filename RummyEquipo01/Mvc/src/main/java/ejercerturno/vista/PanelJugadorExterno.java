@@ -765,19 +765,22 @@ public class PanelJugadorExterno extends JPanel implements IComponente{
         
         URL urlImagen = getClass().getClassLoader().getResource(avatarJugador);
         
-        ImageIcon iconoAvatar = new ImageIcon(urlImagen);
+        if(urlImagen != null){
+            ImageIcon iconoAvatar = new ImageIcon(urlImagen);
         
-        Image imagenOrignal = iconoAvatar.getImage();
+            Image imagenOrignal = iconoAvatar.getImage();
 
-        Image imagenEscalada = imagenOrignal.getScaledInstance(
-            ANCHO_ALTO_ICONOS, 
-            ANCHO_ALTO_ICONOS, 
-            Image.SCALE_SMOOTH
-        );
+            Image imagenEscalada = imagenOrignal.getScaledInstance(
+                ANCHO_ALTO_ICONOS, 
+                ANCHO_ALTO_ICONOS, 
+                Image.SCALE_SMOOTH
+            );
 
-        ImageIcon iconoAvatarEscalado = new ImageIcon(imagenEscalada);
-            
-        labelAvatarJugador.setIcon(iconoAvatarEscalado);
+            ImageIcon iconoAvatarEscalado = new ImageIcon(imagenEscalada);
+
+            labelAvatarJugador.setIcon(iconoAvatarEscalado);
+        }
+        
 
          
     }

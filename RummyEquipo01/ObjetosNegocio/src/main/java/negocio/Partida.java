@@ -248,7 +248,8 @@ public class Partida {
                 tablero = new Tablero(
                         jugadores, 
                         comandoConfigurarPartida.getMaximoNumeroFichas(), 
-                        comandoConfigurarPartida.getNumeroComodines());
+                        comandoConfigurarPartida.getNumeroComodines(),
+                        fachada);
                 
                 tablero.setMaximoNumeroFichas(comandoConfigurarPartida.getMaximoNumeroFichas());
                 tablero.setNumeroComodines(comandoConfigurarPartida.getNumeroComodines());
@@ -400,7 +401,7 @@ public class Partida {
             
     private void solicitarInicioJuego(String nombreJugador) {
 
-        if (jugadorExiste(nombreJugador)) {
+        if (jugadorExiste(nombreJugador) && jugadores.size() > 1) {
 
             ComandoRespuestaIniciarJuego comandoRespuestaIniciarJuego
                     = new ComandoRespuestaIniciarJuego(
@@ -500,7 +501,6 @@ public class Partida {
 
                     }
 
-                    //TODO
                     tablero.iniciarJuego();
 
                 } else {

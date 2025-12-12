@@ -119,11 +119,12 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
             EtapaActual etapaActual = modeloInicioPartida.obtenerEtapaActual();
             int cantidadJugadoresIniciarJuego = modeloInicioPartida.obtenerCantidadJugadoresIniciarJuego();
             
+            boolean juegoIniciado = modeloInicioPartida.isJuegoIniciado();
+            
             boolean vistaVisible = modeloInicioPartida.isVistaVisible();
 
             hacerVisible(vistaVisible);
             
-            System.out.println("ETAPA: " + etapaActual);
             if (etapaActual != null) {
 
                 this.getContentPane().removeAll();
@@ -171,6 +172,11 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
 
                 this.getContentPane().revalidate();
                 this.getContentPane().repaint();
+            }
+            
+            if(juegoIniciado){
+                controlador.aceptarAceptacionInicioJuego();
+                
             }
             
             

@@ -76,6 +76,7 @@ public class ControladorInicioPartida {
     }
     
     public void aceptarAceptacionInicioJuego(){
+        
         modelo.finalizar();
         controladorEjercerTurno.iniciar();  
     }
