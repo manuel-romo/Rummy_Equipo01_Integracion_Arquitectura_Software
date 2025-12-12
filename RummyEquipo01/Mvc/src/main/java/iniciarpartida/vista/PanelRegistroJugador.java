@@ -13,6 +13,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.BorderFactory;
@@ -52,8 +53,8 @@ public class PanelRegistroJugador extends JPanel {
     private static final int ID_COLOR_C = 3;
     private static final int ID_COLOR_D = 4;
 
-    private static final Color COLOR_FONDO = new Color(255, 232, 151); // Amarillo suave
-    private static final Color COLOR_BOTON = new Color(102, 153, 255); // Azul claro
+    private static final Color COLOR_FONDO = new Color(255, 232, 151);
+    private static final Color COLOR_BOTON = new Color(102, 153, 255);
     private static final Color COLOR_TEXTO_DISABLED = Color.WHITE;
     private static final Color COLOR_BORDE_SELECCION = Color.YELLOW;
     private static final Color COLOR_BORDE_ERROR = Color.RED;
@@ -67,16 +68,22 @@ public class PanelRegistroJugador extends JPanel {
     private String linkAvatarSeleccionado;
     
     private final String[] rutasAvatares = {
-        "/imgs/avatar1.png", "/imgs/avatar2.png", "/imgs/avatar3.png",
-        "/imgs/avatar4.png", "/imgs/avatar5.png", "/imgs/avatar6.jpg"
+        "/avatar1.png", "/avatar2.png", "/avatar3.png",
+        "/avatar4.png", "/avatar5.png", "/avatar6.png"
     };
     
     private IGestorEventosInicioPartida gestorEventos;
 
+    public PanelRegistroJugador() {
+        configurarPanelPrincipal();
+    }
 
-    private void initGUI() {
+    private void configurarPanelPrincipal() {
         this.setLayout(new GridBagLayout());
         this.setBackground(COLOR_FONDO);
+        
+        this.setPreferredSize(new Dimension(900, 800));
+        this.setMinimumSize(new Dimension(900, 800));
         
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(MARGIN_ESTANDAR, MARGIN_ESTANDAR, MARGIN_ESTANDAR, MARGIN_ESTANDAR);
@@ -84,7 +91,6 @@ public class PanelRegistroJugador extends JPanel {
         
         Font fuenteLabels = new Font("Helvetica Neue", Font.PLAIN, TAMANO_FUENTE);
 
-        // --- FILA 1: NOMBRE ---
         JLabel lblNombre = new JLabel("Nombre:");
         lblNombre.setFont(fuenteLabels);
         gbc.gridx = 0; gbc.gridy = 0;
@@ -97,7 +103,6 @@ public class PanelRegistroJugador extends JPanel {
         gbc.gridx = 1; gbc.gridy = 0;
         this.add(txtNombre, gbc);
 
-        // --- FILA 2: AVATAR ---
         JLabel lblAvatar = new JLabel("Avatar:");
         lblAvatar.setFont(fuenteLabels);
         gbc.gridx = 0; gbc.gridy = 1;
@@ -117,7 +122,6 @@ public class PanelRegistroJugador extends JPanel {
         gbc.gridx = 1; gbc.gridy = 1;
         this.add(pnlAvatares, gbc);
 
-        // --- FILA 3: COLORES ---
         JLabel lblColores = new JLabel("Colores de fichas:");
         lblColores.setFont(fuenteLabels);
         gbc.gridx = 0; gbc.gridy = 2;
@@ -139,7 +143,6 @@ public class PanelRegistroJugador extends JPanel {
         gbc.gridx = 1; gbc.gridy = 2;
         this.add(pnlColores, gbc);
 
-        // --- FILA 4: BOTÓN ---
         btnContinuar = new JButton("Continuar");
         btnContinuar.setFont(fuenteLabels);
         btnContinuar.setBackground(COLOR_BOTON);
@@ -152,9 +155,14 @@ public class PanelRegistroJugador extends JPanel {
         gbc.gridx = 0; gbc.gridy = 3;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        // Margen superior extra para separar el botón
         gbc.insets = new Insets(MARGIN_SUPERIOR_BOTON, MARGIN_ESTANDAR, MARGIN_ESTANDAR, MARGIN_ESTANDAR);
         this.add(btnContinuar, gbc);
+    }
+    
+    public void actualizar(String nombreJugador) {
+        if (txtNombre != null) {
+            txtNombre.setText(nombreJugador);
+        }
     }
 
     private JPanel crearPanelColor(Color colorInicial) {
@@ -225,7 +233,11 @@ public class PanelRegistroJugador extends JPanel {
             JOptionPane.showMessageDialog(this, "Por favor selecciona un avatar.");
             return;
         }
-        gestorEventos.enviarRegistroJugador(linkAvatarSeleccionado, obtenerMapaColores());
+        if(gestorEventos != null) {
+            gestorEventos.enviarRegistroJugador(linkAvatarSeleccionado, obtenerMapaColores());
+        } else {
+            System.err.println("Gestor de eventos nulo en PanelRegistroJugador");
+        }
     }
 
     private Map<Integer, Color> obtenerMapaColores() {
@@ -244,6 +256,9 @@ public class PanelRegistroJugador extends JPanel {
                 ImageIcon icon = new ImageIcon(imgURL);
                 Image img = icon.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH);
                 return new ImageIcon(img);
+            } else {
+                java.awt.image.BufferedImage bi = new BufferedImage(w, h, java.awt.image.BufferedImage.TYPE_INT_ARGB);
+                return new ImageIcon(bi);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -258,5 +273,4 @@ public class PanelRegistroJugador extends JPanel {
     public void setGestorEventos(IGestorEventosInicioPartida gestorEventos) {
         this.gestorEventos = gestorEventos;
     }
-
 }

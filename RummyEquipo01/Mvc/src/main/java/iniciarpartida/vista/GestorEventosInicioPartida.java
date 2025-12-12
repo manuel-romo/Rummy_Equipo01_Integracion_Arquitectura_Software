@@ -35,7 +35,6 @@ public class GestorEventosInicioPartida implements IGestorEventosInicioPartida{
     }
 
     // Registro de jugador
-    
     @Override
     public void iniciarRegistroJugador() {
         receptorEventos.iniciarRegistroJugador();

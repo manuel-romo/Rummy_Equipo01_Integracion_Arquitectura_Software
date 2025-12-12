@@ -40,11 +40,8 @@ public class Serializador implements IFiltro {
 
             case TipoComando.COMANDO_AGREGAR_DIRECCION_JUGADOR:
 
-                ComandoAgregarDireccionJugador comandoAgregarDireccionJugador = (ComandoAgregarDireccionJugador) comando;
+                filtroSiguiente.ejecutar(comando);
 
-                    filtroSiguiente.ejecutar(comando);
-
-                System.out.println("Se agrego la dirección ip: " + comandoAgregarDireccionJugador.getDireccion());
                 break;
 
             default:

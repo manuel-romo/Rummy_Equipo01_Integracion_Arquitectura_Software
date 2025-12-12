@@ -99,16 +99,6 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
         notificar();
         
     }
-            
-     
-    public void iniciarSalaEspera() {
-
-        vistaVisible = true;
-        etapaActual = EtapaActual.SALA_ESPERA;
-        estadoPartida = EstadoPartida.INICIADA;
-        notificar();
-
-    }
 
     public void finalizar() {
 
@@ -215,6 +205,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     }
 
     public void notificarPartidaConfigurada(boolean exito) {
+        
         if(exito){
             estadoPartida = EstadoPartida.CONFIGURADA;
             

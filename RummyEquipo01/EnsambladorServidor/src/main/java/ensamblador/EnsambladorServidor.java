@@ -86,9 +86,6 @@ public class EnsambladorServidor {
             new Thread(servidorServidor).start();
             new Thread(colaMensajesRecibidos).start();
             
-            partida.cargarJugadores();
-            
-            
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

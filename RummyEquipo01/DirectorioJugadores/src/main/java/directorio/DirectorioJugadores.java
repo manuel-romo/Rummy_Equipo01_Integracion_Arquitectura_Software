@@ -8,6 +8,7 @@ import interfaces.IFiltro;
 import java.util.Map;
 import interfaces.IComando;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 /**
  *
@@ -54,7 +55,9 @@ public class DirectorioJugadores implements IFiltro {
 
                 ComandoAgregarDireccionJugador comandoAgregarDireccionJugador = (ComandoAgregarDireccionJugador) comando;
 
-                agregarDireccionNombreJugador(comandoAgregarDireccionJugador.getNombreJugador(), comandoAgregarDireccionJugador.getDireccion());
+                agregarDireccionNombreJugador(
+                        comandoAgregarDireccionJugador.getNombreJugador(), 
+                        comandoAgregarDireccionJugador.getDireccion());
 
                 System.out.println("Se agrego la dirección ip: " + comandoAgregarDireccionJugador.getDireccion());
                 break;
@@ -62,7 +65,7 @@ public class DirectorioJugadores implements IFiltro {
             case TipoComando.COMANDO_ENVOLVENTE:
 
                 ComandoEnvolvente envolvente = (ComandoEnvolvente) comando;
-
+                
                 dispatcher.agregarMensaje(envolvente.getMensajeSerializado(), jugadoresDirecciones.get(comando.getNombreJugador()));
 
                 break;

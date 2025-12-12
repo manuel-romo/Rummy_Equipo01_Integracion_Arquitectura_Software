@@ -47,9 +47,6 @@ public class ControladorInicioPartida {
     }
     
     // Solicitar inicio de juego
-    public void iniciarSalaEspera(){
-        modelo.iniciarSalaEspera();
-    }
     
     public void solicitarInicioJuego() {
         modelo.solicitarInicioJuego();

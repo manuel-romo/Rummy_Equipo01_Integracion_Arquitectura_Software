@@ -56,12 +56,6 @@ public class Partida {
         this.jugadores = jugadores;
     }
 
-    public void cargarJugadores() {
-
-        cargarJugadoresEspera();
-
-    }
-
     public void setFachada(FachadaObjetosNegocio fachada) {
         this.fachada = fachada;
     }
@@ -235,28 +229,34 @@ public class Partida {
 
                 if (validarRegistroJugadores(comandoRegistrarJugador.getAvatar())) {
                     actualizarJugador(comandoRegistrarJugador.getNombreJugador(), comandoRegistrarJugador.getAvatar());
-                    IComando comandoRespuesta = new ComandoRegistroExitoso(comandoRegistrarJugador.getNombreJugador());
-                    fachada.enviarComando(comandoRespuesta);
+                    
+                    cargarJugadoresEspera();
+                    
                 } else {
-                    IComando comandoRespuesta = new ComandoRegistroFallido(comandoRegistrarJugador.getNombreJugador(), "El avatar seleccionado ya está en uso");
+                    IComando comandoRespuesta = new ComandoRegistroFallido(
+                            comandoRegistrarJugador.getNombreJugador(), 
+                            "El avatar seleccionado ya está en uso");
                     fachada.enviarComando(comandoRespuesta);
                 }
 
                 break;
             case TipoComando.COMANDO_CONFIGURAR_PARTIDA:
+                
                 ComandoConfigurarPartida comandoConfigurarPartida = (ComandoConfigurarPartida) comando;
                 tablero.setMAXIMO_NUMERO_FICHA(comandoConfigurarPartida.getMaximoNumeroFichas());
                 tablero.setNUMERO_COMODINES(comandoConfigurarPartida.getNumeroComodines());
+                
+                Jugador nuevoJugador = new Jugador(null, comandoConfigurarPartida.getNombreJugador());
+                
+                jugadores.add(nuevoJugador);
 
                 IComando comandoRespuesta = new ComandoPartidaConfigurada(comandoConfigurarPartida.getNombreJugador(),
                         Boolean.TRUE, MENSAJE_PARTIDA_CONFIGURADA);
                 String [] direccion = {comandoConfigurarPartida.getIp(), comandoConfigurarPartida.getPuerto()};
                 IComando comandoAgregarJugador = new ComandoAgregarDireccionJugador(direccion, comandoConfigurarPartida.getNombreJugador());
                 fachada.enviarComando(comandoAgregarJugador);
-                System.out.println("Se envió el agg jugador con la dirección " + direccion);
                 fachada.enviarComando(comandoRespuesta);
-                System.out.println("Se envió el comando respuesta");
-                tablero.iniciarJuego();
+                
                 break;
             default:
                 throw new AssertionError();
@@ -412,12 +412,12 @@ public class Partida {
 
     }
 
-    //Métodos REGISTRAR JUGADOR JP
     private void actualizarJugador(String nombre, String avatar) {
-        for (Jugador jugador : tablero.getJugadores()) {
-            if (jugador.getNombre().equals(nombre)) {
-                jugador.setAvatar(avatar);
-            }
+
+        if (jugadorExiste(nombre)) {
+
+            obtenerJugador(nombre).setAvatar(avatar);
+            
         }
     }
 

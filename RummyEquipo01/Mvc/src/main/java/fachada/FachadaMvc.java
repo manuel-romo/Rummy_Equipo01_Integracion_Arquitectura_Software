@@ -59,7 +59,7 @@ public class FachadaMvc implements IFiltro {
 
     // Métodos de MVC Inicio partida.
 
-    public void enviarRegistroJugador(String avatar, String nombreJugador) {
+    public void enviarRegistroJugador(String nombreJugador, String avatar) {
         ComandoRegistrarJugador comandoRegistro = new ComandoRegistrarJugador(nombreJugador, avatar);
         filtroSiguiente.ejecutar(comandoRegistro);
     }
@@ -100,7 +100,7 @@ public class FachadaMvc implements IFiltro {
         IComando comandoSeleccionarFichasTablero = new ComandoSeleccionarFichasTablero(posicionesFichas, nombreJugador);
 
         filtroSiguiente.ejecutar(comandoSeleccionarFichasTablero);
-
+        
     }
 
     public void quitarFichasJugador(Integer[] posicionesFichas, String nombreJugador) {

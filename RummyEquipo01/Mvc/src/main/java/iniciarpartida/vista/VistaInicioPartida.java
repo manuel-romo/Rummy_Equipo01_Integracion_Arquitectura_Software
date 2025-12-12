@@ -17,12 +17,14 @@ import definiciones.IModeloInicioPartida;
 import iniciarpartida.dto.EstadoPartida;
 import iniciarpartida.dto.EtapaActual;
 import iniciarpartida.dto.JugadorInicioPartidaPresentacionDTO;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.swing.SwingUtilities;
 
 /**
  * @author Romo López Manuel
@@ -63,6 +65,7 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
         Image icono = Toolkit.getDefaultToolkit().getImage(getClass().getResource(ICONO_VENTANA));
         setIconImage(icono);
         
+        this.getContentPane().setLayout(new BorderLayout());
         this.setSize(TAMANIO_VENTANA);
         this.setLocationRelativeTo(null);
          
@@ -96,73 +99,71 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
     @Override
     public void actualizar(IModelo modelo) {
         
-        IModeloInicioPartida modeloInicioPartida = (IModeloInicioPartida)modelo;
-        
-        // Configuración de partida
-        EstadoPartida estadoPartida = modeloInicioPartida.obtenerEstadoPartida();
-        String mesajeConfiguracionPartida = modeloInicioPartida.obtenerMensaje();
-        
-        // Solcitud de inicio de juego
-        String mensaje = modeloInicioPartida.obtenerMensaje();
-        List<JugadorInicioPartidaPresentacionDTO> jugadores = modeloInicioPartida.obtenerJugadores();
-        EtapaActual etapaActual = modeloInicioPartida.obtenerEtapaActual();
-        int cantidadJugadoresIniciarJuego = modeloInicioPartida.obtenerCantidadJugadoresIniciarJuego();
-        
-        boolean vistaVisible = modeloInicioPartida.isVistaVisible();
-        
-        hacerVisible(vistaVisible);
-        
-        if(etapaActual != null){
+        SwingUtilities.invokeLater(() -> {
             
-            switch (etapaActual) {
-                case EtapaActual.INICIO:
+            IModeloInicioPartida modeloInicioPartida = (IModeloInicioPartida) modelo;
 
-                    this.getContentPane().removeAll();
-                    this.getContentPane().add(panelPrincipal);
+            // Configuración de aprtida
+            EstadoPartida estadoPartida = modeloInicioPartida.obtenerEstadoPartida();
+            String mesajeConfiguracionPartida = modeloInicioPartida.obtenerMensaje();
+            String mensaje = modeloInicioPartida.obtenerMensaje();
+            
+            // Registro de jugador
+            String nombreJugador = modeloInicioPartida.obtenerNombreJugador();
+            
+            // Solicitud de inicio de partida
+            List<JugadorInicioPartidaPresentacionDTO> jugadores = modeloInicioPartida.obtenerJugadores();
+            EtapaActual etapaActual = modeloInicioPartida.obtenerEtapaActual();
+            int cantidadJugadoresIniciarJuego = modeloInicioPartida.obtenerCantidadJugadoresIniciarJuego();
+            
+            boolean vistaVisible = modeloInicioPartida.isVistaVisible();
 
-                    break;
-                    
-                case EtapaActual.REGISTRO_NOMBRE_JUGADOR:
+            hacerVisible(vistaVisible);
 
-                    this.getContentPane().removeAll();
-                    this.getContentPane().add(panelRegistroNombreJugador);
+            if (etapaActual != null) {
 
-                    break;
-                    
-                case EtapaActual.CONFIGURACION_PARTIDA:
+                this.getContentPane().removeAll();
 
-                    if(estadoPartida != null){
-                        panelConfiguracionPartida.actualizar(estadoPartida, mesajeConfiguracionPartida);
-                    }
-                    this.getContentPane().removeAll();
-                    this.getContentPane().add(panelConfiguracionPartida);
+                switch (etapaActual) {
+                    case EtapaActual.INICIO:
+                        this.getContentPane().add(panelPrincipal, BorderLayout.CENTER);
+                        break;
 
-                    break;
-                    
-                case EtapaActual.REGISTRO_JUGADOR:
+                    case EtapaActual.REGISTRO_NOMBRE_JUGADOR:
+                        this.getContentPane().add(panelRegistroNombreJugador, BorderLayout.CENTER);
+                        break;
 
-                    this.getContentPane().removeAll();
-                    this.getContentPane().add(panelRegistroJugador);
+                    case EtapaActual.CONFIGURACION_PARTIDA:
+                        if (estadoPartida != null) {
+                            panelConfiguracionPartida.actualizar(estadoPartida, mesajeConfiguracionPartida);
+                        }
+                        this.getContentPane().add(panelConfiguracionPartida, BorderLayout.CENTER);
+                        break;
 
-                    break;
-                    
-                case EtapaActual.SALA_ESPERA:
+                    case EtapaActual.REGISTRO_JUGADOR:
 
-                    this.getContentPane().removeAll();
-                    this.getContentPane().add(panelSalaEspera);
-                    List<JugadorInicioPartidaInformacionPanel> jugadoresInformacion = obtenerJugadoresInformacion(jugadores);
+                        panelRegistroJugador.actualizar(nombreJugador);
+                        this.getContentPane().add(panelRegistroJugador, BorderLayout.CENTER);
+                        panelRegistroJugador.setVisible(true);
+ 
+                        break;
 
-                    panelSalaEspera.actualizar(jugadoresInformacion, mensaje, cantidadJugadoresIniciarJuego);
+                    case EtapaActual.SALA_ESPERA:
+                        this.getContentPane().add(panelSalaEspera, BorderLayout.CENTER);
+                        List<JugadorInicioPartidaInformacionPanel> jugadoresInformacion = obtenerJugadoresInformacion(jugadores);
+                        panelSalaEspera.actualizar(jugadoresInformacion, mensaje, cantidadJugadoresIniciarJuego);
+                        break;
 
-                    break;
-                default:
-                    throw new AssertionError();
+                    default:
+                        break;
+                }
+
+                this.getContentPane().revalidate();
+                this.getContentPane().repaint();
             }
             
-        }
-        
-        revalidate();
-        repaint();
+            
+        });
         
     }
     
