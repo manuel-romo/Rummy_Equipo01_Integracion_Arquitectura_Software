@@ -37,6 +37,8 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
     private final String TITULO_VENTANA = "Rummy";
     private final String ICONO_VENTANA = "/iconoVentanaEjercerTurno.png";
     
+    private String nombreJugador;
+    
     private PanelPrincipal panelPrincipal;
     private PanelRegistroNombreJugador panelRegistroNombreJugador;
     private PanelConfiguracionPartida panelConfiguracionPartida;
@@ -113,6 +115,7 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
             
             // Registro de jugador
             String nombreJugador = modeloInicioPartida.obtenerNombreJugador();
+            this.nombreJugador = nombreJugador;
             
             // Solicitud de inicio de partida
             List<JugadorInicioPartidaPresentacionDTO> jugadores = modeloInicioPartida.obtenerJugadores();
@@ -175,7 +178,7 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
             }
             
             if(juegoIniciado){
-                controlador.aceptarAceptacionInicioJuego();
+                controlador.aceptarAceptacionInicioJuego(nombreJugador);
                 
             }
             
@@ -241,7 +244,7 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
 
      @Override
     public void aceptarAceptacionInicioJuego() {
-        controlador.aceptarAceptacionInicioJuego();
+        controlador.aceptarAceptacionInicioJuego(nombreJugador);
     }
 
     @Override

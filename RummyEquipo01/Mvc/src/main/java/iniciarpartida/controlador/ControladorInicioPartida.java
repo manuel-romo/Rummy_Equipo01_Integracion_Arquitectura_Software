@@ -75,10 +75,10 @@ public class ControladorInicioPartida {
         modelo.confirmarInicioJuego(confirmacion);
     }
     
-    public void aceptarAceptacionInicioJuego(){
+    public void aceptarAceptacionInicioJuego(String nombreJugador){
         
         modelo.finalizar();
-        controladorEjercerTurno.iniciar();  
+        controladorEjercerTurno.iniciar(nombreJugador);  
     }
 
     public void setControladorEjercerTurno(ControladorEjercerTurno controladorEjercerTurno) {

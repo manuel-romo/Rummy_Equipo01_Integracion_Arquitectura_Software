@@ -153,13 +153,10 @@ public class Deserializador implements IReceptorExterno {
 
             if (!objetoJson.has("type")) {
                 System.err.println("Error: El JSON recibido no tiene campo 'type': " + respuesta);
-                return null; // <--- Causa 1
+                return null;
             }
 
             String type = objetoJson.get("type").getAsString();
-
-            // Imprime qué tipo llegó para depurar
-            System.out.println("Buscando comando tipo: '" + type + "'"); 
 
             Class<? extends IComando> claseComando = registroComandos.get(type);
 
@@ -168,7 +165,7 @@ public class Deserializador implements IReceptorExterno {
             } else {
                 System.err.println("Error: El tipo '" + type + "' no existe en registroComandos.");
                 System.err.println("Tipos registrados disponibles: " + registroComandos.keySet());
-                return null; // <--- Causa 2 (La más probable)
+                return null;
             }
 
         } catch (JsonSyntaxException e) {

@@ -23,11 +23,6 @@ public class DirectorioJugadores implements IFiltro {
 
     private Map<String, String[]> jugadoresDirecciones = new HashMap<>();
 
-    public DirectorioJugadores() {
-        jugadoresDirecciones.put("Francisco34", new String[]{"127.0.0.1", "51000"});
-        jugadoresDirecciones.put("Sandy43", new String[]{"127.0.0.1", "52000"});
-    }
-
     private IDispatcher dispatcher;
 
     public void agregarJugador(String nombreJugador, String[] direccion) {
@@ -59,7 +54,6 @@ public class DirectorioJugadores implements IFiltro {
                         comandoAgregarDireccionJugador.getNombreJugador(), 
                         comandoAgregarDireccionJugador.getDireccion());
 
-                System.out.println("Se agrego la dirección ip: " + comandoAgregarDireccionJugador.getDireccion());
                 break;
 
             case TipoComando.COMANDO_ENVOLVENTE:

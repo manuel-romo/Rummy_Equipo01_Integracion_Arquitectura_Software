@@ -93,7 +93,7 @@ public enum TipoComando {
                 return t;
             }
         }
-        throw new IllegalArgumentException("No existe CommandType con nombre: " + nombre);
+        throw new IllegalArgumentException("No existe TipoComando con nombre: " + nombre);
     }
     
 }

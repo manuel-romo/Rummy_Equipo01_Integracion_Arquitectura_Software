@@ -86,9 +86,7 @@ public class ModeloEjercerTurno implements IPublicador, IModeloEjercerTurno{
      * Nombre del jugador.
      */
     private String nombreJugador;
-    
-    private boolean ejercerTurnoIniciado = false;
-    
+
     /**
      * Obtiene la lista de vistas suscritas al modelo.
      *
@@ -276,11 +274,9 @@ public class ModeloEjercerTurno implements IPublicador, IModeloEjercerTurno{
         
     }
     
-    public void iniciar(){
-        
-        vistaVisible = true;
-        ejercerTurnoIniciado = true;
-        
+    public void iniciar(String nombreJugador){
+        this.nombreJugador = nombreJugador;
+        this.vistaVisible = true;
         notificar();
     }
 
@@ -288,7 +284,7 @@ public class ModeloEjercerTurno implements IPublicador, IModeloEjercerTurno{
     
         this.nuevoTurno = true;
         this.tablero = tablero;
-        vistaHabilitada = true;
+        this.vistaHabilitada = true;
         this.mensaje = CODIGO_MENSAJE_INCIO_TURNO + mensaje;
         
         notificar();
@@ -299,9 +295,9 @@ public class ModeloEjercerTurno implements IPublicador, IModeloEjercerTurno{
         
         this.nuevoTurno = true;
         this.tablero = tablero;
-        vistaHabilitada = false;
+        this.vistaHabilitada = false;
         this.mensaje = CODIGO_MENSAJE_CAMBIO_TURNO + mensaje;
-        
+
         notificar();
         
     }

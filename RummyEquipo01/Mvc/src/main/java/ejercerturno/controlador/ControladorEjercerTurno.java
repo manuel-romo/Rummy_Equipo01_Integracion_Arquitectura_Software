@@ -12,8 +12,8 @@ public class ControladorEjercerTurno {
         this.modelo = modelo;
     }
     
-    public void iniciar(){     
-        modelo.iniciar();   
+    public void iniciar(String nombreJugador){     
+        modelo.iniciar(nombreJugador);
     }
     
     public void seleccionarFichasTablero(Integer[] idsFichas) {

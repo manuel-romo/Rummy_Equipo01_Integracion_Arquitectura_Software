@@ -118,7 +118,7 @@ public class Tablero {
         }
         id = fichasMonton.size() + 1;
         crearFichasComodines(id, fichasMonton);
-
+        
         this.fichas.addAll(fichasMonton);
 
         for (Jugador jugador : jugadores) {

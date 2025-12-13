@@ -46,6 +46,7 @@ public class Serializador implements IFiltro {
 
             default:
                 String accion = serializarAccion(comando);
+                
                 IComando comandoEnvolvente = new ComandoEnvolvente(accion, comando.getNombreJugador());
 
                 if (filtroSiguiente != null) {
