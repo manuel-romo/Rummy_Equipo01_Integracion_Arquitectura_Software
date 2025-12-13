@@ -1,7 +1,7 @@
 package definiciones;
 
 import iniciarpartida.dto.EstadoPartida;
-import iniciarpartida.dto.EtapaActual;
+import iniciarpartida.dto.EtapaActualInicioPartida;
 import iniciarpartida.dto.JugadorInicioPartidaPresentacionDTO;
 import java.awt.Color;
 import java.util.List;
@@ -17,7 +17,7 @@ public interface IModeloInicioPartida extends IModelo {
 
     public abstract List<JugadorInicioPartidaPresentacionDTO> obtenerJugadores();
 
-    public abstract EtapaActual obtenerEtapaActual();
+    public abstract EtapaActualInicioPartida obtenerEtapaActual();
 
     public abstract int obtenerCantidadJugadoresIniciarJuego();
 

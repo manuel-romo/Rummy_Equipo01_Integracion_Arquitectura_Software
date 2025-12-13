@@ -24,7 +24,10 @@ import definiciones.ISuscriptor;
 import enumeradores.ColorFichaDTO;
 
 import definiciones.IModeloEjercerTurno;
+import dtos.JugadorPuntuacionDTO;
+import ejercerturno.dto.JugadorPuntuacionPresentacionDTO;
 import fachada.FachadaMvc;
+import iniciarpartida.dto.EtapaActualEjercerTurno;
 
 /**
  * Clase Modelo que representa la parte lógica del patrón MVC para el caso de
@@ -82,10 +85,15 @@ public class ModeloEjercerTurno implements IPublicador, IModeloEjercerTurno{
     
     private FachadaMvc fachadaMvc;
     
+    private EtapaActualEjercerTurno etapaActualEjercerTurno = EtapaActualEjercerTurno.TABLERO;
+    
     /**
      * Nombre del jugador.
      */
     private String nombreJugador;
+    
+    private List<JugadorPuntuacionDTO> jugadoresPuntuaciones = new LinkedList<>();
+    
 
     /**
      * Obtiene la lista de vistas suscritas al modelo.
@@ -275,8 +283,19 @@ public class ModeloEjercerTurno implements IPublicador, IModeloEjercerTurno{
     }
     
     public void iniciar(String nombreJugador){
+        
         this.nombreJugador = nombreJugador;
         this.vistaVisible = true;
+        etapaActualEjercerTurno = EtapaActualEjercerTurno.TABLERO;
+        
+        notificar();
+    }
+    
+    public void finalizar(){
+        this.tablero = null;
+        this.nombreJugador = null;
+        this.vistaVisible = false;
+        this.mensaje = null;
         notificar();
     }
 
@@ -425,8 +444,19 @@ public class ModeloEjercerTurno implements IPublicador, IModeloEjercerTurno{
         
     }
     
+    public void notificarPuntuacionesJugadores(List<JugadorPuntuacionDTO> jugadoresPuntuaciones){
+        
+        this.jugadoresPuntuaciones = jugadoresPuntuaciones;
+        this.mensaje = null;
+        etapaActualEjercerTurno = EtapaActualEjercerTurno.PUNTUACIONES;
+        
+        notificar();
+        
+    }
+    
     public void terminarJuego(){
         
+        //TODO
         System.exit(0);
         
     }
@@ -591,6 +621,26 @@ public class ModeloEjercerTurno implements IPublicador, IModeloEjercerTurno{
         
     }
     
+    @Override
+    public List<JugadorPuntuacionPresentacionDTO> obtenerPuntuacionesJugadores() {
+        
+        List<JugadorPuntuacionPresentacionDTO> jugadoresPuntuacionPresentacion = new LinkedList<>();
+        
+        for(JugadorPuntuacionDTO jugadorPuntuacion: jugadoresPuntuaciones){
+            
+            jugadoresPuntuacionPresentacion.add(obtenerJugadorPuntuacionPresentacionDTO(jugadorPuntuacion));
+
+        }
+        
+        return jugadoresPuntuacionPresentacion;
+        
+    }
+    
+    @Override
+    public EtapaActualEjercerTurno obtenerEtapaActualEjercerTurno() {
+        return etapaActualEjercerTurno;
+    }
+    
     private FichaPresentacionDTO obtenerFichaPresentacionDTO(FichaDTO fichaDTO){
 
         FichaPresentacionDTO fichaPresentacionDTO;
@@ -640,8 +690,21 @@ public class ModeloEjercerTurno implements IPublicador, IModeloEjercerTurno{
         return fichaPresentacionDTO;
         
     }
+    
+    private JugadorPuntuacionPresentacionDTO obtenerJugadorPuntuacionPresentacionDTO(JugadorPuntuacionDTO jugadorPuntuacion){
+        
+        JugadorPuntuacionPresentacionDTO jugadorPuntuacionPresentacion 
+                = new JugadorPuntuacionPresentacionDTO(
+                        jugadorPuntuacion.getNombre(), 
+                        jugadorPuntuacion.getAvatar(), 
+                        String.valueOf(jugadorPuntuacion.getPuntaje()));
+        
+        return jugadorPuntuacionPresentacion;
+        
+    }
 
     public void setFachadaMvc(FachadaMvc fachadaMvc) {
         this.fachadaMvc = fachadaMvc;
     }
+
 }

@@ -3,10 +3,12 @@
 package ejercerturno.controlador;
 
 import ejercerturno.modelo.ModeloEjercerTurno;
+import iniciarpartida.controlador.ControladorInicioPartida;
 
 public class ControladorEjercerTurno {
 
     private ModeloEjercerTurno modelo;
+    private ControladorInicioPartida controladorInicioPartida;
 
     public ControladorEjercerTurno(ModeloEjercerTurno modelo){
         this.modelo = modelo;
@@ -64,8 +66,17 @@ public class ControladorEjercerTurno {
         modelo.finalizarPartida();
     }
     
+    public void volverInicio(){
+        modelo.finalizar();
+        controladorInicioPartida.iniciar();
+    }
+    
     public void confirmarFinalizarPartida(boolean confirmacion){
         modelo.confirmarSolicitudFin(confirmacion);
     }
-    
+
+    public void setControladorInicioPartida(ControladorInicioPartida controladorInicioPartida) {
+        this.controladorInicioPartida = controladorInicioPartida;
+    }
+
 }

@@ -12,6 +12,7 @@ import comandos.respuesta.ComandoDecisionIniciarJuego;
 import comandos.respuesta.ComandoNuevaSolicitudIniciarJuego;
 import comandos.respuesta.ComandoActualizarJugadoresInicioJuego;
 import comandos.respuesta.ComandoPartidaConfigurada;
+import comandos.respuesta.ComandoPuntuacionesJugadores;
 import comandos.respuesta.ComandoRegistroExitoso;
 import comandos.respuesta.ComandoRegistroFallido;
 import comandos.respuesta.ComandoRespuestaConfirmacionSolicitarFin;
@@ -222,7 +223,8 @@ public class FachadaMvc implements IFiltro {
     public void ejecutar(IComando comando) {
 
         TipoComando tipoComando = TipoComando.fromNombre(comando.getTipo());
-
+        System.out.println("COMANDO QUE SE ESTA RECIBIENDO: " + comando.getTipo());
+        
         switch (tipoComando) {
 
             // Comandos MVC Ejercer Turno
@@ -341,6 +343,16 @@ public class FachadaMvc implements IFiltro {
 
                 modeloEjercerTurno.notificarJugadorPartidaGanada(comandoJugadorPartidaGanada.getMensaje());
 
+                break;
+                
+            case TipoComando.COMANDO_PUNTUACIONES_JUGADORES:
+                
+                ComandoPuntuacionesJugadores comandoPuntuacionesJugadores 
+                        = (ComandoPuntuacionesJugadores) comando;
+
+                modeloEjercerTurno.notificarPuntuacionesJugadores(
+                        comandoPuntuacionesJugadores.getJugadoresPuntuacion());
+                
                 break;
 
             // Comandos MVC InicioPartida

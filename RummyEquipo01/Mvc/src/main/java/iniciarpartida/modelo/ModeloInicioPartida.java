@@ -6,7 +6,7 @@ import definiciones.ISuscriptor;
 import dtos.JugadorInicioPartidaDTO;
 import fachada.FachadaMvc;
 import iniciarpartida.dto.EstadoPartida;
-import iniciarpartida.dto.EtapaActual;
+import iniciarpartida.dto.EtapaActualInicioPartida;
 import iniciarpartida.dto.JugadorInicioPartidaPresentacionDTO;
 import java.awt.Color;
 import java.util.LinkedList;
@@ -36,7 +36,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
 
     private int cantidadJugadoresIniciarJuego = 0;
 
-    private EtapaActual etapaActual;
+    private EtapaActualInicioPartida etapaActual;
 
     private boolean vistaVisible;
     
@@ -70,11 +70,11 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     private final String CODIGO_MENSAJE_RECHAZO_UNION = "RU: ";
     private final String CODIGO_MENSAJE_ACEPTACION_UNION = "AU: ";
 
-    public void iniciarInicio(){
+    public void iniciar(){
         
         nombreJugador = null;
         vistaVisible = true;
-        etapaActual = EtapaActual.INICIO;
+        etapaActual = EtapaActualInicioPartida.INICIO;
         notificar();
         
     }
@@ -82,7 +82,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     private void iniciarRegistroNombreJugador(){
         
         vistaVisible = true;
-        etapaActual = EtapaActual.REGISTRO_NOMBRE_JUGADOR;
+        etapaActual = EtapaActualInicioPartida.REGISTRO_NOMBRE_JUGADOR;
         notificar();
         
     }
@@ -118,7 +118,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     private void iniciarConfiguracionPartida(){
         
         vistaVisible = true;
-        etapaActual = EtapaActual.CONFIGURACION_PARTIDA;
+        etapaActual = EtapaActualInicioPartida.CONFIGURACION_PARTIDA;
         
         notificar();
         
@@ -127,7 +127,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     private void introducirDireccionIP(){
 
         vistaVisible = true;
-        etapaActual = EtapaActual.REGISTRO_IP;
+        etapaActual = EtapaActualInicioPartida.REGISTRO_IP;
         
         notificar();
         
@@ -136,7 +136,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     public void iniciarRegistroJugador(){
 
         vistaVisible = true;
-        etapaActual = EtapaActual.REGISTRO_JUGADOR;
+        etapaActual = EtapaActualInicioPartida.REGISTRO_JUGADOR;
         
         notificar();
         
@@ -208,7 +208,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
 
         this.jugadores = jugadores;
         this.mensaje = null;
-        etapaActual = EtapaActual.SALA_ESPERA;
+        etapaActual = EtapaActualInicioPartida.SALA_ESPERA;
 
         notificar();
 
@@ -217,7 +217,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     public void notificarNuevaSolicitudIniciarJuego(String mensaje) {
 
         this.mensaje = CODIGO_MENSAJE_NUEVA_SOLICITUD_INICIO + mensaje;
-        etapaActual = EtapaActual.SALA_ESPERA;
+        etapaActual = EtapaActualInicioPartida.SALA_ESPERA;
 
         notificar();
 
@@ -226,7 +226,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     public void notificarRespuestaIniciarJuego(String mensaje) {
 
         this.mensaje = CODIGO_MENSAJE_CONFIRMAR_ENVIO_SOLICITUD_INICIO + mensaje;
-        etapaActual = EtapaActual.SALA_ESPERA;
+        etapaActual = EtapaActualInicioPartida.SALA_ESPERA;
 
         notificar();
 
@@ -236,7 +236,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
 
         this.mensaje = null;
         cantidadJugadoresIniciarJuego = cantidadJugadores;
-        etapaActual = EtapaActual.SALA_ESPERA;
+        etapaActual = EtapaActualInicioPartida.SALA_ESPERA;
 
         notificar();
 
@@ -244,7 +244,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
 
     public void notificarDecisionIniciarJuego(String mensaje, boolean decision) {
 
-        etapaActual = EtapaActual.SALA_ESPERA;
+        etapaActual = EtapaActualInicioPartida.SALA_ESPERA;
 
         if (!decision) {
             this.mensaje = CODIGO_MENSAJE_RECHAZO_INICIO + mensaje;
@@ -301,7 +301,7 @@ public class ModeloInicioPartida implements IPublicador, IModeloInicioPartida {
     }
 
     @Override
-    public EtapaActual obtenerEtapaActual() {
+    public EtapaActualInicioPartida obtenerEtapaActual() {
         return etapaActual;
     }
 

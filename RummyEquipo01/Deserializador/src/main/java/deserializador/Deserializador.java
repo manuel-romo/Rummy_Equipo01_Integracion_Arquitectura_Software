@@ -16,6 +16,7 @@ import comandos.respuesta.ComandoJugadorPartidaGanada;
 import comandos.respuesta.ComandoNuevaSolicitudIniciarJuego;
 import comandos.respuesta.ComandoPartidaConfigurada;
 import comandos.respuesta.ComandoPartidaGanada;
+import comandos.respuesta.ComandoPuntuacionesJugadores;
 import comandos.respuesta.ComandoRegistroExitoso;
 import comandos.respuesta.ComandoRegistroFallido;
 import comandos.respuesta.ComandoRespuestaAbandonar;
@@ -106,6 +107,8 @@ public class Deserializador implements IReceptorExterno {
 
         registroComandos.put("ComandoPartidaGanada", ComandoPartidaGanada.class);
         registroComandos.put("ComandoJugadorPartidaGanada", ComandoJugadorPartidaGanada.class);
+        
+        registroComandos.put("ComandoPuntuacionesJugadores", ComandoPuntuacionesJugadores.class);
 
         // SOLICITAR INICIO PARTIDA
         registroComandos.put("ComandoIniciarJuego", ComandoIniciarJuego.class);

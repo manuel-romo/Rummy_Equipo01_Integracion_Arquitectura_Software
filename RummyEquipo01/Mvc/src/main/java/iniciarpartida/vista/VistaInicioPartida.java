@@ -15,7 +15,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import definiciones.IModeloInicioPartida;
 import iniciarpartida.dto.EstadoPartida;
-import iniciarpartida.dto.EtapaActual;
+import iniciarpartida.dto.EtapaActualInicioPartida;
 import iniciarpartida.dto.JugadorInicioPartidaPresentacionDTO;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -119,7 +119,7 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
             
             // Solicitud de inicio de partida
             List<JugadorInicioPartidaPresentacionDTO> jugadores = modeloInicioPartida.obtenerJugadores();
-            EtapaActual etapaActual = modeloInicioPartida.obtenerEtapaActual();
+            EtapaActualInicioPartida etapaActual = modeloInicioPartida.obtenerEtapaActual();
             int cantidadJugadoresIniciarJuego = modeloInicioPartida.obtenerCantidadJugadoresIniciarJuego();
             
             boolean juegoIniciado = modeloInicioPartida.isJuegoIniciado();
@@ -133,22 +133,22 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
                 this.getContentPane().removeAll();
 
                 switch (etapaActual) {
-                    case EtapaActual.INICIO:
+                    case EtapaActualInicioPartida.INICIO:
                         this.getContentPane().add(panelPrincipal, BorderLayout.CENTER);
                         break;
 
-                    case EtapaActual.REGISTRO_NOMBRE_JUGADOR:
+                    case EtapaActualInicioPartida.REGISTRO_NOMBRE_JUGADOR:
                         this.getContentPane().add(panelRegistroNombreJugador, BorderLayout.CENTER);
                         break;
 
-                    case EtapaActual.CONFIGURACION_PARTIDA:
+                    case EtapaActualInicioPartida.CONFIGURACION_PARTIDA:
                         if (estadoPartida != null) {
                             panelConfiguracionPartida.actualizar(estadoPartida, mesajeConfiguracionPartida);
                         }
                         this.getContentPane().add(panelConfiguracionPartida, BorderLayout.CENTER);
                         break;
 
-                    case EtapaActual.REGISTRO_JUGADOR:
+                    case EtapaActualInicioPartida.REGISTRO_JUGADOR:
 
                         panelRegistroJugador.actualizar(nombreJugador);
                         this.getContentPane().add(panelRegistroJugador, BorderLayout.CENTER);
@@ -156,13 +156,13 @@ public class VistaInicioPartida extends JFrame implements ISuscriptor, IReceptor
  
                         break;
                         
-                    case EtapaActual.REGISTRO_IP:
+                    case EtapaActualInicioPartida.REGISTRO_IP:
                         
                         this.getContentPane().add(panelIngresoIP, BorderLayout.CENTER);
                         panelIngresoIP.mostrar(mensaje);
                         break;
 
-                    case EtapaActual.SALA_ESPERA:
+                    case EtapaActualInicioPartida.SALA_ESPERA:
                         
                         this.getContentPane().add(panelSalaEspera, BorderLayout.CENTER);
                         List<JugadorInicioPartidaInformacionPanel> jugadoresInformacion = obtenerJugadoresInformacion(jugadores);

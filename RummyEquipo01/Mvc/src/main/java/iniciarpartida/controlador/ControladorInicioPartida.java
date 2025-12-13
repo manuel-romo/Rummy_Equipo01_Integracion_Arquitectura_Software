@@ -19,6 +19,10 @@ public class ControladorInicioPartida {
         this.modelo = modelo;
     }  
     
+    public void iniciar(){
+        modelo.iniciar();
+    }
+    
     public void iniciarCreacionPartida() {
         modelo.iniciarCreacionPartida();
     }
@@ -38,7 +42,7 @@ public class ControladorInicioPartida {
     }
     
     public void volverInicio() {
-        modelo.iniciarInicio();
+        modelo.iniciar();
     }
     
     // Registrar jugador

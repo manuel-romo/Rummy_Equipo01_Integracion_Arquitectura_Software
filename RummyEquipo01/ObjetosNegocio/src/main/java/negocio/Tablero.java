@@ -14,6 +14,7 @@ import comandos.respuesta.ComandoFinPartida;
 import comandos.respuesta.ComandoJugadorAbandonoPartida;
 import comandos.respuesta.ComandoJugadorPartidaGanada;
 import comandos.respuesta.ComandoPartidaGanada;
+import comandos.respuesta.ComandoPuntuacionesJugadores;
 import comandos.respuesta.ComandoRespuestaConfirmacionSolicitarFin;
 import comandos.respuesta.ComandoRespuestaSolicitarFin;
 import comandos.solicitud.ComandoConfirmacionAbandonar;
@@ -30,6 +31,7 @@ import dtos.FichaDTO;
 import dtos.FichaNormalDTO;
 import dtos.GrupoDTO;
 import dtos.JugadorDTO;
+import dtos.JugadorPuntuacionDTO;
 import dtos.MontonDTO;
 import dtos.TableroDTO;
 import enumeradores.ColorFicha;
@@ -43,6 +45,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import interfaces.IComando;
+import java.util.Comparator;
 
 /**
  * Clase de Negocio para el servidor el cual valida todo el tablero cuando se
@@ -93,16 +96,16 @@ public class Tablero {
     private final String MENSAJE_PARTIDA_GANADA = "¡Has ganado la partida!";
     private final String MENSAJE_JUGADOR_PARTIDA_GANADA = " ha ganado la partida.";
 
-    public Tablero(List<Jugador> jugadores, int maximoNimeroFichas, int numeroComodines, FachadaObjetosNegocio fachadaTablero){
-        
+    public Tablero(List<Jugador> jugadores, int maximoNimeroFichas, int numeroComodines, FachadaObjetosNegocio fachadaTablero) {
+
         this.jugadores = jugadores;
         this.maximoNumeroFichas = maximoNimeroFichas;
         this.numeroComodines = numeroComodines;
         this.fachadaTablero = fachadaTablero;
     }
-    
+
     public void iniciarJuego() {
-        
+
         ColorFicha[] ordenColores = {
             ColorFicha.COLOR_A, ColorFicha.COLOR_A,
             ColorFicha.COLOR_B, ColorFicha.COLOR_B,
@@ -112,20 +115,20 @@ public class Tablero {
 
         List<Ficha> fichasMonton = new LinkedList<>();
         int id = 1;
-        for (ColorFicha color: ordenColores) {
+        for (ColorFicha color : ordenColores) {
             id = fichasMonton.size() + 1;
             crearMonton(id, fichasMonton, color);
         }
         id = fichasMonton.size() + 1;
         crearFichasComodines(id, fichasMonton);
-        
+
         this.fichas.addAll(fichasMonton);
 
         for (Jugador jugador : jugadores) {
-        
-            List<Ficha> mano = repartirMano(fichasMonton, 14);
 
-            jugador.setFichas(mano); 
+            List<Ficha> mano = repartirMano(fichasMonton, 3);
+
+            jugador.setFichas(mano);
         }
 
         monton = new Monton(fichasMonton);
@@ -664,48 +667,96 @@ public class Tablero {
 
         jugadorTurno.getFichas().removeAll(fichasQuitar);
 
-        if (jugadorTurno.getFichas().size() == 0) {
+        ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
+                obtenerTableroDto(jugadorTurno.getNombre()),
+                true,
+                nombreJugador);
 
-            for (Jugador jugador : jugadores) {
-
-                if (jugador.getNombre().equals(jugadorTurno.getNombre())) {
-
-                    ComandoPartidaGanada comandoPartidaGanada = new ComandoPartidaGanada(
-                            jugador.getNombre(),
-                            MENSAJE_PARTIDA_GANADA);
-
-                    fachadaTablero.enviarComando(comandoPartidaGanada);
-
-                } else {
-
-                    ComandoJugadorPartidaGanada comandoJugadorPartidaGanada = new ComandoJugadorPartidaGanada(
-                            jugador.getNombre(),
-                            jugador.getNombre() + MENSAJE_JUGADOR_PARTIDA_GANADA);
-
-                    fachadaTablero.enviarComando(comandoJugadorPartidaGanada);
-
-                }
-
-                ComandoFinPartida comandoFinPartida = new ComandoFinPartida(jugador.getNombre());
-
-                fachadaTablero.enviarComando(comandoFinPartida);
-
-            }
-
-        } else {
-
-            ComandoRespuestaMovimiento comandoRespuestaMovimiento = new ComandoRespuestaMovimiento(
-                    obtenerTableroDto(jugadorTurno.getNombre()),
-                    true,
-                    nombreJugador);
-
-            fachadaTablero.enviarComando(comandoRespuestaMovimiento);
-
-        }
+        fachadaTablero.enviarComando(comandoRespuestaMovimiento);
 
     }
 
-    // Revisar
+    private Jugador obtenerJugadorMenosPuntos() {
+
+        Jugador jugadorMenosPuntos = jugadores.get(0);
+
+        int menorCantidadPuntos = 0;
+
+        menorCantidadPuntos = obtenerCantidadPuntosJugador(jugadorMenosPuntos.getNombre());
+
+        for (Jugador jugador : jugadores) {
+
+            int cantidadPuntosJugador = obtenerCantidadPuntosJugador(jugador.getNombre());
+
+            if (cantidadPuntosJugador != -1) {
+
+                if (menorCantidadPuntos > cantidadPuntosJugador) {
+
+                    menorCantidadPuntos = cantidadPuntosJugador;
+                    jugadorMenosPuntos = jugador;
+
+                }
+
+            }
+
+        }
+
+        return jugadorMenosPuntos;
+
+    }
+    
+    private List<JugadorPuntuacionDTO> obtenerPuntuacionesJugadores() {
+
+        List<JugadorPuntuacionDTO> jugadoresPuntuacion = new LinkedList<>();
+
+        for (Jugador jugador : jugadores) {
+
+            int sumaTotalPuntos = obtenerCantidadPuntosJugador(jugador.getNombre());
+
+            JugadorPuntuacionDTO jugadorPuntuacion = new JugadorPuntuacionDTO(
+                    jugador.getNombre(),
+                    jugador.getAvatar(),
+                    sumaTotalPuntos);
+
+            jugadoresPuntuacion.add(jugadorPuntuacion);
+
+        }
+        
+        jugadoresPuntuacion.sort(Comparator.comparingInt(JugadorPuntuacionDTO::getPuntaje));
+
+        return jugadoresPuntuacion;
+
+    }
+
+    private int obtenerCantidadPuntosJugador(String nombreJugador) {
+
+        for (Jugador jugador : jugadores) {
+
+            if (jugador.getNombre().equals(nombreJugador)) {
+
+                int cantidadPuntosJugador = 0;
+
+                for (Ficha ficha : jugador.getFichas()) {
+
+                    if (!ficha.isEsComodin()) {
+
+                        cantidadPuntosJugador += ((FichaNormal) ficha).getNumero();
+
+                    }
+
+                }
+
+                return cantidadPuntosJugador;
+
+            }
+
+        }
+
+        return -1;
+
+    }
+
+
     public void quitarFichasTablero(Integer[] idsFichas, String nombreJugador) {
 
         if (idsFichas == null || idsFichas.length == 0) {
@@ -884,11 +935,61 @@ public class Tablero {
 
     public void pasarSiguienteJugador() {
 
-        int indice = jugadores.indexOf(jugadorTurno);
-        if (indice == jugadores.size() - 1) {
-            jugadorTurno = jugadores.get(0);
+        if (jugadorTurno.getFichas().size() == 0) {
+
+            avisarGanador();
+            avisarPuntajeFinal();
+
         } else {
-            jugadorTurno = jugadores.get(indice + 1);
+
+            int indice = jugadores.indexOf(jugadorTurno);
+            if (indice == jugadores.size() - 1) {
+                jugadorTurno = jugadores.get(0);
+            } else {
+                jugadorTurno = jugadores.get(indice + 1);
+            }
+
+        }
+
+    }
+
+    public void avisarGanador() {
+
+        Jugador jugadorGanador = obtenerJugadorMenosPuntos();
+
+        ComandoPartidaGanada comandoPartidaGanada = new ComandoPartidaGanada(
+                jugadorGanador.getNombre(),
+                MENSAJE_PARTIDA_GANADA);
+
+        fachadaTablero.enviarComando(comandoPartidaGanada);
+
+        for (Jugador jugador : jugadores) {
+
+            if (!jugador.getNombre().equals(jugadorGanador.getNombre())) {
+
+                ComandoJugadorPartidaGanada comandoJugadorPartidaGanada = new ComandoJugadorPartidaGanada(
+                        jugador.getNombre(),
+                        jugadorGanador.getNombre() + MENSAJE_JUGADOR_PARTIDA_GANADA);
+
+                fachadaTablero.enviarComando(comandoJugadorPartidaGanada);
+
+            }
+
+        }
+
+    }
+
+    public void avisarPuntajeFinal() {
+
+        for (Jugador jugador : jugadores) {
+
+            ComandoPuntuacionesJugadores comandoPuntuacionesJugadores
+                    = new ComandoPuntuacionesJugadores(
+                            jugador.getNombre(),
+                            obtenerPuntuacionesJugadores());
+
+            fachadaTablero.enviarComando(comandoPuntuacionesJugadores);
+
         }
 
     }
@@ -896,7 +997,7 @@ public class Tablero {
     public void notificarTodosCambioTurno() {
 
         for (Jugador jugador : jugadores) {
-            
+
             if (!jugador.getNombre().equals(jugadorTurno.getNombre())) {
 
                 ComandoCambioTurno comandoCambioTurno = new ComandoCambioTurno(
@@ -1122,11 +1223,10 @@ public class Tablero {
 
                     fachadaTablero.enviarComando(comandoRespuestaConfirmacionSolicitarFin);
 
-                    ComandoFinPartida comandoFinPartida = new ComandoFinPartida(jugador.getNombre());
-
-                    fachadaTablero.enviarComando(comandoFinPartida);
-
                 }
+
+                avisarGanador();
+                avisarPuntajeFinal();
 
             } else {
                 ComandoRespuestaConfirmacionSolicitarFin comandoRespuestaConfirmacionSolicitarFin

@@ -31,6 +31,7 @@ import ejercerturno.vista.TableroInformacionPanel;
 import ejercerturno.vista.VisitorPintar;
 import definiciones.IModeloEjercerTurno;
 import definiciones.IReceptorEventosEjercerTurno;
+import iniciarpartida.dto.EtapaActualEjercerTurno;
 
 /**
  *
@@ -38,7 +39,7 @@ import definiciones.IReceptorEventosEjercerTurno;
  * ID: 00000253080
  * 
  */
-public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEventosEjercerTurno{
+public class VistaEjercerTurno extends JFrame implements ISuscriptor, IReceptorEventosEjercerTurno{
     
     private List<IComponente> componentes = new LinkedList<>();
     
@@ -80,7 +81,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
     private final String TITULO_VENTANA = "Rummy";
     private final String ICONO_VENTANA = "/iconoVentanaEjercerTurno.png";
     
-    public VistaMesaJuego(
+    public VistaEjercerTurno(
             ControladorEjercerTurno controlador,
             IComponente componente,
             IComponente componenteGlassPane,
@@ -448,6 +449,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         TableroPresentacionDTO tableroPresentacionDTO = modeloEjercerTurno.obtenerTablero();
         MontonPresentacionDTO montonPresentacionDTO = modeloEjercerTurno.obtenerMontonPresentacion();
         String mensaje = modeloEjercerTurno.obtenerMensaje();
+        EtapaActualEjercerTurno etapaActualEjercerTurno = modeloEjercerTurno.obtenerEtapaActualEjercerTurno();
         
         
         JugadorExternoInformacionPanel[] jugadoresExternosInformacionPanel 
@@ -486,7 +488,7 @@ public class VistaMesaJuego extends JFrame implements ISuscriptor, IReceptorEven
         revalidate();
 
         boolean vistaHabilitada = modeloEjercerTurno.isVistaHabilitada();
-        boolean vistaVisible = modeloEjercerTurno.isVistaVisible();
+        boolean vistaVisible = modeloEjercerTurno.isVistaVisible() && etapaActualEjercerTurno == EtapaActualEjercerTurno.TABLERO;
         
         habilitarVista(vistaHabilitada);
         hacerVistaVisible(vistaVisible);

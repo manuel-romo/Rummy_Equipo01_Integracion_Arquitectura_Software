@@ -25,7 +25,7 @@ import ejercerturno.vista.PanelMonton;
 import ejercerturno.vista.PanelMovimiento;
 import ejercerturno.vista.PanelTablero;
 import ejercerturno.vista.PosicionPanel;
-import ejercerturno.vista.VistaMesaJuego;
+import ejercerturno.vista.VistaEjercerTurno;
 import fachada.FachadaMvc;
 import iniciarpartida.controlador.ControladorInicioPartida;
 import iniciarpartida.modelo.ModeloInicioPartida;
@@ -36,6 +36,7 @@ import serializador.Serializador;
 import servidor.ColaMensajesRecibidos;
 import servidor.Servidor;
 import definiciones.IReceptorEventosEjercerTurno;
+import ejercerturno.vista.VistaPuntuacion;
 import iniciarpartida.vista.PanelConfiguracionPartida;
 import iniciarpartida.vista.PanelIngresoIP;
 import iniciarpartida.vista.PanelPrincipal;
@@ -186,7 +187,7 @@ public class EnsambladorCliente {
         
         IComponente panelMovimiento = new PanelMovimiento();
         
-        VistaMesaJuego vistaMesaJuego = new VistaMesaJuego(
+        VistaEjercerTurno vistaMesaJuego = new VistaEjercerTurno(
                 controladorEjercerTurno,
                 panelMesaJuego, 
                 panelMovimiento,
@@ -194,7 +195,10 @@ public class EnsambladorCliente {
                 mapaIdsCasillasPanelesTablero,
                 mapaIdsCasillasPanelesJugador);
         
+        VistaPuntuacion vistaPuntuacion = new VistaPuntuacion(controladorEjercerTurno);
+        
         modeloEjercerTurno.suscribirse(vistaMesaJuego);
+        modeloEjercerTurno.suscribirse(vistaPuntuacion);
                 
         IGestorEventos gestorEventos = new GestorEventos(vistaMesaJuego, (IReceptorEventosEjercerTurno)vistaMesaJuego);
         
@@ -252,7 +256,7 @@ public class EnsambladorCliente {
         
         deserializadorCliente.setFiltroSiguiente(fachadaMvc);
         
-        modeloInicioPartida.iniciarInicio();
+        controladorInicioPartida.iniciar();
         
     }
 }
